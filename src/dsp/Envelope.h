@@ -101,11 +101,11 @@ namespace LadderMono
 
                 case EnvelopeStage::Release:
                 {
-                    // If decayAsRelease is on, use decayTimeSec; else fast 15 ms release
-                    float relTime = useDecayRelease ? decayTimeSec : 0.015f;
-                    float rate = 1.0f / std::max(1.0f, relTime * static_cast<float>(sampleRate) * 0.25f);
+                    // If decayAsRelease is on, use decayTimeSec; else fast 12 ms release
+                    float relTime = useDecayRelease ? decayTimeSec : 0.012f;
+                    float rate = 1.0f / std::max(1.0f, relTime * static_cast<float>(sampleRate) * 0.20f);
                     currentLevel -= currentLevel * rate;
-                    if (currentLevel <= 0.0005f)
+                    if (currentLevel <= 0.001f)
                     {
                         currentLevel = 0.0f;
                         stage = EnvelopeStage::Idle;
@@ -124,14 +124,14 @@ namespace LadderMono
         float attackTimeSec = 0.01f;
         float decayTimeSec = 0.5f;
         float sustainLevel = 1.0f;
-        bool useDecayRelease = true;
+        bool useDecayRelease = false;
 
         static inline float paramToSeconds(float param) noexcept
         {
-            // Authentic Minimoog Model D panel calibration:
-            // 0 -> 5 ms, 2 -> 115 ms, 3 -> 350 ms, 5 -> 1.4 s, 10 -> 10.0 s
+            // Musical calibration:
+            // 0 -> 5 ms, 2 -> 60 ms, 5 -> 700 ms, 8 -> 3.0 s, 10 -> 6.0 s
             float norm = std::clamp(param / 10.0f, 0.0f, 1.0f);
-            return 0.005f + 9.995f * std::pow(norm, 2.8f);
+            return 0.005f + 5.995f * std::pow(norm, 2.4f);
         }
     };
 }

@@ -149,7 +149,7 @@ namespace LadderMono
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::aSustain, 1}, "Amp Sustain", 0.0f, 10.0f, 10.0f));
         params.push_back(std::make_unique<juce::AudioParameterBool>(
-            juce::ParameterID{ParamIDs::decaySwitchOn, 1}, "Decay Switch", true));
+            juce::ParameterID{ParamIDs::decaySwitchOn, 1}, "Decay Switch", false));
 
         // Global
         params.push_back(std::make_unique<juce::AudioParameterFloat>(

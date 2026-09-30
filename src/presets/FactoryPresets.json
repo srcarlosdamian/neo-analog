@@ -30,9 +30,9 @@
       "fDecay": 5.0,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 6.0,
+      "aDecay": 2.0,
       "aSustain": 10.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
@@ -60,8 +60,9 @@
       "fDecay": 3.5,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 4.0,
-      "aSustain": 6.0
+      "aDecay": 2.2,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -90,8 +91,9 @@
       "fDecay": 3.0,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 4.5,
-      "aSustain": 8.0
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -124,12 +126,13 @@
       "fDecay": 6.0,
       "fSustain": 2.0,
       "aAttack": 0.0,
-      "aDecay": 7.0,
-      "aSustain": 9.0
+      "aDecay": 2.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Funk Pluck Bass",
+    "name": "Funk Pluck",
     "category": "Bass",
     "author": "Factory",
     "tags": [
@@ -154,7 +157,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 3.0,
-      "aSustain": 5.0
+      "aSustain": 5.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -182,10 +186,11 @@
       "fDecay": 6.5,
       "fSustain": 3.0,
       "aAttack": 0.5,
-      "aDecay": 7.5,
+      "aDecay": 2.0,
       "aSustain": 10.0,
       "glideOn": true,
-      "glideTime": 1.5
+      "glideTime": 1.5,
+      "decaySwitchOn": false
     }
   },
   {
@@ -218,12 +223,13 @@
       "filterModOn": true,
       "lfoRate": 6.0,
       "aAttack": 0.0,
-      "aDecay": 6.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Fat Unison Bass",
+    "name": "Unison Bass",
     "category": "Bass",
     "author": "Factory",
     "tags": [
@@ -253,8 +259,9 @@
       "fDecay": 5.5,
       "fSustain": 3.0,
       "aAttack": 0.0,
-      "aDecay": 7.0,
-      "aSustain": 10.0
+      "aDecay": 2.0,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -283,7 +290,8 @@
       "lfoRate": 3.0,
       "aAttack": 0.0,
       "aDecay": 2.0,
-      "aSustain": 10.0
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -311,12 +319,13 @@
       "fDecay": 4.0,
       "fSustain": 1.0,
       "aAttack": 0.0,
-      "aDecay": 5.5,
-      "aSustain": 8.0
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Prog Portamento Lead",
+    "name": "Porta Lead",
     "category": "Lead",
     "author": "Factory",
     "tags": [
@@ -346,11 +355,12 @@
       "fDecay": 7.0,
       "fSustain": 6.0,
       "aAttack": 0.5,
-      "aDecay": 6.0,
+      "aDecay": 2.2,
       "aSustain": 10.0,
       "glideOn": true,
       "glideTime": 1.2,
-      "glideMode": 1
+      "glideMode": 1,
+      "decaySwitchOn": false
     }
   },
   {
@@ -378,14 +388,15 @@
       "fDecay": 6.5,
       "fSustain": 5.0,
       "aAttack": 0.8,
-      "aDecay": 5.0,
+      "aDecay": 2.2,
       "aSustain": 10.0,
       "oscModOn": true,
-      "lfoRate": 5.5
+      "lfoRate": 5.5,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Sine-ish Sing Lead",
+    "name": "Singing Sine",
     "category": "Lead",
     "author": "Factory",
     "tags": [
@@ -410,8 +421,9 @@
       "fDecay": 5.0,
       "fSustain": 7.0,
       "aAttack": 1.0,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -442,8 +454,9 @@
       "contourAmount": 3.0,
       "mixerDrive": 6.0,
       "aAttack": 0.0,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -464,8 +477,9 @@
       "emphasis": 8.5,
       "contourAmount": 1.0,
       "aAttack": 1.2,
-      "aDecay": 4.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -494,8 +508,9 @@
       "fDecay": 8.0,
       "fSustain": 2.0,
       "aAttack": 2.0,
-      "aDecay": 7.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -524,8 +539,9 @@
       "emphasis": 2.0,
       "contourAmount": 3.0,
       "aAttack": 0.5,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -554,8 +570,9 @@
       "fDecay": 5.5,
       "fSustain": 6.0,
       "aAttack": 0.8,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -581,12 +598,13 @@
       "emphasis": 3.0,
       "contourAmount": 3.0,
       "aAttack": 0.3,
-      "aDecay": 4.5,
-      "aSustain": 9.0
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Expressive Mono Lead",
+    "name": "Expressive Lead",
     "category": "Lead",
     "author": "Factory",
     "tags": [
@@ -610,8 +628,9 @@
       "kbd1": true,
       "kbd2": true,
       "aAttack": 0.5,
-      "aDecay": 5.5,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -646,11 +665,12 @@
       "fSustain": 7.0,
       "aAttack": 1.2,
       "aDecay": 5.5,
-      "aSustain": 10.0
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Soft Brass Swell",
+    "name": "Brass Swell",
     "category": "Brass/Pad",
     "author": "Factory",
     "tags": [
@@ -675,7 +695,7 @@
       "fDecay": 7.5,
       "fSustain": 6.0,
       "aAttack": 3.5,
-      "aDecay": 6.5,
+      "aDecay": 4.0,
       "aSustain": 10.0
     }
   },
@@ -711,7 +731,7 @@
       "fDecay": 8.5,
       "fSustain": 8.0,
       "aAttack": 5.5,
-      "aDecay": 9.0,
+      "aDecay": 4.0,
       "aSustain": 10.0
     }
   },
@@ -741,7 +761,7 @@
       "fDecay": 8.0,
       "fSustain": 7.0,
       "aAttack": 4.5,
-      "aDecay": 8.5,
+      "aDecay": 4.0,
       "aSustain": 10.0
     }
   },
@@ -773,9 +793,9 @@
       "fDecay": 2.8,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 4.2,
+      "aDecay": 2.2,
       "aSustain": 1.5,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
@@ -807,11 +827,11 @@
       "aAttack": 0.0,
       "aDecay": 3.2,
       "aSustain": 0.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Clav-ish Bass Keys",
+    "name": "Clav Bass",
     "category": "Keys",
     "author": "Factory",
     "tags": [
@@ -840,13 +860,13 @@
       "fDecay": 2.5,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 4.0,
+      "aDecay": 2.2,
       "aSustain": 1.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Electric Clavinet D6",
+    "name": "Clavinet D6",
     "category": "Keys",
     "author": "Factory",
     "tags": [
@@ -875,13 +895,13 @@
       "fDecay": 2.4,
       "fSustain": 0.0,
       "aAttack": 0.0,
-      "aDecay": 3.8,
+      "aDecay": 2.2,
       "aSustain": 0.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Well-Tempered Clavier",
+    "name": "Clavier Keys",
     "category": "Keys",
     "author": "Factory",
     "tags": [
@@ -914,9 +934,9 @@
       "fDecay": 3.2,
       "fSustain": 3.0,
       "aAttack": 0.0,
-      "aDecay": 4.5,
+      "aDecay": 2.2,
       "aSustain": 5.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
@@ -941,8 +961,9 @@
       "cutoff": 2.0,
       "emphasis": 0.0,
       "aAttack": 0.0,
-      "aDecay": 7.0,
-      "aSustain": 0.0
+      "aDecay": 2.0,
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -967,7 +988,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 3.5,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -993,8 +1015,9 @@
       "fDecay": 7.0,
       "fSustain": 2.0,
       "aAttack": 4.0,
-      "aDecay": 8.0,
-      "aSustain": 10.0
+      "aDecay": 2.0,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1022,7 +1045,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 3.2,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1050,7 +1074,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 2.5,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1075,7 +1100,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 4.5,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1099,11 +1125,12 @@
       "emphasis": 2.0,
       "aAttack": 1.5,
       "aDecay": 5.0,
-      "aSustain": 10.0
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Self-Oscillating Sine",
+    "name": "Self-Osc Sine",
     "category": "FX",
     "author": "Factory",
     "tags": [
@@ -1124,7 +1151,8 @@
       "aDecay": 4.0,
       "aSustain": 10.0,
       "mixNoiseOn": true,
-      "mixNoise": 0.2
+      "mixNoise": 0.2,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1155,8 +1183,9 @@
       "fDecay": 8.0,
       "fSustain": 0.0,
       "aAttack": 2.0,
-      "aDecay": 8.5,
-      "aSustain": 6.0
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1181,7 +1210,8 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 2.2,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1204,11 +1234,12 @@
       "emphasis": 5.0,
       "aAttack": 1.0,
       "aDecay": 6.0,
-      "aSustain": 10.0
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Dirty Overdrive Lead",
+    "name": "Overdrive Lead",
     "category": "Lead",
     "author": "Factory",
     "tags": [
@@ -1236,8 +1267,9 @@
       "emphasis": 3.0,
       "contourAmount": 3.0,
       "aAttack": 0.1,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1260,8 +1292,9 @@
       "emphasis": 5.0,
       "contourAmount": 4.0,
       "aAttack": 0.0,
-      "aDecay": 6.5,
-      "aSustain": 10.0
+      "aDecay": 2.0,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
@@ -1291,11 +1324,11 @@
       "aAttack": 0.0,
       "aDecay": 5.0,
       "aSustain": 10.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Minimal Arp Bass",
+    "name": "Minimal Arp",
     "category": "Bass",
     "author": "Factory",
     "tags": [
@@ -1325,11 +1358,12 @@
       "arpOn": true,
       "arpMode": 0,
       "arpOctaves": 2,
-      "arpRateSync": 3
+      "arpRateSync": 3,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Electro Arp Lead",
+    "name": "Electro Arp",
     "category": "Lead",
     "author": "Factory",
     "tags": [
@@ -1353,17 +1387,18 @@
       "fDecay": 3.5,
       "fSustain": 2.0,
       "aAttack": 0.0,
-      "aDecay": 4.0,
+      "aDecay": 2.2,
       "aSustain": 6.0,
       "arpOn": true,
       "arpMode": 2,
       "arpOctaves": 2,
-      "arpRateSync": 3
+      "arpRateSync": 3,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Clockwork Funeral Brass",
-    "category": "1971 Electronic",
+    "name": "Funeral Brass",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "funeral",
@@ -1393,14 +1428,15 @@
       "fDecay": 6.0,
       "fSustain": 6.5,
       "aAttack": 1.5,
-      "aDecay": 6.5,
+      "aDecay": 2.2,
       "aSustain": 10.0,
-      "analogAmount": 0.45
+      "analogAmount": 0.45,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Timestep Formant Lead",
-    "category": "1971 Electronic",
+    "name": "Timestep Lead",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "formant",
@@ -1425,13 +1461,14 @@
       "fDecay": 7.0,
       "fSustain": 3.0,
       "aAttack": 0.5,
-      "aDecay": 6.0,
-      "aSustain": 9.0
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Ninth Symphony Scherzo",
-    "category": "1971 Electronic",
+    "name": "Scherzo Synth",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "baroque",
@@ -1458,13 +1495,14 @@
       "fDecay": 3.0,
       "fSustain": 1.0,
       "aAttack": 0.0,
-      "aDecay": 4.0,
-      "aSustain": 8.0
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Mechanical Magpie Flute",
-    "category": "1971 Electronic",
+    "name": "Magpie Flute",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "woodwind",
@@ -1489,13 +1527,14 @@
       "fDecay": 4.5,
       "fSustain": 5.0,
       "aAttack": 0.5,
-      "aDecay": 4.5,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Clockwork Synth Timpani",
-    "category": "1971 Electronic",
+    "name": "Synth Timpani",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "percussion",
@@ -1519,12 +1558,13 @@
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 3.5,
-      "aSustain": 0.0
+      "aSustain": 0.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Baroque Electronic Harpsichord",
-    "category": "1971 Electronic",
+    "name": "Harpsichord",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "harpsichord",
@@ -1553,12 +1593,12 @@
       "aAttack": 0.0,
       "aDecay": 3.0,
       "aSustain": 0.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Dystopian Choral Swell",
-    "category": "1971 Electronic",
+    "name": "Choral Swell",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "choir",
@@ -1589,13 +1629,13 @@
       "fDecay": 7.5,
       "fSustain": 7.0,
       "aAttack": 4.5,
-      "aDecay": 8.0,
+      "aDecay": 4.0,
       "aSustain": 10.0
     }
   },
   {
-    "name": "Electric Baroque Organ",
-    "category": "1971 Electronic",
+    "name": "Baroque Organ",
+    "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
       "organ",
@@ -1623,12 +1663,459 @@
       "fDecay": 5.0,
       "fSustain": 10.0,
       "aAttack": 0.1,
-      "aDecay": 5.0,
-      "aSustain": 10.0
+      "aDecay": 2.2,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "French Touch Overdrive Lead",
+    "name": "Brandenburg Trumpet",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "brass",
+      "baroque",
+      "bright",
+      "clarino"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 3,
+      "osc1Wave": 5,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.5,
+      "emphasis": 3.8,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.3,
+      "fDecay": 3.5,
+      "fSustain": 4.5,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Counterpoint Reed",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "baroque",
+      "reed",
+      "nasal"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 5,
+      "osc2Fine": 0.05,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -0.2,
+      "emphasis": 4.2,
+      "contourAmount": 3.8,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 5.0,
+      "aAttack": 0.04,
+      "aDecay": 2.0,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Toccata Pipe Lead",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "organ",
+      "baroque",
+      "majestic",
+      "pipe"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.03,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 4,
+      "osc3Wave": 3,
+      "osc3Fine": -0.03,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "cutoff": 0.8,
+      "emphasis": 1.5,
+      "contourAmount": 2.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.05,
+      "fDecay": 3.0,
+      "fSustain": 8.0,
+      "aAttack": 0.02,
+      "aDecay": 2.2,
+      "aSustain": 9.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Continuo Cello",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "baroque",
+      "bowed",
+      "strings"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "osc1Range": 1,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "cutoff": -1.2,
+      "emphasis": 2.2,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.8,
+      "fDecay": 3.8,
+      "fSustain": 4.0,
+      "aAttack": 0.3,
+      "aDecay": 2.4,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Goldberg Pluck",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "baroque",
+      "lute",
+      "staccato"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.35,
+      "osc1Range": 3,
+      "osc1Wave": 1,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 5,
+      "osc2Fine": 0.03,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 2.5,
+      "contourAmount": 4.8,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 0.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Queen of Night Lead",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "classical",
+      "aria",
+      "soaring"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "glideOn": true,
+      "glideTime": 0.12,
+      "glideMode": 0,
+      "osc1Range": 4,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 5,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": 1.0,
+      "emphasis": 2.8,
+      "contourAmount": 2.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.05,
+      "fDecay": 2.5,
+      "fSustain": 6.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Dies Irae Brass",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "brass",
+      "dystopian",
+      "dark",
+      "ominous"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.5,
+      "extFeedbackOn": true,
+      "extDrive": 3.0,
+      "mixExt": 4.0,
+      "mixExtOn": true,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 9.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 2,
+      "osc3Fine": -0.06,
+      "mixOsc3": 8.0,
+      "mixOsc3On": true,
+      "cutoff": -1.8,
+      "emphasis": 3.0,
+      "contourAmount": 5.5,
+      "fAttack": 1.2,
+      "fDecay": 4.5,
+      "fSustain": 5.0,
+      "aAttack": 0.6,
+      "aDecay": 2.4,
+      "aSustain": 9.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Winter Lodge Swell",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "pad",
+      "poly",
+      "dystopian",
+      "haunting"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.65,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.08,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "mixNoise": 1.5,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": -1.5,
+      "emphasis": 2.2,
+      "contourAmount": 2.5,
+      "fAttack": 2.5,
+      "fDecay": 4.0,
+      "fSustain": 6.0,
+      "aAttack": 1.8,
+      "aDecay": 3.0,
+      "aSustain": 8.5,
+      "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Requiem Lacrimosa",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "strings",
+      "poly",
+      "classical",
+      "solemn"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.07,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -0.5,
+      "emphasis": 1.0,
+      "contourAmount": 2.0,
+      "fAttack": 0.8,
+      "fDecay": 3.2,
+      "fSustain": 6.5,
+      "aAttack": 0.4,
+      "aDecay": 2.5,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Fugue Subject Lead",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "baroque",
+      "articulate",
+      "counterpoint"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.3,
+      "emphasis": 2.0,
+      "contourAmount": 3.2,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.08,
+      "fDecay": 2.6,
+      "fSustain": 5.5,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Little Fugue Bass",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "baroque",
+      "pedal",
+      "organ"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.03,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -1.6,
+      "emphasis": 1.8,
+      "contourAmount": 3.5,
+      "fAttack": 0.05,
+      "fDecay": 2.4,
+      "fSustain": 3.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 7.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Sinfonia Pastorale",
+    "category": "1971 Baroque Electronic",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "baroque",
+      "woodwind",
+      "pastoral"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "glideOn": true,
+      "glideTime": 0.14,
+      "osc1Range": 4,
+      "osc1Wave": 0,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 1,
+      "osc2Fine": 0.04,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": 0.0,
+      "emphasis": 1.6,
+      "contourAmount": 2.2,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.2,
+      "fDecay": 2.8,
+      "fSustain": 7.0,
+      "aAttack": 0.1,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "French Lead",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1654,16 +2141,16 @@
       "glideOn": true,
       "glideTime": 0.8,
       "fAttack": 0.2,
-      "fDecay": 3.5,
+      "fDecay": 2.2,
       "fSustain": 2.0,
       "aAttack": 0.0,
-      "aDecay": 5.0,
+      "aDecay": 2.0,
       "aSustain": 9.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Disco Orbital Bass",
+    "name": "Orbital Bass",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1692,11 +2179,11 @@
       "aAttack": 0.0,
       "aDecay": 3.5,
       "aSustain": 5.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Aerodynamic Arp Solo",
+    "name": "Aero Arp",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1734,11 +2221,11 @@
       "aAttack": 0.0,
       "aDecay": 3.5,
       "aSustain": 6.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Voyager Starlight Lead",
+    "name": "Voyager Lead",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1767,13 +2254,13 @@
       "fDecay": 6.0,
       "fSustain": 7.0,
       "aAttack": 0.3,
-      "aDecay": 6.0,
+      "aDecay": 2.2,
       "aSustain": 9.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Cross Distorted Bass",
+    "name": "Cross Bass",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1805,13 +2292,13 @@
       "fDecay": 2.8,
       "fSustain": 1.5,
       "aAttack": 0.0,
-      "aDecay": 4.5,
+      "aDecay": 2.2,
       "aSustain": 8.5,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Genesis Dramatic Brass",
+    "name": "Genesis Brass",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1843,13 +2330,13 @@
       "fDecay": 4.0,
       "fSustain": 4.0,
       "aAttack": 0.2,
-      "aDecay": 5.0,
+      "aDecay": 2.2,
       "aSustain": 9.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "French Club Filter Pluck",
+    "name": "Filter Pluck",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1877,11 +2364,11 @@
       "aAttack": 0.0,
       "aDecay": 3.0,
       "aSustain": 4.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Nightcall Retro Cruise",
+    "name": "Night Cruise Lead",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1905,16 +2392,16 @@
       "emphasis": 1.0,
       "contourAmount": 3.5,
       "fAttack": 0.1,
-      "fDecay": 3.2,
+      "fDecay": 2.0,
       "fSustain": 1.0,
       "aAttack": 0.0,
-      "aDecay": 4.5,
+      "aDecay": 2.2,
       "aSustain": 7.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Phantom Aggressive Lead",
+    "name": "Phantom Lead",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1941,13 +2428,13 @@
       "fDecay": 2.5,
       "fSustain": 3.0,
       "aAttack": 0.0,
-      "aDecay": 4.0,
+      "aDecay": 2.2,
       "aSustain": 9.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "One More Time Poly Chords",
+    "name": "Anthem Chords",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -1978,14 +2465,14 @@
       "fDecay": 4.0,
       "fSustain": 4.0,
       "aAttack": 0.05,
-      "aDecay": 5.0,
+      "aDecay": 2.2,
       "aSustain": 8.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Safari Velvet Bass",
-    "category": "Indie & Vintage Pop",
+    "name": "Velvet Bass",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "velvet",
@@ -2013,12 +2500,12 @@
       "aAttack": 0.05,
       "aDecay": 5.5,
       "aSustain": 8.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Lunar Star Watcher Arp",
-    "category": "Indie & Vintage Pop",
+    "name": "Star Watcher Arp",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "sparkling",
@@ -2050,12 +2537,12 @@
       "aAttack": 0.0,
       "aDecay": 3.0,
       "aSustain": 5.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Silver Lady Soft Keys",
-    "category": "Indie & Vintage Pop",
+    "name": "Silver Lady Keys",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "mellow",
@@ -2082,12 +2569,12 @@
       "aAttack": 0.05,
       "aDecay": 5.5,
       "aSustain": 7.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Riviera Bouncy Organ",
-    "category": "Indie & Vintage Pop",
+    "name": "Riviera Organ",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "quirky",
@@ -2119,12 +2606,12 @@
       "aAttack": 0.0,
       "aDecay": 4.0,
       "aSustain": 9.5,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Radio Indie Bass",
-    "category": "Indie & Vintage Pop",
+    "name": "Radio Bass",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "snappy",
@@ -2151,12 +2638,12 @@
       "aAttack": 0.0,
       "aDecay": 2.2,
       "aSustain": 3.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "English Seaside Melodic",
-    "category": "Indie & Vintage Pop",
+    "name": "Seaside Melodic",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "nostalgic",
@@ -2185,12 +2672,12 @@
       "aAttack": 0.2,
       "aDecay": 5.0,
       "aSustain": 8.5,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Heartbreaker Snappy Pluck",
-    "category": "Indie & Vintage Pop",
+    "name": "Heartbreaker Pluck",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "snappy",
@@ -2217,12 +2704,12 @@
       "aAttack": 0.0,
       "aDecay": 2.5,
       "aSustain": 4.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Versailles Indie Lead",
-    "category": "Indie & Vintage Pop",
+    "name": "Versailles Lead",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "catchy",
@@ -2249,12 +2736,12 @@
       "aAttack": 0.02,
       "aDecay": 4.5,
       "aSustain": 8.5,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Psych Currents Fuzz Bass",
-    "category": "Indie & Vintage Pop",
+    "name": "Fuzz Analog Bass",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "fuzz",
@@ -2282,12 +2769,12 @@
       "aAttack": 0.0,
       "aDecay": 4.5,
       "aSustain": 8.0,
-      "decaySwitchOn": true
+      "decaySwitchOn": false
     }
   },
   {
-    "name": "Solitude Nostalgia Pad",
-    "category": "Indie & Vintage Pop",
+    "name": "Nostalgia Pad",
+    "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
       "dreamy",
@@ -2317,9 +2804,3573 @@
       "fDecay": 6.0,
       "fSustain": 7.0,
       "aAttack": 2.0,
-      "aDecay": 6.0,
+      "aDecay": 3.0,
       "aSustain": 9.0,
       "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Highway Bass",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "outrun",
+      "drive",
+      "analog",
+      "bass",
+      "night"
+    ],
+    "params": {
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.07,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 4,
+      "osc3Fine": -0.07,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 3.5,
+      "cutoff": -0.8,
+      "emphasis": 3.2,
+      "contourAmount": 5.5,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 1.5,
+      "aAttack": 0.0,
+      "aDecay": 2.2,
+      "aSustain": 7.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.35,
+      "voices": 0,
+      "arpOn": true,
+      "arpMode": 2,
+      "arpOctaves": 2,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.65
+    }
+  },
+  {
+    "name": "Red Coupe Lead",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "outrun",
+      "arp",
+      "screaming",
+      "lead",
+      "fast"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 2,
+      "arpOctaves": 2,
+      "arpRateSync": 2,
+      "arpSync": true,
+      "arpGate": 0.75,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.12,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 1,
+      "osc3Fine": -0.08,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 2.5,
+      "cutoff": 1.2,
+      "emphasis": 4.5,
+      "contourAmount": 4.0,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 2.5,
+      "fSustain": 4.0,
+      "aAttack": 0.0,
+      "aDecay": 3.0,
+      "aSustain": 8.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.4
+    }
+  },
+  {
+    "name": "Electro Pluck",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "electroclash",
+      "pluck",
+      "pulse",
+      "staccato",
+      "tight"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 5,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 4,
+      "osc2Fine": -0.12,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "mixerDrive": 4.0,
+      "cutoff": -1.2,
+      "emphasis": 4.8,
+      "contourAmount": 6.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 1.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.5,
+      "aSustain": 0.0,
+      "decaySwitchOn": false,
+      "voices": 1
+    }
+  },
+  {
+    "name": "Crusher Bass",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "electroclash",
+      "heavy",
+      "distorted",
+      "crunch",
+      "bass"
+    ],
+    "params": {
+      "osc1Range": 1,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 3,
+      "osc2Fine": 0.15,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "mixerDrive": 6.0,
+      "cutoff": -0.5,
+      "emphasis": 4.2,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 1.8,
+      "fSustain": 2.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 8.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.5,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Grid Monolith",
+    "category": "Digital Grid & Cyberpunk",
+    "author": "Factory",
+    "tags": [
+      "grid",
+      "cyberpunk",
+      "sub",
+      "monolith",
+      "heavy"
+    ],
+    "params": {
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 0,
+      "osc2Fine": 0.0,
+      "mixOsc2": 9.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 2,
+      "osc3Fine": 0.04,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 2.0,
+      "cutoff": -1.8,
+      "emphasis": 1.5,
+      "contourAmount": 3.8,
+      "bassComp": 0.8,
+      "kbd1": true,
+      "fAttack": 0.05,
+      "fDecay": 2.5,
+      "fSustain": 3.0,
+      "aAttack": 0.05,
+      "aDecay": 3.0,
+      "aSustain": 8.5,
+      "decaySwitchOn": false,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Cyber Highway",
+    "category": "Digital Grid & Cyberpunk",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "grid",
+      "neon",
+      "cyber",
+      "pluck"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 0,
+      "arpOctaves": 2,
+      "arpRateSync": 2,
+      "arpSync": true,
+      "arpGate": 0.5,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.08,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 4.0,
+      "contourAmount": 5.0,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 1.5,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 2.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Grid Combat",
+    "category": "Digital Grid & Cyberpunk",
+    "author": "Factory",
+    "tags": [
+      "grid",
+      "combat",
+      "cyberpunk",
+      "lead",
+      "saw"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.1,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 3,
+      "osc3Wave": 5,
+      "osc3Fine": -0.1,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 4.0,
+      "cutoff": 1.5,
+      "emphasis": 5.5,
+      "contourAmount": 3.5,
+      "kbd1": true,
+      "kbd2": true,
+      "glideOn": true,
+      "glideTime": 1.8,
+      "fAttack": 0.02,
+      "fDecay": 3.0,
+      "fSustain": 6.0,
+      "aAttack": 0.02,
+      "aDecay": 3.5,
+      "aSustain": 8.5,
+      "decaySwitchOn": false,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Solar Sailer",
+    "category": "Digital Grid & Cyberpunk",
+    "author": "Factory",
+    "tags": [
+      "ambient",
+      "swell",
+      "poly",
+      "pad",
+      "cyber"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 0,
+      "osc3Fine": -0.06,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "cutoff": -0.8,
+      "emphasis": 1.2,
+      "contourAmount": 2.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 1.8,
+      "fDecay": 4.0,
+      "fSustain": 8.5,
+      "aAttack": 1.8,
+      "aDecay": 4.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.45,
+      "voices": 2
+    }
+  },
+  {
+    "name": "End of Line",
+    "category": "Digital Grid & Cyberpunk",
+    "author": "Factory",
+    "tags": [
+      "poly",
+      "brass",
+      "cyber",
+      "retro",
+      "synth"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.08,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.5,
+      "emphasis": 2.8,
+      "contourAmount": 4.2,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.08,
+      "fDecay": 3.0,
+      "fSustain": 5.0,
+      "aAttack": 0.05,
+      "aDecay": 3.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false,
+      "voices": 1
+    }
+  },
+  {
+    "name": "Overdrive Stab",
+    "category": "French Touch & Electro",
+    "author": "Factory",
+    "tags": [
+      "overdrive",
+      "heavy",
+      "electro",
+      "french",
+      "brutal"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.15,
+      "mixOsc2": 9.0,
+      "mixOsc2On": true,
+      "osc3Range": 3,
+      "osc3Wave": 3,
+      "osc3Fine": -0.15,
+      "mixOsc3": 8.0,
+      "mixOsc3On": true,
+      "mixerDrive": 8.0,
+      "mixExt": 4.0,
+      "mixExtOn": true,
+      "cutoff": 0.0,
+      "emphasis": 6.0,
+      "contourAmount": 5.0,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 2.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 7.5,
+      "decaySwitchOn": false,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Friendship Disco",
+    "category": "French Touch & Electro",
+    "author": "Factory",
+    "tags": [
+      "french",
+      "disco",
+      "electro",
+      "funky",
+      "bass"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 4,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 1,
+      "osc3Wave": 3,
+      "osc3Fine": 0.0,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 3.0,
+      "cutoff": -1.2,
+      "emphasis": 3.5,
+      "contourAmount": 6.8,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 1.8,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Cathedral Synth",
+    "category": "French Touch & Electro",
+    "author": "Factory",
+    "tags": [
+      "gothic",
+      "cathedral",
+      "massive",
+      "electro",
+      "lead"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 2,
+      "osc2Fine": 0.09,
+      "mixOsc2": 9.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 2,
+      "osc3Fine": -0.09,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 3.5,
+      "cutoff": 1.0,
+      "emphasis": 4.0,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.1,
+      "fDecay": 3.5,
+      "fSustain": 8.0,
+      "aAttack": 0.08,
+      "aDecay": 3.5,
+      "aSustain": 9.0,
+      "decaySwitchOn": false,
+      "voices": 1
+    }
+  },
+  {
+    "name": "Opera Stab",
+    "category": "French Touch & Electro",
+    "author": "Factory",
+    "tags": [
+      "stab",
+      "chords",
+      "opera",
+      "punchy",
+      "electro"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.08,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 3,
+      "osc3Wave": 4,
+      "osc3Fine": -0.08,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 4.5,
+      "cutoff": 0.8,
+      "emphasis": 3.0,
+      "contourAmount": 5.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 1.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 0.0,
+      "decaySwitchOn": false,
+      "voices": 2
+    }
+  },
+  {
+    "name": "Lounge Tape Piano",
+    "category": "Space Pop & Downtempo",
+    "author": "Factory",
+    "tags": [
+      "rhodes",
+      "electric_piano",
+      "space",
+      "smooth",
+      "keys"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 4,
+      "osc2Fine": 0.04,
+      "mixOsc2": 3.5,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 0,
+      "osc3Fine": 0.0,
+      "mixOsc3": 5.0,
+      "mixOsc3On": true,
+      "cutoff": 0.0,
+      "emphasis": 1.0,
+      "contourAmount": 3.2,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.02,
+      "fDecay": 2.5,
+      "fSustain": 2.0,
+      "aAttack": 0.02,
+      "aDecay": 3.5,
+      "aSustain": 4.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.35,
+      "voices": 2
+    }
+  },
+  {
+    "name": "Star Pulse",
+    "category": "Space Pop & Downtempo",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "pulse",
+      "space",
+      "stargazing",
+      "downtempo"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 2,
+      "arpOctaves": 3,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.6,
+      "osc1Range": 3,
+      "osc1Wave": 5,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": 0.4,
+      "emphasis": 3.8,
+      "contourAmount": 3.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.05,
+      "fDecay": 2.0,
+      "fSustain": 3.0,
+      "aAttack": 0.02,
+      "aDecay": 2.2,
+      "aSustain": 6.0,
+      "decaySwitchOn": false,
+      "modMix": 1.5,
+      "filterModOn": true,
+      "modSource": 1,
+      "lfoRate": 3.2,
+      "lfoShape": 0
+    }
+  },
+  {
+    "name": "Space Flute",
+    "category": "Space Pop & Downtempo",
+    "author": "Factory",
+    "tags": [
+      "flute",
+      "mellow",
+      "space",
+      "nostalgic",
+      "lead"
+    ],
+    "params": {
+      "osc1Range": 4,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "mixNoise": 1.5,
+      "mixNoiseOn": true,
+      "noiseColor": 1,
+      "cutoff": 0.5,
+      "emphasis": 4.5,
+      "contourAmount": 2.0,
+      "kbd1": true,
+      "kbd2": true,
+      "glideOn": true,
+      "glideTime": 1.2,
+      "fAttack": 0.15,
+      "fDecay": 3.0,
+      "fSustain": 7.0,
+      "aAttack": 0.15,
+      "aDecay": 3.0,
+      "aSustain": 8.0,
+      "decaySwitchOn": false,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Bird Call",
+    "category": "Space Pop & Downtempo",
+    "author": "Factory",
+    "tags": [
+      "bird",
+      "nature",
+      "space",
+      "fx",
+      "soundscape"
+    ],
+    "params": {
+      "osc1Range": 5,
+      "osc1Wave": 0,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc3Range": 0,
+      "osc3Wave": 0,
+      "osc3Fine": 2.0,
+      "osc3KbdOn": false,
+      "cutoff": 2.0,
+      "emphasis": 7.0,
+      "contourAmount": 3.0,
+      "glideOn": true,
+      "glideTime": 4.5,
+      "modMix": 3.0,
+      "oscModOn": true,
+      "modSource": 0,
+      "fAttack": 0.1,
+      "fDecay": 2.0,
+      "fSustain": 5.0,
+      "aAttack": 0.05,
+      "aDecay": 2.5,
+      "aSustain": 7.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.6,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Red Turbo Arp",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "outrun",
+      "arp",
+      "16th",
+      "driving",
+      "bass"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 0,
+      "arpOctaves": 2,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.55,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 3,
+      "osc2Fine": 0.08,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 1,
+      "osc3Wave": 3,
+      "osc3Fine": 0.0,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 4.5,
+      "cutoff": -0.5,
+      "emphasis": 4.0,
+      "contourAmount": 6.0,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 1.6,
+      "fSustain": 0.5,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 6.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.4,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Night Runner Arp",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "outrun",
+      "arp",
+      "pulse",
+      "fast",
+      "lead"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 2,
+      "arpOctaves": 2,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.7,
+      "osc1Range": 3,
+      "osc1Wave": 5,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.1,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "mixerDrive": 3.0,
+      "cutoff": 0.5,
+      "emphasis": 4.8,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 2.0,
+      "aAttack": 0.0,
+      "aDecay": 2.2,
+      "aSustain": 7.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.35,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Coast Arp",
+    "category": "Electroclash & Outrun",
+    "author": "Factory",
+    "tags": [
+      "outrun",
+      "arp",
+      "twilight",
+      "melodic",
+      "synthwave"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 0,
+      "arpOctaves": 3,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.8,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 4,
+      "osc3Fine": -0.05,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 2.0,
+      "cutoff": 0.8,
+      "emphasis": 3.2,
+      "contourAmount": 4.0,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.02,
+      "fDecay": 2.5,
+      "fSustain": 4.0,
+      "aAttack": 0.02,
+      "aDecay": 2.8,
+      "aSustain": 8.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.45,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Miami Palm Arp",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "disco",
+      "1983",
+      "arp",
+      "bass"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 2,
+      "arpOctaves": 2,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.5,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 3,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 1,
+      "osc3Wave": 0,
+      "osc3Fine": 0.0,
+      "mixOsc3": 6.5,
+      "mixOsc3On": true,
+      "mixerDrive": 3.5,
+      "cutoff": -0.8,
+      "emphasis": 3.5,
+      "contourAmount": 6.5,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 1.5,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 5.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.35,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Munich 16th Arp",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "disco",
+      "modular",
+      "hypnotic",
+      "arp"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 0,
+      "arpOctaves": 2,
+      "arpRateSync": 3,
+      "arpSync": true,
+      "arpGate": 0.6,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 4,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "mixNoise": 0.8,
+      "mixNoiseOn": true,
+      "noiseColor": 1,
+      "mixerDrive": 2.5,
+      "cutoff": -0.2,
+      "emphasis": 4.8,
+      "contourAmount": 7.0,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.0,
+      "fDecay": 1.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.5,
+      "aSustain": 4.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.3,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Push Limit Lead",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "energy",
+      "80s",
+      "montage",
+      "lead",
+      "poly"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.12,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 4,
+      "osc3Wave": 4,
+      "osc3Fine": -0.08,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "mixerDrive": 3.0,
+      "cutoff": 1.2,
+      "emphasis": 3.0,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.05,
+      "fDecay": 3.0,
+      "fSustain": 7.0,
+      "aAttack": 0.03,
+      "aDecay": 3.2,
+      "aSustain": 8.5,
+      "decaySwitchOn": false,
+      "analogAmount": 0.4,
+      "voices": 1
+    }
+  },
+  {
+    "name": "Mansion Brass",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "brass",
+      "grandeur",
+      "poly",
+      "chords"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.08,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 3,
+      "osc3Wave": 3,
+      "osc3Fine": -0.08,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 2.5,
+      "cutoff": -0.2,
+      "emphasis": 2.5,
+      "contourAmount": 5.2,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.25,
+      "fDecay": 3.5,
+      "fSustain": 7.5,
+      "aAttack": 0.15,
+      "aDecay": 4.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.5,
+      "voices": 2
+    }
+  },
+  {
+    "name": "Sunset Bass",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "synthwave",
+      "bass",
+      "punchy",
+      "disco",
+      "analog"
+    ],
+    "params": {
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 1,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "mixerDrive": 3.0,
+      "cutoff": -1.0,
+      "emphasis": 4.0,
+      "contourAmount": 5.8,
+      "kbd1": true,
+      "fAttack": 0.0,
+      "fDecay": 1.7,
+      "fSustain": 2.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 7.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.35,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Cyber Brass",
+    "category": "Cinematic Cyber Noir",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "noir",
+      "brass",
+      "expressive",
+      "lead"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.08,
+      "mixOsc2": 9.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 2,
+      "osc3Fine": -0.06,
+      "mixOsc3": 7.5,
+      "mixOsc3On": true,
+      "mixerDrive": 2.5,
+      "cutoff": -0.5,
+      "emphasis": 3.8,
+      "contourAmount": 5.5,
+      "kbd1": true,
+      "kbd2": true,
+      "glideOn": true,
+      "glideTime": 1.8,
+      "fAttack": 0.35,
+      "fDecay": 3.5,
+      "fSustain": 6.5,
+      "aAttack": 0.18,
+      "aDecay": 4.0,
+      "aSustain": 8.5,
+      "decaySwitchOn": false,
+      "analogAmount": 0.55,
+      "modMix": 1.2,
+      "oscModOn": true,
+      "modSource": 1,
+      "lfoRate": 5.0,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Tears in Neon",
+    "category": "Cinematic Cyber Noir",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "pad",
+      "ambient",
+      "rain",
+      "poly",
+      "lush"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 0,
+      "osc3Fine": -0.06,
+      "mixOsc3": 6.5,
+      "mixOsc3On": true,
+      "mixNoise": 0.6,
+      "mixNoiseOn": true,
+      "noiseColor": 1,
+      "cutoff": -0.6,
+      "emphasis": 1.5,
+      "contourAmount": 3.0,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 1.4,
+      "fDecay": 4.5,
+      "fSustain": 8.5,
+      "aAttack": 1.2,
+      "aDecay": 4.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.5,
+      "voices": 2
+    }
+  },
+  {
+    "name": "Cyber Blues Lead",
+    "category": "Cinematic Cyber Noir",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "lead",
+      "melancholy",
+      "blues",
+      "glide"
+    ],
+    "params": {
+      "osc1Range": 4,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 4.2,
+      "contourAmount": 4.0,
+      "kbd1": true,
+      "kbd2": true,
+      "glideOn": true,
+      "glideTime": 2.2,
+      "fAttack": 0.2,
+      "fDecay": 3.8,
+      "fSustain": 7.0,
+      "aAttack": 0.12,
+      "aDecay": 3.8,
+      "aSustain": 8.5,
+      "decaySwitchOn": false,
+      "analogAmount": 0.5,
+      "voices": 0
+    }
+  },
+  {
+    "name": "Golden Triumph",
+    "category": "Cinematic Cyber Noir",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "triumph",
+      "olympic",
+      "brass",
+      "chords"
+    ],
+    "params": {
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.1,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "osc3Range": 4,
+      "osc3Wave": 2,
+      "osc3Fine": -0.08,
+      "mixOsc3": 7.0,
+      "mixOsc3On": true,
+      "mixerDrive": 2.8,
+      "cutoff": 0.8,
+      "emphasis": 2.8,
+      "contourAmount": 4.8,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.08,
+      "fDecay": 3.2,
+      "fSustain": 8.0,
+      "aAttack": 0.06,
+      "aDecay": 3.5,
+      "aSustain": 9.0,
+      "decaySwitchOn": false,
+      "analogAmount": 0.45,
+      "voices": 1
+    }
+  },
+  {
+    "name": "Spiral Arp",
+    "category": "Cinematic Cyber Noir",
+    "author": "Factory",
+    "tags": [
+      "cinematic",
+      "spiral",
+      "sequencer",
+      "arp",
+      "modular"
+    ],
+    "params": {
+      "arpOn": true,
+      "arpMode": 0,
+      "arpOctaves": 3,
+      "arpRateSync": 1,
+      "arpSync": true,
+      "arpGate": 0.7,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 4,
+      "osc2Fine": 0.08,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "mixerDrive": 2.5,
+      "cutoff": 0.5,
+      "emphasis": 5.5,
+      "contourAmount": 4.5,
+      "kbd1": true,
+      "kbd2": true,
+      "fAttack": 0.02,
+      "fDecay": 2.2,
+      "fSustain": 3.0,
+      "aAttack": 0.01,
+      "aDecay": 2.5,
+      "aSustain": 6.0,
+      "decaySwitchOn": false,
+      "modMix": 2.5,
+      "filterModOn": true,
+      "modSource": 1,
+      "lfoRate": 2.8,
+      "lfoShape": 0,
+      "voices": 0
+    }
+  },
+  {
+    "name": "After Dark Synth",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "poly",
+      "italo",
+      "neon",
+      "warm"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": 0.5,
+      "emphasis": 1.2,
+      "contourAmount": 2.0,
+      "fAttack": 0.3,
+      "fDecay": 3.0,
+      "fSustain": 4.0,
+      "aAttack": 0.1,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Warm Shadow Bass",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "italo",
+      "pulse",
+      "tight"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -1.8,
+      "emphasis": 2.0,
+      "contourAmount": 4.2,
+      "fAttack": 0.0,
+      "fDecay": 2.6,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Candy Beat Arp",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "disco",
+      "bright",
+      "snappy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "arpOn": true,
+      "arpMode": 2,
+      "arpRate": 2,
+      "arpOctaves": 2,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 2.8,
+      "contourAmount": 3.8,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 5.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Lady Twilight Lead",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "melancholy",
+      "glide",
+      "singing"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "glideOn": true,
+      "glideTime": 0.35,
+      "glideMode": 0,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.05,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.8,
+      "emphasis": 1.5,
+      "contourAmount": 2.2,
+      "fAttack": 0.4,
+      "fDecay": 3.5,
+      "fSustain": 5.0,
+      "aAttack": 0.2,
+      "aDecay": 2.4,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Velvet Mirror Keys",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "dreamy",
+      "lush"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.5,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.08,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": -0.4,
+      "emphasis": 0.8,
+      "contourAmount": 2.5,
+      "fAttack": 0.2,
+      "fDecay": 3.0,
+      "fSustain": 4.5,
+      "aAttack": 0.15,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Looking Glass Lead",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "glass",
+      "bright",
+      "soaring"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "glideOn": true,
+      "glideTime": 0.2,
+      "osc1Range": 4,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.04,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": 1.2,
+      "emphasis": 2.2,
+      "contourAmount": 1.5,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 6.0,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Beatbox Disco Bass",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "italo",
+      "punchy",
+      "16th"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.25,
+      "osc1Range": 1,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 3,
+      "osc2Fine": 0.03,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -2.2,
+      "emphasis": 2.4,
+      "contourAmount": 4.8,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 5.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Night Drive Chords",
+    "category": "Neon Noir & Italo Disco",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "dark",
+      "cinematic"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 1,
+      "osc2Fine": 0.07,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -0.8,
+      "emphasis": 1.0,
+      "contourAmount": 2.8,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 4.0,
+      "aAttack": 0.1,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Swim Shimmer Arp",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "organic",
+      "shimmer",
+      "bubbling"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "arpOn": true,
+      "arpMode": 0,
+      "arpRate": 2,
+      "arpOctaves": 2,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 2,
+      "osc2Fine": 0.07,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.4,
+      "emphasis": 3.0,
+      "contourAmount": 3.5,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Sun Shimmer Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "organic",
+      "warm"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.5,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 7.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.08,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "mixNoise": 1.5,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": 0.1,
+      "emphasis": 1.2,
+      "contourAmount": 2.4,
+      "fAttack": 0.2,
+      "fDecay": 3.2,
+      "fSustain": 4.5,
+      "aAttack": 0.15,
+      "aDecay": 2.4,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Lush Psych Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "psych",
+      "lush"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.55,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.09,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.3,
+      "emphasis": 1.5,
+      "contourAmount": 2.2,
+      "fAttack": 0.3,
+      "fDecay": 3.5,
+      "fSustain": 4.0,
+      "aAttack": 0.1,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Psyche Wobble Lead",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "psych",
+      "lfo",
+      "wobble"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "filterModOn": true,
+      "modMix": 0.0,
+      "modSource": 1,
+      "lfoRate": 4.5,
+      "lfoShape": 0,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 0,
+      "osc2Fine": 0.05,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": -0.5,
+      "emphasis": 2.8,
+      "contourAmount": 2.0,
+      "fAttack": 0.2,
+      "fDecay": 3.0,
+      "fSustain": 6.0,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Woozy Tape Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "lo-fi",
+      "woozy"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.65,
+      "osc1Range": 3,
+      "osc1Wave": 3,
+      "mixOsc1": 7.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.1,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": -1.2,
+      "emphasis": 0.8,
+      "contourAmount": 1.8,
+      "fAttack": 0.15,
+      "fDecay": 2.5,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.3,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Chamber Pop Lead",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "lo-fi",
+      "glide",
+      "mellow"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.5,
+      "glideOn": true,
+      "glideTime": 0.28,
+      "glideMode": 0,
+      "osc1Range": 3,
+      "osc1Wave": 3,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 0,
+      "osc2Fine": 0.04,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": -0.4,
+      "emphasis": 1.6,
+      "contourAmount": 2.0,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 7.0,
+      "aAttack": 0.08,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Cassette Romance",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "vintage",
+      "lo-fi"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.6,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.1,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": -0.6,
+      "emphasis": 1.2,
+      "contourAmount": 2.5,
+      "fAttack": 0.12,
+      "fDecay": 2.6,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.2,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Night Drive Pop",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "vintage",
+      "bouncy"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 1.8,
+      "contourAmount": 3.0,
+      "fAttack": 0.05,
+      "fDecay": 2.4,
+      "fSustain": 3.5,
+      "aAttack": 0.04,
+      "aDecay": 2.0,
+      "aSustain": 7.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Sunny Day Pluck",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "bedroom",
+      "bright"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.35,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": 0.4,
+      "emphasis": 2.2,
+      "contourAmount": 4.5,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 5.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Honey Dream Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "bedroom",
+      "sweet"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.4,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -0.2,
+      "emphasis": 1.0,
+      "contourAmount": 2.2,
+      "fAttack": 0.15,
+      "fDecay": 2.8,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Submerged Jazz Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "dark",
+      "dark"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.6,
+      "osc1Range": 2,
+      "osc1Wave": 0,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.08,
+      "mixOsc2": 5.5,
+      "mixOsc2On": true,
+      "cutoff": -2.4,
+      "emphasis": 0.5,
+      "contourAmount": 1.5,
+      "fAttack": 0.2,
+      "fDecay": 2.8,
+      "fSustain": 6.0,
+      "aAttack": 0.12,
+      "aDecay": 2.4,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Smoky Sub Bass",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "dark",
+      "sub",
+      "warm"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 2,
+      "osc2Fine": 0.02,
+      "mixOsc2": 4.0,
+      "mixOsc2On": true,
+      "cutoff": -2.8,
+      "emphasis": 0.0,
+      "contourAmount": 2.0,
+      "fAttack": 0.0,
+      "fDecay": 2.5,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 7.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Baroque Glam Lead",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "baroque",
+      "glam",
+      "70s"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "glideOn": true,
+      "glideTime": 0.18,
+      "glideMode": 0,
+      "osc1Range": 3,
+      "osc1Wave": 3,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.07,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.8,
+      "emphasis": 3.2,
+      "contourAmount": 3.5,
+      "fAttack": 0.1,
+      "fDecay": 2.6,
+      "fSustain": 5.0,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Twigs Chamber Flute",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "baroque",
+      "flute",
+      "baroque"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "glideOn": true,
+      "glideTime": 0.12,
+      "osc1Range": 4,
+      "osc1Wave": 0,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 1,
+      "osc2Fine": 0.03,
+      "mixOsc2": 5.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 1.2,
+      "contourAmount": 1.8,
+      "fAttack": 0.25,
+      "fDecay": 2.8,
+      "fSustain": 7.0,
+      "aAttack": 0.15,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Sun Structure Lead",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "psych",
+      "resonant",
+      "psych"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.5,
+      "glideOn": true,
+      "glideTime": 0.22,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.09,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "cutoff": 0.6,
+      "emphasis": 4.8,
+      "contourAmount": 3.8,
+      "fAttack": 0.2,
+      "fDecay": 3.0,
+      "fSustain": 4.0,
+      "aAttack": 0.08,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Cosmic Prism Arp",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "psych",
+      "swirl",
+      "psych"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "arpOn": true,
+      "arpMode": 2,
+      "arpRate": 1,
+      "arpOctaves": 2,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 0,
+      "osc2Fine": 0.06,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": -0.2,
+      "emphasis": 3.5,
+      "contourAmount": 4.0,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Playful Hook Lead",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "electro",
+      "playful",
+      "hook"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "glideOn": true,
+      "glideTime": 0.15,
+      "glideMode": 0,
+      "osc1Range": 3,
+      "osc1Wave": 3,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 4,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 1.2,
+      "emphasis": 2.6,
+      "contourAmount": 3.2,
+      "fAttack": 0.05,
+      "fDecay": 2.4,
+      "fSustain": 4.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Dark Electro Bass",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "electro",
+      "heavy",
+      "drive"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "extFeedbackOn": true,
+      "extDrive": 3.5,
+      "mixExt": 4.0,
+      "mixExtOn": true,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -1.5,
+      "emphasis": 3.4,
+      "contourAmount": 5.0,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Pastel Tape Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "lo-fi",
+      "dusty"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.6,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.08,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "mixNoise": 1.0,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": -0.8,
+      "emphasis": 0.6,
+      "contourAmount": 2.0,
+      "fAttack": 0.25,
+      "fDecay": 2.8,
+      "fSustain": 5.0,
+      "aAttack": 0.2,
+      "aDecay": 2.4,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Pastel Room Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "bedroom",
+      "bedroom"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.4,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.05,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -0.6,
+      "emphasis": 0.8,
+      "contourAmount": 2.4,
+      "fAttack": 0.1,
+      "fDecay": 2.6,
+      "fSustain": 4.5,
+      "aAttack": 0.08,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Delicate Pluck",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "bedroom",
+      "pluck"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.35,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 0,
+      "osc2Fine": 0.04,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -0.2,
+      "emphasis": 1.5,
+      "contourAmount": 3.8,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 5.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Mellow Jazz Bass",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "organic",
+      "smooth",
+      "warm"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 1,
+      "osc2Fine": 0.03,
+      "mixOsc2": 5.0,
+      "mixOsc2On": true,
+      "cutoff": -2.6,
+      "emphasis": 0.5,
+      "contourAmount": 2.2,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 7.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Silky Velvet Keys",
+    "category": "Psych & Bedroom Pop",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "organic",
+      "silky"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.5,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.07,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -0.5,
+      "emphasis": 1.0,
+      "contourAmount": 2.0,
+      "fAttack": 0.15,
+      "fDecay": 2.8,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Phantasm 80s Arp",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "arp",
+      "80s",
+      "hypnotic",
+      "undulating"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "arpOn": true,
+      "arpMode": 2,
+      "arpRate": 2,
+      "arpOctaves": 2,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.07,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -0.4,
+      "emphasis": 3.2,
+      "contourAmount": 3.8,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Ghost Culture Bass",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "80s",
+      "punchy",
+      "drive"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "extFeedbackOn": true,
+      "extDrive": 2.5,
+      "mixExt": 3.5,
+      "mixExtOn": true,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -1.8,
+      "emphasis": 2.8,
+      "contourAmount": 4.5,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.9,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Submerged Swell",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "pad",
+      "poly",
+      "80s",
+      "atmospheric"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.6,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 7.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.08,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "mixNoise": 1.2,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": -0.8,
+      "emphasis": 1.4,
+      "contourAmount": 2.0,
+      "fAttack": 1.2,
+      "fDecay": 3.0,
+      "fSustain": 6.0,
+      "aAttack": 0.8,
+      "aDecay": 3.0,
+      "aSustain": 8.0,
+      "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Indian Summer Lead",
+    "category": "80s Cinema & Disco",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "80s",
+      "glide",
+      "exotic"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.5,
+      "glideOn": true,
+      "glideTime": 0.24,
+      "glideMode": 0,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.06,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": 0.4,
+      "emphasis": 2.4,
+      "contourAmount": 2.5,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 6.0,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Dusty Crate Keys",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "lo-fi",
+      "vinyl",
+      "warm"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.65,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.08,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "mixNoise": 1.2,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": -1.2,
+      "emphasis": 0.8,
+      "contourAmount": 2.2,
+      "fAttack": 0.15,
+      "fDecay": 2.8,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Quasimoto Flute",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "lo-fi",
+      "quirky",
+      "tape",
+      "glide"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.55,
+      "glideOn": true,
+      "glideTime": 0.18,
+      "glideMode": 0,
+      "osc1Range": 4,
+      "osc1Wave": 0,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 5,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 5.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 1.8,
+      "contourAmount": 2.0,
+      "fAttack": 0.1,
+      "fDecay": 2.6,
+      "fSustain": 6.0,
+      "aAttack": 0.08,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Crate Digger Bass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "lo-fi",
+      "vinyl",
+      "vintage",
+      "warm"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.5,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "cutoff": -2.0,
+      "emphasis": 1.8,
+      "contourAmount": 3.8,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Villain Comic Brass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "brass",
+      "gritty",
+      "boom-bap",
+      "stab"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "extFeedbackOn": true,
+      "extDrive": 2.5,
+      "mixExt": 3.5,
+      "mixExtOn": true,
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "cutoff": -0.8,
+      "emphasis": 3.2,
+      "contourAmount": 4.5,
+      "fAttack": 0.3,
+      "fDecay": 3.2,
+      "fSustain": 4.0,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Masked Analog Sub",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "sub",
+      "boom-bap",
+      "heavy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 3,
+      "mixOsc2": 5.0,
+      "mixOsc2On": true,
+      "cutoff": -2.6,
+      "emphasis": 0.8,
+      "contourAmount": 2.5,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Accordion Reed Lead",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "reed",
+      "quirky",
+      "nasal"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "osc1Range": 3,
+      "osc1Wave": 4,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 5,
+      "osc2Fine": 0.07,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.0,
+      "emphasis": 3.8,
+      "contourAmount": 3.0,
+      "fAttack": 0.08,
+      "fDecay": 2.6,
+      "fSustain": 6.0,
+      "aAttack": 0.04,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "West Coast Worm",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "g-funk",
+      "whistle",
+      "glide",
+      "classic"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.25,
+      "glideOn": true,
+      "glideTime": 0.42,
+      "glideMode": 0,
+      "osc1Range": 5,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 5,
+      "osc2Wave": 2,
+      "osc2Fine": 0.02,
+      "mixOsc2": 4.5,
+      "mixOsc2On": true,
+      "cutoff": 1.5,
+      "emphasis": 2.0,
+      "contourAmount": 1.5,
+      "fAttack": 0.05,
+      "fDecay": 3.0,
+      "fSustain": 7.0,
+      "aAttack": 0.02,
+      "aDecay": 2.2,
+      "aSustain": 9.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Deep Chronic Sub",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "sub",
+      "g-funk",
+      "deep",
+      "clean"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.2,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 3,
+      "mixOsc2": 3.5,
+      "mixOsc2On": true,
+      "cutoff": -3.2,
+      "emphasis": 0.0,
+      "contourAmount": 2.0,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.8,
+      "aSustain": 7.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Aftermath Funk Bass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "g-funk",
+      "snappy",
+      "punchy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -1.5,
+      "emphasis": 2.6,
+      "contourAmount": 4.6,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 5.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Chronic Anthem Brass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "brass",
+      "g-funk",
+      "stab",
+      "punchy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 3,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": 0.2,
+      "emphasis": 2.4,
+      "contourAmount": 4.2,
+      "fAttack": 0.15,
+      "fDecay": 3.0,
+      "fSustain": 4.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Luv Letter Keys",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "jazz-hop",
+      "smooth",
+      "nostalgic"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.5,
+      "osc1Range": 3,
+      "osc1Wave": 0,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 2,
+      "osc2Fine": 0.06,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -0.6,
+      "emphasis": 1.0,
+      "contourAmount": 2.0,
+      "fAttack": 0.1,
+      "fDecay": 2.8,
+      "fSustain": 5.5,
+      "aAttack": 0.08,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Samurai Flute",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "jazz-hop",
+      "flute",
+      "expressive"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "glideOn": true,
+      "glideTime": 0.16,
+      "osc1Range": 4,
+      "osc1Wave": 0,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 1,
+      "osc2Fine": 0.04,
+      "mixOsc2": 5.5,
+      "mixOsc2On": true,
+      "mixNoise": 1.0,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": 0.1,
+      "emphasis": 1.5,
+      "contourAmount": 1.8,
+      "fAttack": 0.2,
+      "fDecay": 2.8,
+      "fSustain": 6.5,
+      "aAttack": 0.12,
+      "aDecay": 2.2,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "South Coast Sub",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "sub",
+      "southern",
+      "rumble"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 2,
+      "osc2Fine": 0.03,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": -2.8,
+      "emphasis": 1.2,
+      "contourAmount": 3.0,
+      "fAttack": 0.0,
+      "fDecay": 2.5,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Street Drama Stab",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "dark",
+      "cinematic",
+      "drama"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 2,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.07,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -1.0,
+      "emphasis": 2.0,
+      "contourAmount": 3.5,
+      "fAttack": 0.05,
+      "fDecay": 2.6,
+      "fSustain": 3.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 7.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Grisly Tape Keys",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "dark",
+      "eerie",
+      "tape"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.65,
+      "osc1Range": 3,
+      "osc1Wave": 3,
+      "mixOsc1": 8.0,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 2,
+      "osc2Fine": 0.1,
+      "mixOsc2": 6.0,
+      "mixOsc2On": true,
+      "cutoff": -1.8,
+      "emphasis": 1.2,
+      "contourAmount": 1.8,
+      "fAttack": 0.1,
+      "fDecay": 2.5,
+      "fSustain": 5.0,
+      "aAttack": 0.08,
+      "aDecay": 2.2,
+      "aSustain": 8.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Grimey Street Bass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "boom-bap",
+      "saturated",
+      "raw"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.45,
+      "extFeedbackOn": true,
+      "extDrive": 3.2,
+      "mixExt": 4.0,
+      "mixExtOn": true,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 2,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": -1.8,
+      "emphasis": 2.5,
+      "contourAmount": 4.2,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.9,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "California Gold Lead",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "west-coast",
+      "melodic",
+      "glide"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "glideOn": true,
+      "glideTime": 0.28,
+      "glideMode": 0,
+      "osc1Range": 4,
+      "osc1Wave": 2,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 4,
+      "osc2Wave": 0,
+      "osc2Fine": 0.04,
+      "mixOsc2": 6.5,
+      "mixOsc2On": true,
+      "cutoff": 0.8,
+      "emphasis": 2.4,
+      "contourAmount": 2.2,
+      "fAttack": 0.08,
+      "fDecay": 2.8,
+      "fSustain": 6.0,
+      "aAttack": 0.02,
+      "aDecay": 2.0,
+      "aSustain": 9.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Brooklyn Boom Bass",
+    "category": "Hip-Hop & Lo-Fi Beats",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "boom-bap",
+      "east-coast",
+      "soulful",
+      "fat"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 1,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 3,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": -1.6,
+      "emphasis": 2.0,
+      "contourAmount": 4.2,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Studio 82 Funk Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "funk",
+      "pop",
+      "analog",
+      "groove"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.04,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "osc3Range": 1,
+      "osc3Wave": 0,
+      "osc3Fine": -0.02,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "cutoff": -1.8,
+      "emphasis": 2.2,
+      "contourAmount": 4.8,
+      "fAttack": 0.05,
+      "fDecay": 2.6,
+      "fSustain": 1.0,
+      "aAttack": 0.0,
+      "aDecay": 2.2,
+      "aSustain": 7.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Midnight Walker Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "funk",
+      "horror",
+      "tight",
+      "heavy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.3,
+      "osc1Range": 1,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 3,
+      "osc3Fine": -0.05,
+      "mixOsc3": 6.5,
+      "mixOsc3On": true,
+      "cutoff": -2.2,
+      "emphasis": 3.2,
+      "contourAmount": 5.2,
+      "fAttack": 0.0,
+      "fDecay": 2.3,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Moonlight Stride Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "pop",
+      "stride",
+      "sub",
+      "tight"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.25,
+      "osc1Range": 1,
+      "osc1Wave": 0,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 3,
+      "osc2Fine": 0.03,
+      "mixOsc2": 7.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 4,
+      "osc3Fine": -0.03,
+      "mixOsc3": 6.0,
+      "mixOsc3On": true,
+      "cutoff": -1.5,
+      "emphasis": 2.0,
+      "contourAmount": 4.2,
+      "fAttack": 0.0,
+      "fDecay": 2.4,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Bouncy Young Funk",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "funk",
+      "slap",
+      "bright",
+      "pluck"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 2,
+      "osc1Wave": 4,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -1.2,
+      "emphasis": 3.6,
+      "contourAmount": 5.0,
+      "fAttack": 0.0,
+      "fDecay": 2.0,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.9,
+      "aSustain": 5.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Quirky Duck Lead",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "lead",
+      "vowel",
+      "quirky",
+      "pop",
+      "quack"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "osc1Range": 1,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.06,
+      "mixOsc2": 9.5,
+      "mixOsc2On": true,
+      "cutoff": -0.6,
+      "emphasis": 5.5,
+      "contourAmount": 6.0,
+      "fAttack": 0.02,
+      "fDecay": 1.8,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.2,
+      "aSustain": 7.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Midnight Horror Brass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "brass",
+      "poly",
+      "horror",
+      "anthem",
+      "stab"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.45,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 9.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 1,
+      "osc2Fine": 0.07,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 3,
+      "osc3Fine": -0.05,
+      "mixOsc3": 6.5,
+      "mixOsc3On": true,
+      "cutoff": -0.5,
+      "emphasis": 2.8,
+      "contourAmount": 4.5,
+      "fAttack": 0.2,
+      "fDecay": 3.2,
+      "fSustain": 4.5,
+      "aAttack": 0.05,
+      "aDecay": 2.2,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Aggressive Street Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "drive",
+      "aggressive",
+      "punchy"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.4,
+      "extFeedbackOn": true,
+      "extDrive": 3.0,
+      "mixExt": 4.0,
+      "mixExtOn": true,
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.5,
+      "mixOsc2On": true,
+      "cutoff": -1.6,
+      "emphasis": 3.0,
+      "contourAmount": 4.8,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Criminal Staccato Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "staccato",
+      "16th",
+      "tight",
+      "razor"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.25,
+      "osc1Range": 2,
+      "osc1Wave": 4,
+      "mixOsc1": 9.5,
+      "mixOsc1On": true,
+      "osc2Range": 1,
+      "osc2Wave": 3,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "osc3Range": 2,
+      "osc3Wave": 2,
+      "osc3Fine": 0.04,
+      "mixOsc3": 6.5,
+      "mixOsc3On": true,
+      "cutoff": -1.4,
+      "emphasis": 2.8,
+      "contourAmount": 5.0,
+      "fAttack": 0.0,
+      "fDecay": 1.7,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 1.7,
+      "aSustain": 4.0,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Westlake Poly Chords",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "keys",
+      "poly",
+      "ballad",
+      "lush",
+      "warm"
+    ],
+    "params": {
+      "voices": 3,
+      "analogAmount": 0.55,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 8.5,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 3,
+      "osc2Fine": 0.08,
+      "mixOsc2": 7.5,
+      "mixOsc2On": true,
+      "cutoff": 0.0,
+      "emphasis": 1.2,
+      "contourAmount": 2.2,
+      "fAttack": 0.25,
+      "fDecay": 3.0,
+      "fSustain": 5.0,
+      "aAttack": 0.1,
+      "aDecay": 2.4,
+      "aSustain": 8.5,
+      "decaySwitchOn": false
+    }
+  },
+  {
+    "name": "Startin' Funk Bass",
+    "category": "Pop & Funk 1982",
+    "author": "Factory",
+    "tags": [
+      "bass",
+      "funk",
+      "afro",
+      "bouncy",
+      "fast"
+    ],
+    "params": {
+      "voices": 0,
+      "analogAmount": 0.35,
+      "osc1Range": 2,
+      "osc1Wave": 3,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 2,
+      "osc2Wave": 2,
+      "osc2Fine": 0.05,
+      "mixOsc2": 8.0,
+      "mixOsc2On": true,
+      "cutoff": -1.8,
+      "emphasis": 2.4,
+      "contourAmount": 4.6,
+      "fAttack": 0.0,
+      "fDecay": 2.2,
+      "fSustain": 0.0,
+      "aAttack": 0.0,
+      "aDecay": 2.0,
+      "aSustain": 6.5,
+      "decaySwitchOn": false
     }
   }
 ]

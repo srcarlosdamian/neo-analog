@@ -68,7 +68,17 @@ namespace LadderMono
         void paint(juce::Graphics& g) override
         {
             auto bounds = getLocalBounds().toFloat();
-            g.fillAll(juce::Colour(0xff121316));
+            g.fillAll(juce::Colour(0xff0d0e10));
+
+            // 1. Red Damper Felt Strip at the top
+            float feltHeight = 5.0f;
+            auto feltRect = bounds.removeFromTop(feltHeight);
+            juce::ColourGradient feltGrad(juce::Colour(0xffb71c1c), 0.0f, feltRect.getY(),
+                                          juce::Colour(0xff7f0000), 0.0f, feltRect.getBottom(), false);
+            g.setGradientFill(feltGrad);
+            g.fillRect(feltRect);
+            g.setColour(juce::Colour(0x66000000));
+            g.drawHorizontalLine(static_cast<int>(feltRect.getBottom()), feltRect.getX(), feltRect.getRight());
 
             // Count white keys
             int whiteKeyCount = 0;
@@ -82,7 +92,7 @@ namespace LadderMono
             float blackKeyWidth = whiteKeyWidth * 0.62f;
             float blackKeyHeight = bounds.getHeight() * 0.62f;
 
-            // Draw white keys
+            // 2. Draw Ivory White Keys
             float currentX = 0.0f;
             for (int i = 0; i < keyCount; ++i)
             {
@@ -90,29 +100,44 @@ namespace LadderMono
                 if (!isBlackKey(note))
                 {
                     bool isDown = (activeNotes.count(note) > 0 || activeKey == note);
-                    juce::Rectangle<float> keyRect(currentX, 0.0f, whiteKeyWidth, bounds.getHeight());
+                    juce::Rectangle<float> keyRect(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight());
 
-                    g.setColour(isDown ? juce::Colour(0xffe08b3c) : juce::Colour(0xffe8eaed));
+                    if (isDown)
+                    {
+                        juce::ColourGradient downGrad(juce::Colour(0xffe88d38), keyRect.getX(), keyRect.getY(),
+                                                     juce::Colour(0xffcf7120), keyRect.getX(), keyRect.getBottom(), false);
+                        g.setGradientFill(downGrad);
+                    }
+                    else
+                    {
+                        juce::ColourGradient ivoryGrad(juce::Colour(0xfffaf8f2), keyRect.getX(), keyRect.getY(),
+                                                      juce::Colour(0xffeae4d5), keyRect.getX(), keyRect.getBottom(), false);
+                        g.setGradientFill(ivoryGrad);
+                    }
                     g.fillRect(keyRect);
 
-                    // Key border / separation
-                    g.setColour(juce::Colour(0xff222428));
-                    g.drawRect(keyRect, 1.0f);
+                    // Ivory front lip shadow
+                    g.setColour(juce::Colour(0x22000000));
+                    g.fillRect(keyRect.removeFromBottom(4.0f));
 
-                    // Minimalist computer keyboard key label
+                    // Thin dark separation groove between keys
+                    g.setColour(juce::Colour(0xff222428));
+                    g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), 1.0f);
+
+                    // Computer keyboard key label
                     auto keyLabel = getComputerKeyLabel(note);
                     if (keyLabel.isNotEmpty())
                     {
-                        g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xff808590));
-                        g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
-                        g.drawText(keyLabel, keyRect.removeFromBottom(18.0f).toNearestInt(), juce::Justification::centred);
+                        g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xff7a808c));
+                        g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
+                        g.drawText(keyLabel, juce::Rectangle<float>(currentX, bounds.getBottom() - 20.0f, whiteKeyWidth, 16.0f).toNearestInt(), juce::Justification::centred);
                     }
 
                     currentX += whiteKeyWidth;
                 }
             }
 
-            // Draw black keys
+            // 3. Draw Ebony Black Keys (with 3D bevels)
             currentX = 0.0f;
             for (int i = 0; i < keyCount; ++i)
             {
@@ -124,20 +149,36 @@ namespace LadderMono
                         int bNote = note + 1;
                         float blackX = currentX + whiteKeyWidth - (blackKeyWidth * 0.5f);
                         bool isDown = (activeNotes.count(bNote) > 0 || activeKey == bNote);
-                        juce::Rectangle<float> blackRect(blackX, 0.0f, blackKeyWidth, blackKeyHeight);
+                        juce::Rectangle<float> blackRect(blackX, bounds.getY(), blackKeyWidth, blackKeyHeight);
 
-                        g.setColour(isDown ? juce::Colour(0xffd47a2a) : juce::Colour(0xff1b1c20));
-                        g.fillRect(blackRect);
+                        // Drop shadow on white keys beneath
+                        g.setColour(juce::Colour(0x55000000));
+                        g.fillRect(blackRect.translated(2.0f, 2.0f));
 
-                        g.setColour(juce::Colour(0xff0d0e10));
-                        g.drawRect(blackRect, 1.0f);
+                        if (isDown)
+                        {
+                            juce::ColourGradient bDown(juce::Colour(0xffd47a2a), blackRect.getX(), blackRect.getY(),
+                                                      juce::Colour(0xff9e5210), blackRect.getX(), blackRect.getBottom(), false);
+                            g.setGradientFill(bDown);
+                        }
+                        else
+                        {
+                            juce::ColourGradient ebonyGrad(juce::Colour(0xff2e3036), blackRect.getX(), blackRect.getY(),
+                                                           juce::Colour(0xff141517), blackRect.getX(), blackRect.getBottom(), false);
+                            g.setGradientFill(ebonyGrad);
+                        }
+                        g.fillRoundedRectangle(blackRect, 1.5f);
+
+                        // Front bevel edge
+                        g.setColour(juce::Colour(isDown ? 0xffea9547 : 0xff42454e));
+                        g.drawRoundedRectangle(blackRect, 1.5f, 1.0f);
 
                         auto keyLabel = getComputerKeyLabel(bNote);
                         if (keyLabel.isNotEmpty())
                         {
-                            g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xffa0a5b2));
-                            g.setFont(juce::FontOptions(9.0f, juce::Font::bold));
-                            g.drawText(keyLabel, blackRect.removeFromBottom(16.0f).toNearestInt(), juce::Justification::centred);
+                            g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xffa8adb8));
+                            g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+                            g.drawText(keyLabel, juce::Rectangle<float>(blackX, blackRect.getBottom() - 18.0f, blackKeyWidth, 14.0f).toNearestInt(), juce::Justification::centred);
                         }
                     }
                     currentX += whiteKeyWidth;

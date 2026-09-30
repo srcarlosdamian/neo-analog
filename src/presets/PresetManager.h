@@ -28,13 +28,15 @@ namespace LadderMono
         void loadNextPreset();
         void loadPrevPreset();
         void initPatch();
-
         void saveUserPreset(const juce::String& name, const juce::String& category);
+
+        void setOnPresetChanged(std::function<void()> cb) { onPresetChanged = std::move(cb); }
 
     private:
         juce::AudioProcessorValueTreeState& apvts;
         std::vector<Preset> presets;
         int currentPresetIndex = 0;
+        std::function<void()> onPresetChanged;
 
         void applyPreset(const Preset& p);
     };

@@ -10,10 +10,10 @@ project(LadderMono VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PRODUCT_NAME "LadderMono" CACHE STRING "Plugin product name")
-set(COMPANY_NAME "YourName" CACHE STRING "Manufacturer name")
-set(PLUGIN_CODE "Lmno" CACHE STRING "4-character plugin code")
-set(MANUFACTURER_CODE "Ynam" CACHE STRING "4-character manufacturer code")
+set(PRODUCT_NAME "Neo Analog" CACHE STRING "Plugin product name")
+set(COMPANY_NAME "Neo" CACHE STRING "Manufacturer name")
+set(PLUGIN_CODE "NeAn" CACHE STRING "4-character plugin code")
+set(MANUFACTURER_CODE "NeoA" CACHE STRING "4-character manufacturer code")
 
 # Add JUCE
 add_subdirectory(libs/JUCE EXCLUDE_FROM_ALL)
@@ -38,7 +38,7 @@ juce_add_plugin(LadderMono
     PLUGIN_CODE "${PLUGIN_CODE}"
     FORMATS ${PLUGIN_FORMATS}
     PRODUCT_NAME "${PRODUCT_NAME}"
-    BUNDLE_ID "com.yourname.laddermono"
+    BUNDLE_ID "com.neoapps.neoanalog"
 )
 
 target_sources(LadderMono PRIVATE
@@ -131,6 +131,29 @@ target_include_directories(TestPresetAudio PRIVATE
 )
 
 target_link_libraries(TestPresetAudio PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
+add_executable(TestRelease
+    tests/TestRelease.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(TestRelease PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(TestRelease PRIVATE
     juce::juce_audio_utils
     juce::juce_audio_processors
     juce::juce_dsp

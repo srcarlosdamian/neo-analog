@@ -77,6 +77,9 @@ namespace LadderMono
 
     void PresetManager::applyPreset(const Preset& p)
     {
+        if (onPresetChanged)
+            onPresetChanged();
+
         // First reset all parameters to their defaults
         for (auto* param : apvts.processor.getParameters())
         {
@@ -98,6 +101,9 @@ namespace LadderMono
                 }
             }
         }
+
+        if (onPresetChanged)
+            onPresetChanged();
     }
 
     void PresetManager::initPatch()

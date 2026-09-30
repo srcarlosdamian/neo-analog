@@ -20,7 +20,7 @@ public:
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override { return true; }
 
-    const juce::String getName() const override { return "LadderMono"; }
+    const juce::String getName() const override { return "Neo Analog"; }
 
     bool acceptsMidi() const override { return true; }
     bool producesMidi() const override { return false; }

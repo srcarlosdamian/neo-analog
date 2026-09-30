@@ -7,6 +7,14 @@ LadderMonoAudioProcessor::LadderMonoAudioProcessor()
       apvts(*this, nullptr, "Parameters", LadderMono::createParameterLayout()),
       presetManager(apvts)
 {
+    // Wire up preset change to reset voices
+    presetManager.setOnPresetChanged([this] {
+        for (auto& v : voices)
+            v.reset();
+        voiceCounter = 0;
+        voiceAge.fill(0);
+    });
+
     // Load embedded factory bank
     presetManager.loadFactoryPresets(juce::String::fromUTF8(LadderMono::kFactoryPresetsJSON));
 }
@@ -63,6 +71,7 @@ void LadderMonoAudioProcessor::handleNoteOn(int noteNumber, float velocity) noex
     {
         if (voices[i].getActiveNote() == noteNumber)
         {
+            voices[i].allNotesOff();
             voices[i].noteOn(noteNumber, velocity);
             voiceAge[i] = ++voiceCounter;
             return;
@@ -74,6 +83,7 @@ void LadderMonoAudioProcessor::handleNoteOn(int noteNumber, float velocity) noex
     {
         if (!voices[i].isAudible() && !voices[i].isKeyHeld())
         {
+            voices[i].allNotesOff();
             voices[i].noteOn(noteNumber, velocity);
             voiceAge[i] = ++voiceCounter;
             return;
@@ -98,6 +108,7 @@ void LadderMonoAudioProcessor::handleNoteOn(int noteNumber, float velocity) noex
     }
     if (foundRelease)
     {
+        voices[oldestReleaseIdx].allNotesOff();
         voices[oldestReleaseIdx].noteOn(noteNumber, velocity);
         voiceAge[oldestReleaseIdx] = ++voiceCounter;
         return;
@@ -114,6 +125,7 @@ void LadderMonoAudioProcessor::handleNoteOn(int noteNumber, float velocity) noex
             oldestIdx = i;
         }
     }
+    voices[oldestIdx].allNotesOff();
     voices[oldestIdx].noteOn(noteNumber, velocity);
     voiceAge[oldestIdx] = ++voiceCounter;
 }
@@ -134,7 +146,7 @@ void LadderMonoAudioProcessor::handleNoteOff(int noteNumber) noexcept
     {
         if (voices[i].getActiveNote() == noteNumber)
         {
-            voices[i].noteOff(noteNumber);
+            voices[i].allNotesOff();
         }
     }
 }
