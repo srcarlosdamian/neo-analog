@@ -57,22 +57,23 @@ Shipped as **VST3**, **AU (Audio Unit)**, **CLAP**, and **Standalone application
   - Tempo-synced (1/4, 1/8, 1/8T, 1/16, 1/16T, 1/32) and Free Hz modes.
   - 1 to 4 Octave range, adjustable Gate length, and Latch/Hold mode.
 
-- **178 Factory Presets across 15 Curated Categories:**
-  - **Pop & Funk 1982 (10):** Punchy studio funk basses, walking lines, quirky vocal leads, and horror brass stabs.
-  - **Neon Noir & Italo Disco (8):** Glassy poly keys, dark shadow basses, driving 16th disco arps, and emotive singing leads.
-  - **Psych & Bedroom Pop (24):** Fuzz basses, woozy tape keys, bubbling shimmer arps, pastel bedroom keys, and silky velvet chords.
-  - **Hip-Hop & Lo-Fi Beats (18):** Dusty vinyl Rhodes, quirky tape flutes, gritty comic-book brass, G-funk worm leads, and deep sub basses.
-  - **1971 Baroque Electronic (20):** Baroque clarino trumpets, double reeds, pipe organs, cello continuos, and dystopian fanfares.
-  - **80s Cinema & Disco (9):** Hypnotic arpeggios, driving synth basses, and soaring melodic leads.
-  - **Cinematic Cyber Noir (5):** Expressive brass leads, lush ambient pads, and cosmic sequencers.
-  - **French Touch & Electro (14):** Squelchy overdriven leads, filtered club plucks, distorted basses, and club anthems.
-  - **Electroclash & Outrun (7):** Driving night cruiser basses, rapid-fire arps, and cutting staccato plucks.
-  - **Digital Grid & Cyberpunk (5):** Monolith sub-basses, arena leads, and ambient sci-fi swells.
-  - **Space Pop & Downtempo (4):** Electric lounge piano, star gazing pulses, and nature soundscapes.
+- **200 Factory Presets across 18 Curated Categories:**
   - **Bass (12):** Classic, Sub, Rubber, Pedal, Funk Pluck, Growl, Feedback, etc.
   - **Lead (12):** Portamento, Fusion, Screamer, Whistle, Pulse, Overdrive, etc.
-  - **Brass/Pad (4):** Mono Brass, Brass Swell, Drone Pad, Hollow Pad.
   - **Keys (6):** Pluck Keys, Marimba, Clavinet, Well-Tempered Clavier, Bell FM.
+  - **Brass/Pad (4):** Mono Brass, Brass Swell, Drone Pad, Hollow Pad.
+  - **French Touch & Electro (20):** Squelchy overdriven leads, filtered house chords, Da Funk reso riffs, Homework acid, and Cross distortion stabs.
+  - **Electroclash & Dark Wave (14):** Driving night cruiser basses, rapid-fire arps, modular techno sequences, and raw witch-house chipped saws.
+  - **Pop & Funk 1982 (10):** Punchy studio funk basses, walking lines, quirky vocal leads, and horror brass stabs.
+  - **Hip-Hop & Lo-Fi Beats (19):** Dusty vinyl Rhodes, melted tape keys, quirky flutes, gritty comic-book brass, and deep sub basses.
+  - **Psych & Bedroom Pop (27):** Fuzz basses, woozy tape keys, bubbling shimmer arps, pastel bedroom keys, and ethereal dream pads.
+  - **Fantasy & Chiptune (5):** Fairy fountain arps, lost forest leads, dungeon sub basses, and ancient temple swells.
+  - **Neon Noir & Italo Disco (8):** Glassy poly keys, dark shadow basses, driving 16th disco arps, and emotive singing leads.
+  - **80s Cinema & Disco (9):** Hypnotic arpeggios, driving synth basses, and soaring melodic leads.
+  - **Cinematic Cyber Noir (5):** Expressive brass leads, lush ambient pads, and cosmic sequencers.
+  - **1971 Baroque Electronic (20):** Baroque clarino trumpets, double reeds, pipe organs, cello continuos, and dystopian fanfares.
+  - **Digital Grid & Cyberpunk (5):** Monolith sub-basses, arena leads, and ambient sci-fi swells.
+  - **Space Pop & Downtempo (4):** Electric lounge piano, star gazing pulses, and nature soundscapes.
   - **FX (10):** Laser, Wind, Kick, Snare, Tom, Siren, Self-Oscillating Sine, Helicopter, etc.
   - **Init (1):** Clean starting template.
 
