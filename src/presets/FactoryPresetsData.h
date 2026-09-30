@@ -1,0 +1,578 @@
+#pragma once
+
+namespace LadderMono
+{
+    inline constexpr const char* kFactoryPresetsJSON = R"JSON(
+[
+  {
+    "name": "Classic Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["mono", "fat", "classic"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 3, "osc2Fine": 0.06, "mixOsc2": 7.0, "mixOsc2On": true,
+      "osc3Range": 2, "osc3Wave": 2, "osc3Fine": -0.06, "mixOsc3": 7.0, "mixOsc3On": true,
+      "cutoff": -3.0, "emphasis": 0.0, "contourAmount": 2.5,
+      "fAttack": 0.8, "fDecay": 5.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 6.0, "aSustain": 10.0, "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Sub Thump",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["sub", "clean", "solid"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 1, "osc2Wave": 3, "mixOsc2": 4.0, "mixOsc2On": true,
+      "cutoff": -2.0, "emphasis": 0.0, "contourAmount": 3.0,
+      "fAttack": 0.2, "fDecay": 3.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.0, "aSustain": 6.0
+    }
+  },
+  {
+    "name": "Rubber Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["rubber", "snappy", "filter"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 3, "osc2Fine": 0.04, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": -4.0, "emphasis": 3.0, "contourAmount": 6.0,
+      "fAttack": 0.3, "fDecay": 3.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.5, "aSustain": 8.0
+    }
+  },
+  {
+    "name": "Pedal Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["deep", "organ", "sustain"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 2, "osc2Fine": 0.08, "mixOsc2": 6.0, "mixOsc2On": true,
+      "osc3Range": 1, "osc3Wave": 3, "mixOsc3": 5.0, "mixOsc3On": true,
+      "cutoff": -1.0, "emphasis": 2.0, "contourAmount": 4.0,
+      "fAttack": 0.5, "fDecay": 6.0, "fSustain": 2.0,
+      "aAttack": 0.0, "aDecay": 7.0, "aSustain": 9.0
+    }
+  },
+  {
+    "name": "Funk Pluck Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["funk", "pluck", "punch"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 5, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -4.5, "emphasis": 4.0, "contourAmount": 7.0,
+      "fAttack": 0.1, "fDecay": 2.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.0, "aSustain": 5.0
+    }
+  },
+  {
+    "name": "Dub Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["dub", "reggae", "low"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 1, "osc2Wave": 3, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -3.5, "emphasis": 5.0, "contourAmount": 2.0,
+      "fAttack": 1.0, "fDecay": 6.5, "fSustain": 3.0,
+      "aAttack": 0.5, "aDecay": 7.5, "aSustain": 10.0,
+      "glideOn": true, "glideTime": 1.5
+    }
+  },
+  {
+    "name": "Growl Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["growl", "aggressive", "detuned"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 2, "osc2Fine": 0.12, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 2, "osc3Wave": 3, "osc3Fine": -0.09, "mixOsc3": 8.0, "mixOsc3On": true,
+      "cutoff": -2.0, "emphasis": 6.5, "contourAmount": 5.0,
+      "filterModOn": true, "lfoRate": 6.0,
+      "aAttack": 0.0, "aDecay": 6.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Fat Unison Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["fat", "unison", "triple"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 2, "osc2Fine": 0.10, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 2, "osc3Wave": 2, "osc3Fine": -0.10, "mixOsc3": 10.0, "mixOsc3On": true,
+      "cutoff": 0.0, "emphasis": 1.0, "contourAmount": 4.0,
+      "fAttack": 0.4, "fDecay": 5.5, "fSustain": 3.0,
+      "aAttack": 0.0, "aDecay": 7.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Wobble Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["wobble", "lfo", "electro"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 3, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -2.0, "emphasis": 5.0, "contourAmount": 0.0,
+      "filterModOn": true, "lfoShape": 1, "lfoRate": 3.0,
+      "aAttack": 0.0, "aDecay": 2.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Octave Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["octave", "punchy", "disco"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 3, "mixOsc2": 8.0, "mixOsc2On": true,
+      "cutoff": -3.0, "emphasis": 1.0, "contourAmount": 3.0,
+      "fAttack": 0.4, "fDecay": 4.0, "fSustain": 1.0,
+      "aAttack": 0.0, "aDecay": 5.5, "aSustain": 8.0
+    }
+  },
+  {
+    "name": "Prog Portamento Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["prog", "portamento", "glide"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.05, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 3, "osc3Wave": 3, "osc3Fine": -0.05, "mixOsc3": 6.0, "mixOsc3On": true,
+      "cutoff": 1.0, "emphasis": 2.0, "contourAmount": 3.0,
+      "fAttack": 1.5, "fDecay": 7.0, "fSustain": 6.0,
+      "aAttack": 0.5, "aDecay": 6.0, "aSustain": 10.0,
+      "glideOn": true, "glideTime": 1.2, "glideMode": 1
+    }
+  },
+  {
+    "name": "Fusion Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["fusion", "sharkfin", "vibrato"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 1, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 4, "osc2Wave": 2, "mixOsc2": 5.0, "mixOsc2On": true,
+      "cutoff": 0.5, "emphasis": 3.0, "contourAmount": 4.0,
+      "fAttack": 2.0, "fDecay": 6.5, "fSustain": 5.0,
+      "aAttack": 0.8, "aDecay": 5.0, "aSustain": 10.0,
+      "oscModOn": true, "lfoRate": 5.5
+    }
+  },
+  {
+    "name": "Sine-ish Sing Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["smooth", "sine", "singing"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 0, "osc2Fine": 0.03, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -1.0, "emphasis": 4.5, "contourAmount": 2.0,
+      "fAttack": 3.0, "fDecay": 5.0, "fSustain": 7.0,
+      "aAttack": 1.0, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Screamer",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["screamer", "overdrive", "aggressive"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.07, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 4, "osc3Wave": 3, "mixOsc3": 6.0, "mixOsc3On": true,
+      "cutoff": 2.0, "emphasis": 7.0, "contourAmount": 3.0,
+      "mixerDrive": 6.0,
+      "aAttack": 0.0, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Whistle Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["whistle", "self-osc", "clean"],
+    "params": {
+      "osc1Range": 4, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "cutoff": -1.0, "emphasis": 8.5, "contourAmount": 1.0,
+      "aAttack": 1.2, "aDecay": 4.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Sweep Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["sweep", "filter-sweep", "dramatic"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 3, "osc2Fine": 0.06, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": -3.0, "emphasis": 4.0, "contourAmount": 8.0,
+      "fAttack": 4.0, "fDecay": 8.0, "fSustain": 2.0,
+      "aAttack": 2.0, "aDecay": 7.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Octave Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["octave", "stacked", "bright"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 4, "osc2Wave": 2, "mixOsc2": 8.0, "mixOsc2On": true,
+      "osc3Range": 2, "osc3Wave": 3, "mixOsc3": 5.0, "mixOsc3On": true,
+      "cutoff": 1.0, "emphasis": 2.0, "contourAmount": 3.0,
+      "aAttack": 0.5, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Brass Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["brass", "bright", "horns"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.04, "mixOsc2": 9.0, "mixOsc2On": true,
+      "cutoff": -2.0, "emphasis": 1.0, "contourAmount": 6.0,
+      "fAttack": 1.2, "fDecay": 5.5, "fSustain": 6.0,
+      "aAttack": 0.8, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Pulse Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["pulse", "nasal", "cutting"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 4, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 5, "osc2Fine": 0.05, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": 0.0, "emphasis": 3.0, "contourAmount": 3.0,
+      "aAttack": 0.3, "aDecay": 4.5, "aSustain": 9.0
+    }
+  },
+  {
+    "name": "Expressive Mono Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["expressive", "warm", "sharkfin"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 1, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.05, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": 0.0, "emphasis": 2.0, "contourAmount": 2.0,
+      "kbd1": true, "kbd2": true,
+      "aAttack": 0.5, "aDecay": 5.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Mono Brass",
+    "category": "Brass/Pad",
+    "author": "Factory",
+    "tags": ["brass", "warm", "classic"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.08, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 3, "osc3Wave": 3, "osc3Fine": -0.08, "mixOsc3": 5.0, "mixOsc3On": true,
+      "cutoff": -2.0, "emphasis": 1.0, "contourAmount": 5.0,
+      "fAttack": 1.8, "fDecay": 6.0, "fSustain": 7.0,
+      "aAttack": 1.2, "aDecay": 5.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Soft Brass Swell",
+    "category": "Brass/Pad",
+    "author": "Factory",
+    "tags": ["swell", "soft", "pad"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.10, "mixOsc2": 9.0, "mixOsc2On": true,
+      "cutoff": -3.0, "emphasis": 0.0, "contourAmount": 6.0,
+      "fAttack": 4.5, "fDecay": 7.5, "fSustain": 6.0,
+      "aAttack": 3.5, "aDecay": 6.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Drone Pad",
+    "category": "Brass/Pad",
+    "author": "Factory",
+    "tags": ["drone", "ambient", "drift"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 8.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.09, "mixOsc2": 8.0, "mixOsc2On": true,
+      "osc3Range": 3, "osc3Wave": 2, "osc3Fine": -0.09, "mixOsc3": 8.0, "mixOsc3On": true,
+      "cutoff": -2.0, "emphasis": 2.0, "contourAmount": 2.0,
+      "analogAmount": 0.60,
+      "fAttack": 6.0, "fDecay": 8.5, "fSustain": 8.0,
+      "aAttack": 5.5, "aDecay": 9.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Hollow Pad",
+    "category": "Brass/Pad",
+    "author": "Factory",
+    "tags": ["hollow", "square", "chorus"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 3, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 3, "osc2Fine": 0.07, "mixOsc2": 9.0, "mixOsc2On": true,
+      "cutoff": -1.0, "emphasis": 3.0, "contourAmount": 3.0,
+      "fAttack": 5.0, "fDecay": 8.0, "fSustain": 7.0,
+      "aAttack": 4.5, "aDecay": 8.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Pluck Keys",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["pluck", "keys", "percussive"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 5, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -3.0, "emphasis": 2.0, "contourAmount": 6.0,
+      "fAttack": 0.1, "fDecay": 3.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.5, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Marimba-ish",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["mallet", "triangle", "short"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 5, "osc2Wave": 0, "mixOsc2": 4.0, "mixOsc2On": true,
+      "cutoff": -2.0, "emphasis": 1.0, "contourAmount": 5.0,
+      "fAttack": 0.1, "fDecay": 2.2, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.2, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Clav-ish Bass Keys",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["clavinet", "funky", "bite"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 3, "mixOsc2": 6.0, "mixOsc2On": true,
+      "cutoff": -4.0, "emphasis": 5.0, "contourAmount": 6.0,
+      "fAttack": 0.1, "fDecay": 2.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.0, "aSustain": 3.0
+    }
+  },
+  {
+    "name": "Bell (Osc FM)",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["bell", "fm", "metallic"],
+    "params": {
+      "osc1Range": 4, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc3Range": 5, "osc3Wave": 0, "osc3KbdOn": true,
+      "oscModOn": true, "modMix": 0.0,
+      "cutoff": 2.0, "emphasis": 0.0,
+      "aAttack": 0.0, "aDecay": 7.0, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Laser Zap",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["laser", "zap", "sweep"],
+    "params": {
+      "osc1Range": 4, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "cutoff": 3.0, "emphasis": 6.0, "contourAmount": 10.0,
+      "fAttack": 0.0, "fDecay": 2.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.5, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Wind Noise",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["wind", "noise", "ambient"],
+    "params": {
+      "mixOsc1On": false,
+      "mixNoise": 10.0, "mixNoiseOn": true, "noiseColor": 0,
+      "cutoff": -1.0, "emphasis": 6.0, "contourAmount": 4.0,
+      "filterModOn": true, "lfoRate": 0.4,
+      "fAttack": 6.0, "fDecay": 7.0, "fSustain": 2.0,
+      "aAttack": 4.0, "aDecay": 8.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Kick",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["drum", "kick", "punch"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "mixNoise": 2.0, "mixNoiseOn": true, "noiseColor": 1,
+      "cutoff": -3.0, "emphasis": 4.0, "contourAmount": 9.0,
+      "fAttack": 0.0, "fDecay": 2.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.2, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Snare Noise",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["snare", "noise", "drum"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 0, "mixOsc1": 4.0, "mixOsc1On": true,
+      "mixNoise": 10.0, "mixNoiseOn": true, "noiseColor": 1,
+      "cutoff": 1.0, "emphasis": 2.0, "contourAmount": 6.0,
+      "fAttack": 0.0, "fDecay": 1.8, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 2.5, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Tom",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["drum", "tom", "percussion"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "cutoff": -2.0, "emphasis": 3.0, "contourAmount": 5.0,
+      "fAttack": 0.0, "fDecay": 3.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.5, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Siren",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["siren", "alarm", "lfo"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "oscModOn": true, "lfoRate": 0.8, "lfoShape": 0,
+      "cutoff": 1.0, "emphasis": 2.0,
+      "aAttack": 1.5, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Self-Oscillating Sine",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["self-osc", "pure", "sine"],
+    "params": {
+      "mixOsc1On": false, "mixOsc2On": false, "mixOsc3On": false,
+      "cutoff": 0.0, "emphasis": 10.0, "contourAmount": 0.0,
+      "kbd1": true, "kbd2": true,
+      "aAttack": 0.5, "aDecay": 4.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Sci-Fi Sweep",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["scifi", "sweep", "space"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.25, "mixOsc2": 10.0, "mixOsc2On": true,
+      "mixNoise": 3.0, "mixNoiseOn": true,
+      "cutoff": -4.0, "emphasis": 7.0, "contourAmount": 9.0,
+      "fAttack": 6.5, "fDecay": 8.0, "fSustain": 0.0,
+      "aAttack": 2.0, "aDecay": 8.5, "aSustain": 6.0
+    }
+  },
+  {
+    "name": "Drip",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["drip", "water", "short"],
+    "params": {
+      "osc1Range": 4, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "cutoff": 1.0, "emphasis": 7.0, "contourAmount": 6.0,
+      "fAttack": 0.0, "fDecay": 1.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 2.2, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Helicopter",
+    "category": "FX",
+    "author": "Factory",
+    "tags": ["helicopter", "square-lfo", "noise"],
+    "params": {
+      "mixOsc1On": false,
+      "mixNoise": 8.0, "mixNoiseOn": true,
+      "filterModOn": true, "lfoRate": 7.0, "lfoShape": 1,
+      "cutoff": -2.0, "emphasis": 5.0,
+      "aAttack": 1.0, "aDecay": 6.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Dirty Overdrive Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["dirty", "overdrive", "distorted"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "osc2Fine": 0.09, "mixOsc2": 10.0, "mixOsc2On": true,
+      "osc3Range": 3, "osc3Wave": 3, "osc3Fine": -0.09, "mixOsc3": 10.0, "mixOsc3On": true,
+      "mixerDrive": 12.0,
+      "cutoff": 1.0, "emphasis": 3.0, "contourAmount": 3.0,
+      "aAttack": 0.1, "aDecay": 5.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Feedback Growl",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["feedback", "growl", "overload"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "mixExt": 6.0, "mixExtOn": true,
+      "cutoff": -1.0, "emphasis": 5.0, "contourAmount": 4.0,
+      "aAttack": 0.0, "aDecay": 6.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Init Patch",
+    "category": "Init",
+    "author": "Factory",
+    "tags": ["init", "default", "clean"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "mixOsc2On": false, "mixOsc3On": false, "mixNoiseOn": false, "mixExtOn": false,
+      "cutoff": 3.0, "emphasis": 0.0, "contourAmount": 3.0,
+      "fAttack": 0.1, "fDecay": 5.0, "fSustain": 3.0,
+      "aAttack": 0.0, "aDecay": 5.0, "aSustain": 10.0,
+      "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Minimal Arp Bass",
+    "category": "Bass",
+    "author": "Factory",
+    "tags": ["arp", "minimal", "snappy"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 3, "osc2Fine": 0.05, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": -2.5, "emphasis": 3.5, "contourAmount": 5.0,
+      "fAttack": 0.1, "fDecay": 2.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.0, "aSustain": 0.0,
+      "arpOn": true, "arpMode": 0, "arpOctaves": 2, "arpRateSync": 3
+    }
+  },
+  {
+    "name": "Electro Arp Lead",
+    "category": "Lead",
+    "author": "Factory",
+    "tags": ["arp", "lead", "synced"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 1, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 4, "osc2Wave": 2, "mixOsc2": 8.0, "mixOsc2On": true,
+      "cutoff": 0.5, "emphasis": 4.0, "contourAmount": 4.0,
+      "fAttack": 0.2, "fDecay": 3.5, "fSustain": 2.0,
+      "aAttack": 0.0, "aDecay": 4.0, "aSustain": 6.0,
+      "arpOn": true, "arpMode": 2, "arpOctaves": 2, "arpRateSync": 3
+    }
+  }
+]
+
+)JSON";
+}
