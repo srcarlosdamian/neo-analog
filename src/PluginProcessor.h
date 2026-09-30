@@ -38,15 +38,23 @@ public:
 
     juce::AudioProcessorValueTreeState& getAPVTS() noexcept { return apvts; }
     LadderMono::PresetManager& getPresetManager() noexcept { return presetManager; }
-    LadderMono::Voice& getVoice() noexcept { return voice; }
+    static constexpr int kMaxVoices = 8;
+    LadderMono::Voice& getVoice() noexcept { return voices[0]; }
+    std::array<LadderMono::Voice, kMaxVoices>& getVoices() noexcept { return voices; }
 
-    // Direct UI note audition
-    void triggerNoteOn(int note, float vel) { voice.noteOn(note, vel); }
-    void triggerNoteOff(int note) { voice.noteOff(note); }
+    // Direct UI note audition and MIDI note handling
+    void triggerNoteOn(int note, float vel) noexcept { handleNoteOn(note, vel); }
+    void triggerNoteOff(int note) noexcept { handleNoteOff(note); }
+
+    void handleNoteOn(int noteNumber, float velocity) noexcept;
+    void handleNoteOff(int noteNumber) noexcept;
+    void handleAllNotesOff() noexcept;
 
 private:
     juce::AudioProcessorValueTreeState apvts;
-    LadderMono::Voice voice;
+    std::array<LadderMono::Voice, kMaxVoices> voices;
+    std::array<uint32_t, kMaxVoices> voiceAge = {0};
+    uint32_t voiceCounter = 0;
     LadderMono::PresetManager presetManager;
 
     // Smoothed parameters

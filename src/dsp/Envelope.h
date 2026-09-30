@@ -69,9 +69,9 @@ namespace LadderMono
 
                 case EnvelopeStage::Attack:
                 {
-                    // Analog-style RC attack curve: asymptote toward 1.2 for faster punch
-                    float rate = 1.0f / (attackTimeSec * static_cast<float>(sampleRate));
-                    currentLevel += rate * (1.2f - currentLevel);
+                    // Analog-style RC attack curve
+                    float rate = 1.0f / std::max(1.0f, attackTimeSec * static_cast<float>(sampleRate) * 0.75f);
+                    currentLevel += rate * (1.15f - currentLevel);
                     if (currentLevel >= 1.0f)
                     {
                         currentLevel = 1.0f;
@@ -82,8 +82,8 @@ namespace LadderMono
 
                 case EnvelopeStage::Decay:
                 {
-                    // Exponential decay toward sustain level
-                    float rate = 1.0f / (decayTimeSec * static_cast<float>(sampleRate) * 0.35f);
+                    // Exponential decay toward sustain level (reaches within 1.5% in decayTimeSec)
+                    float rate = 1.0f / std::max(1.0f, decayTimeSec * static_cast<float>(sampleRate) * 0.25f);
                     currentLevel += (sustainLevel - currentLevel) * rate;
                     if (std::abs(currentLevel - sustainLevel) < 0.0005f)
                     {
@@ -101,9 +101,9 @@ namespace LadderMono
 
                 case EnvelopeStage::Release:
                 {
-                    // If decayAsRelease is on, use decayTimeSec; else fast 5 ms release
-                    float relTime = useDecayRelease ? decayTimeSec : 0.005f;
-                    float rate = 1.0f / (relTime * static_cast<float>(sampleRate) * 0.35f);
+                    // If decayAsRelease is on, use decayTimeSec; else fast 15 ms release
+                    float relTime = useDecayRelease ? decayTimeSec : 0.015f;
+                    float rate = 1.0f / std::max(1.0f, relTime * static_cast<float>(sampleRate) * 0.25f);
                     currentLevel -= currentLevel * rate;
                     if (currentLevel <= 0.0005f)
                     {
@@ -128,9 +128,10 @@ namespace LadderMono
 
         static inline float paramToSeconds(float param) noexcept
         {
-            // Panel 0-10 mapping: 0 -> 1 ms (0.001 s), 10 -> 10.0 s
+            // Authentic Minimoog Model D panel calibration:
+            // 0 -> 5 ms, 2 -> 115 ms, 3 -> 350 ms, 5 -> 1.4 s, 10 -> 10.0 s
             float norm = std::clamp(param / 10.0f, 0.0f, 1.0f);
-            return 0.001f * std::pow(10000.0f, norm);
+            return 0.005f + 9.995f * std::pow(norm, 2.8f);
         }
     };
 }

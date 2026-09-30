@@ -157,7 +157,7 @@ namespace LadderMono
                     case ArpRateSync::Sixteenth:        multiplier = 0.25; break;
                     case ArpRateSync::SixteenthTriplet: multiplier = 0.25 * (2.0 / 3.0); break;
                     case ArpRateSync::ThirtySecond:     multiplier = 0.125; break;
-                    default: break;
+                    case ArpRateSync::Count:            break;
                 }
                 stepDurationSamples = beatDurationSec * multiplier * sampleRate;
             }
@@ -270,7 +270,7 @@ namespace LadderMono
                 size_t originalSize = sequence.size();
                 for (int i = static_cast<int>(originalSize) - 2; i > 0; --i)
                 {
-                    sequence.push_back(sequence[i]);
+                    sequence.push_back(sequence[static_cast<size_t>(i)]);
                 }
             }
 

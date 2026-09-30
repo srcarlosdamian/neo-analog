@@ -1,0 +1,81 @@
+name: Build and Test LadderMono
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.11.1
+
+      - name: Setup MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure CMake (macOS Universal)
+        if: runner.os == 'macOS'
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
+
+      - name: Configure CMake (Windows x64)
+        if: runner.os == 'Windows'
+        run: |
+          cmake -B build -G Ninja `
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build DSP Test Suite
+        run: cmake --build build --target LadderMonoTests --config Release
+
+      - name: Run DSP & Unit Tests
+        run: |
+          cd build
+          ctest --output-on-failure -C Release
+
+      - name: Build All Plugin Formats & Standalone
+        run: |
+          cmake --build build --target LadderMono_Standalone LadderMono_VST3 --config Release
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            cmake --build build --target LadderMono_AU LadderMono_CLAP --config Release
+          fi
+        shell: bash
+
+      - name: Upload Build Artifacts (macOS)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: LadderMono-macOS-Universal
+          path: |
+            build/LadderMono_artefacts/Standalone/
+            build/LadderMono_artefacts/VST3/
+            build/LadderMono_artefacts/AU/
+            build/LadderMono_artefacts/CLAP/
+
+      - name: Upload Build Artifacts (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: LadderMono-Windows-x64
+          path: |
+            build/LadderMono_artefacts/Standalone/
+            build/LadderMono_artefacts/VST3/
+            build/LadderMono_artefacts/CLAP/

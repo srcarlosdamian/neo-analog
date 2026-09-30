@@ -74,7 +74,7 @@ namespace LadderMono
         }
 
         void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
-                              bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
+                              bool /*shouldDrawButtonAsHighlighted*/, bool /*shouldDrawButtonAsDown*/) override
         {
             auto bounds = button.getLocalBounds().toFloat();
             auto toggleBounds = bounds.removeFromLeft(36.0f).reduced(4.0f, 6.0f);

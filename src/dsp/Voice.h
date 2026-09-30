@@ -57,12 +57,13 @@ namespace LadderMono
         float processSample(double bpm) noexcept;
 
         // Sub-component accessors for parameter bindings
-        Oscillator& getOsc(int index) { return oscs[index]; }
-        LadderFilter& getFilter() { return filter; }
-        Envelope& getFilterEnv() { return filterEnv; }
-        Envelope& getAmpEnv() { return ampEnv; }
-        Glide& getGlide() { return glide; }
-        Arpeggiator& getArp() { return arp; }
+        Oscillator& getOsc(size_t index) noexcept { return oscs[index]; }
+        const Oscillator& getOsc(size_t index) const noexcept { return oscs[index]; }
+        LadderFilter& getFilter() noexcept { return filter; }
+        Envelope& getFilterEnv() noexcept { return filterEnv; }
+        Envelope& getAmpEnv() noexcept { return ampEnv; }
+        Glide& getGlide() noexcept { return glide; }
+        Arpeggiator& getArp() noexcept { return arp; }
 
         // Configuration setters
         void setNotePriority(NotePriority p) noexcept { priority = p; }
@@ -97,6 +98,9 @@ namespace LadderMono
         void setExternalFeedbackSample(float s) noexcept { externalInputSample = s; }
 
         bool isActive() const noexcept { return ampEnv.isActive() || arp.hasNotes(); }
+        bool isAudible() const noexcept { return ampEnv.isActive(); }
+        bool isKeyHeld() const noexcept { return activeNote >= 0; }
+        int getActiveNote() const noexcept { return activeNote; }
 
     private:
         double sampleRate = 44100.0;
@@ -119,7 +123,7 @@ namespace LadderMono
         int activeNote = -1;
         float activeVelocity = 1.0f;
 
-        NotePriority priority = NotePriority::Low;
+        NotePriority priority = NotePriority::Last;
         EnvRetriggerMode envMode = EnvRetriggerMode::MultiTrigger;
         bool decaySwitch = true;
 

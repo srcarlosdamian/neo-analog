@@ -115,5 +115,75 @@ target_link_libraries(LadderMonoTests PRIVATE
     juce::juce_recommended_config_flags
 )
 
+add_executable(TestPresetAudio
+    tests/TestPresetAudio.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(TestPresetAudio PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(TestPresetAudio PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
+add_executable(TestMarimba
+    tests/TestMarimba.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(TestMarimba PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(TestMarimba PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
+add_executable(OfflineRenderer
+    tools/OfflineRenderer.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(OfflineRenderer PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(OfflineRenderer PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_audio_formats
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
 enable_testing()
 add_test(NAME AllTests COMMAND LadderMonoTests)

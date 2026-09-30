@@ -19,7 +19,7 @@ private:
 
     // Preset Controls
     juce::Label titleLabel;
-    juce::Label presetLabel;
+    juce::TextButton presetButton;
     juce::TextButton prevPresetBtn{"<"};
     juce::TextButton nextPresetBtn{">"};
     juce::TextButton initBtn{"Init"};
@@ -69,6 +69,7 @@ private:
 
     // Output & Master
     Knobby masterVolKnob, analogKnob;
+    juce::ComboBox voicesBox;
 
     // Performance Wheels & Keyboard
     juce::Slider pitchWheel;

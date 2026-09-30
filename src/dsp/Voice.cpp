@@ -1,4 +1,5 @@
 #include "Voice.h"
+#include "Saturation.h"
 #include <cmath>
 #include <algorithm>
 
@@ -275,8 +276,7 @@ namespace LadderMono
                        + (extInput * extLevel);
 
         // Mixer Overload soft saturation with mild asymmetric second harmonic
-        float driven = mixerSum * mixerDriveGain;
-        float saturatedMixer = std::tanh(driven + 0.04f * driven * driven);
+        float saturatedMixer = Saturation::processMixerOverload(mixerSum, mixerDriveGain);
 
         // 7. Envelopes
         float fEnvLevel = filterEnv.processSample();
@@ -310,7 +310,7 @@ namespace LadderMono
         float output = filterOut * aEnvLevel;
 
         // Soft clipper to prevent hard digital clipping
-        output = std::tanh(output * 0.9f);
+        output = Saturation::processOutputClip(output);
 
         lastOutputSample = output;
         return output;

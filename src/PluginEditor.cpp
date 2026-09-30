@@ -12,11 +12,40 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     titleLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
     addAndMakeVisible(titleLabel);
 
-    presetLabel.setJustificationType(juce::Justification::centred);
-    presetLabel.setFont(juce::FontOptions(13.0f, juce::Font::plain));
-    presetLabel.setColour(juce::Label::backgroundColourId, juce::Colour(0xff22242a));
-    presetLabel.setColour(juce::Label::outlineColourId, juce::Colour(0xff353840));
-    addAndMakeVisible(presetLabel);
+    presetButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff22242a));
+    presetButton.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2c2f37));
+    presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
+    presetButton.onClick = [this]() {
+        juce::PopupMenu menu;
+        // Group presets by category
+        std::map<juce::String, std::vector<std::pair<int, juce::String>>> categorized;
+        const auto& presets = audioProcessor.getPresetManager().getPresets();
+        for (size_t i = 0; i < presets.size(); ++i)
+        {
+            categorized[presets[i].category].emplace_back(static_cast<int>(i + 1), presets[i].name);
+        }
+
+        for (const auto& [cat, list] : categorized)
+        {
+            juce::PopupMenu subMenu;
+            for (const auto& [id, name] : list)
+            {
+                bool isCurrent = (id - 1 == audioProcessor.getPresetManager().getCurrentPresetIndex());
+                subMenu.addItem(id, name, true, isCurrent);
+            }
+            menu.addSubMenu(cat, subMenu);
+        }
+
+        menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&presetButton),
+            [this](int result) {
+                if (result > 0)
+                {
+                    audioProcessor.getPresetManager().loadPreset(result - 1);
+                    updatePresetDisplay();
+                }
+            });
+    };
+    addAndMakeVisible(presetButton);
 
     prevPresetBtn.onClick = [this]() {
         audioProcessor.getPresetManager().loadPrevPreset();
@@ -102,6 +131,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     // Output & Master
     setupKnob(masterVolKnob, LadderMono::ParamIDs::masterVol, "VOLUME");
     setupKnob(analogKnob, LadderMono::ParamIDs::analogAmount, "DRIFT");
+    setupComboBox(voicesBox, LadderMono::ParamIDs::voices, {"Mono", "4 Voices", "8 Voices"});
 
     // Performance Wheels
     pitchWheel.setSliderStyle(juce::Slider::LinearVertical);
@@ -111,7 +141,8 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     pitchWheel.onValueChange = [this]() {
         float bend = static_cast<float>(pitchWheel.getValue());
         int range = static_cast<int>(audioProcessor.getAPVTS().getRawParameterValue(LadderMono::ParamIDs::bendRange)->load());
-        audioProcessor.getVoice().setPitchBend(bend * range);
+        for (auto& v : audioProcessor.getVoices())
+            v.setPitchBend(bend * range);
     };
     addAndMakeVisible(pitchWheel);
 
@@ -120,7 +151,9 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     modWheel.setRange(0.0, 1.0, 0.01);
     modWheel.setValue(0.0);
     modWheel.onValueChange = [this]() {
-        audioProcessor.getVoice().setModWheel(static_cast<float>(modWheel.getValue()));
+        float mw = static_cast<float>(modWheel.getValue());
+        for (auto& v : audioProcessor.getVoices())
+            v.setModWheel(mw);
     };
     addAndMakeVisible(modWheel);
 
@@ -250,7 +283,7 @@ void LadderMonoAudioProcessorEditor::setupToggle(juce::ToggleButton& btn, const 
 
 void LadderMonoAudioProcessorEditor::updatePresetDisplay()
 {
-    presetLabel.setText(audioProcessor.getPresetManager().getCurrentPresetName(), juce::dontSendNotification);
+    presetButton.setButtonText(audioProcessor.getPresetManager().getCurrentPresetName() + "  ▾");
 }
 
 void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
@@ -285,6 +318,8 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.drawText("MIXER", 570, 42, 160, 18, juce::Justification::centred);
     g.drawText("FILTER & ENVELOPES", 750, 42, 220, 18, juce::Justification::centred);
     g.drawText("OUTPUT", 990, 42, 100, 18, juce::Justification::centred);
+    g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+    g.drawText("VOICES", 990, 256, 100, 14, juce::Justification::centred);
 }
 
 void LadderMonoAudioProcessorEditor::resized()
@@ -297,7 +332,7 @@ void LadderMonoAudioProcessorEditor::resized()
     initBtn.setBounds(topBar.removeFromRight(60).reduced(5, 7));
     nextPresetBtn.setBounds(topBar.removeFromRight(36).reduced(4, 7));
     prevPresetBtn.setBounds(topBar.removeFromRight(36).reduced(4, 7));
-    presetLabel.setBounds(topBar.removeFromRight(200).reduced(5, 7));
+    presetButton.setBounds(topBar.removeFromRight(220).reduced(5, 7));
 
     // Bottom Performance Section (Keyboard + Wheels + Keyboard Hint)
     auto bottomArea = area.removeFromBottom(145);
@@ -409,4 +444,6 @@ void LadderMonoAudioProcessorEditor::resized()
 
     analogKnob.slider.setBounds(1005, 180, 60, 60);
     analogKnob.label.setBounds(1005, 240, 60, 14);
+
+    voicesBox.setBounds(1000, 275, 80, 24);
 }

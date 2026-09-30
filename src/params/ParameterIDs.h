@@ -71,6 +71,7 @@ namespace LadderMono
         inline constexpr auto hqMode        = "hqMode";
         inline constexpr auto notePriority  = "notePriority";
         inline constexpr auto envMode       = "envMode";
+        inline constexpr auto voices        = "voices";
 
         // Arpeggiator
         inline constexpr auto arpOn         = "arpOn";
