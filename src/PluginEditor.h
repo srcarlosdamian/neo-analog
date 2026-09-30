@@ -74,11 +74,21 @@ private:
     juce::Slider pitchWheel;
     juce::Slider modWheel;
     LadderMono::VirtualKeyboard keyboard;
+    juce::Label keyboardHintLabel;
+
+    // Computer Keyboard musical typing state
+    int baseOctaveNote = 60; // C4 default
+    std::set<int> pressedCharKeys;
+
+    bool keyPressed(const juce::KeyPress& key) override;
+    bool keyStateChanged(bool isKeyDown) override;
+    void mouseDown(const juce::MouseEvent& e) override;
 
     void setupKnob(Knobby& k, const juce::String& paramId, const juce::String& labelText, bool isBipolar = false);
     void setupComboBox(juce::ComboBox& box, const juce::String& paramId, const juce::StringArray& items);
     void setupToggle(juce::ToggleButton& btn, const juce::String& paramId);
     void updatePresetDisplay();
+    void updateKeyboardHint();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LadderMonoAudioProcessorEditor)
 };

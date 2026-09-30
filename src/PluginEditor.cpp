@@ -133,8 +133,17 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(keyboard);
 
+    // Keyboard Hint Label
+    keyboardHintLabel.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+    keyboardHintLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
+    keyboardHintLabel.setJustificationType(juce::Justification::centredLeft);
+    addAndMakeVisible(keyboardHintLabel);
+    updateKeyboardHint();
+
+    setWantsKeyboardFocus(true);
+
     updatePresetDisplay();
-    setSize(1100, 600);
+    setSize(1100, 630);
 }
 
 LadderMonoAudioProcessorEditor::~LadderMonoAudioProcessorEditor()
@@ -142,8 +151,75 @@ LadderMonoAudioProcessorEditor::~LadderMonoAudioProcessorEditor()
     setLookAndFeel(nullptr);
 }
 
+static const std::vector<std::pair<int, int>> kMusicalKeys = {
+    {'A', 0},  {'W', 1},  {'S', 2},  {'E', 3},
+    {'D', 4},  {'F', 5},  {'T', 6},  {'G', 7},
+    {'Y', 8},  {'H', 9},  {'U', 10}, {'J', 11},
+    {'K', 12}, {'O', 13}, {'L', 14}, {'P', 15}
+};
+
+bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
+{
+    auto text = key.getTextDescription().toLowerCase();
+    if (text == "z")
+    {
+        baseOctaveNote = std::max(24, baseOctaveNote - 12);
+        keyboard.setBaseOctaveNote(baseOctaveNote);
+        updateKeyboardHint();
+        return true;
+    }
+    if (text == "x")
+    {
+        baseOctaveNote = std::min(84, baseOctaveNote + 12);
+        keyboard.setBaseOctaveNote(baseOctaveNote);
+        updateKeyboardHint();
+        return true;
+    }
+
+    return false;
+}
+
+bool LadderMonoAudioProcessorEditor::keyStateChanged(bool)
+{
+    for (const auto& [keyCode, semitone] : kMusicalKeys)
+    {
+        bool isDown = juce::KeyPress::isKeyCurrentlyDown(keyCode);
+        int note = baseOctaveNote + semitone;
+
+        if (isDown)
+        {
+            if (pressedCharKeys.insert(keyCode).second)
+            {
+                audioProcessor.triggerNoteOn(note, 0.85f);
+                keyboard.setNoteActive(note, true);
+            }
+        }
+        else
+        {
+            if (pressedCharKeys.erase(keyCode) > 0)
+            {
+                audioProcessor.triggerNoteOff(note);
+                keyboard.setNoteActive(note, false);
+            }
+        }
+    }
+    return true;
+}
+
+void LadderMonoAudioProcessorEditor::mouseDown(const juce::MouseEvent&)
+{
+    grabKeyboardFocus();
+}
+
+void LadderMonoAudioProcessorEditor::updateKeyboardHint()
+{
+    int octNumber = (baseOctaveNote / 12) - 1;
+    keyboardHintLabel.setText("KEYBOARD PLAYING [A W S E D F T G H U J K] | OCTAVE: C" + juce::String(octNumber) + " (Press Z/X to shift octaves)", juce::dontSendNotification);
+}
+
 void LadderMonoAudioProcessorEditor::setupKnob(Knobby& k, const juce::String& paramId, const juce::String& labelText, bool isBipolar)
 {
+    juce::ignoreUnused(isBipolar);
     k.slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     k.slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 48, 14);
     addAndMakeVisible(k.slider);
@@ -186,16 +262,18 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(juce::Colour(0xff22242a));
     g.fillRect(0, 0, getWidth(), 40); // Top bar
 
+    float bottomLineY = static_cast<float>(getHeight() - 146);
+
     g.setColour(juce::Colour(0xff2d2f36));
     g.drawHorizontalLine(40, 0.0f, static_cast<float>(getWidth()));
-    g.drawHorizontalLine(480, 0.0f, static_cast<float>(getWidth())); // Above keyboard
+    g.drawHorizontalLine(static_cast<int>(bottomLineY), 0.0f, static_cast<float>(getWidth())); // Above keyboard
 
     // Section dividing vertical lines
-    g.drawVerticalLine(160, 40.0f, 480.0f); // Controllers / Arp divider
-    g.drawVerticalLine(340, 40.0f, 480.0f); // Arp / Osc bank divider
-    g.drawVerticalLine(560, 40.0f, 480.0f); // Osc / Mixer divider
-    g.drawVerticalLine(740, 40.0f, 480.0f); // Mixer / Filter divider
-    g.drawVerticalLine(980, 40.0f, 480.0f); // Filter / Output divider
+    g.drawVerticalLine(160, 40.0f, bottomLineY); // Controllers / Arp divider
+    g.drawVerticalLine(340, 40.0f, bottomLineY); // Arp / Osc bank divider
+    g.drawVerticalLine(560, 40.0f, bottomLineY); // Osc / Mixer divider
+    g.drawVerticalLine(740, 40.0f, bottomLineY); // Mixer / Filter divider
+    g.drawVerticalLine(980, 40.0f, bottomLineY); // Filter / Output divider
 
     // Section titles
     g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
@@ -221,8 +299,9 @@ void LadderMonoAudioProcessorEditor::resized()
     prevPresetBtn.setBounds(topBar.removeFromRight(36).reduced(4, 7));
     presetLabel.setBounds(topBar.removeFromRight(200).reduced(5, 7));
 
-    // Bottom Performance Section (Keyboard + Wheels)
-    auto bottomArea = area.removeFromBottom(120);
+    // Bottom Performance Section (Keyboard + Wheels + Keyboard Hint)
+    auto bottomArea = area.removeFromBottom(145);
+    keyboardHintLabel.setBounds(bottomArea.removeFromTop(20).reduced(12, 1));
     pitchWheel.setBounds(bottomArea.removeFromLeft(36).reduced(6, 4));
     modWheel.setBounds(bottomArea.removeFromLeft(36).reduced(6, 4));
     keyboard.setBounds(bottomArea);

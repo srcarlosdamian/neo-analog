@@ -2,6 +2,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <functional>
 #include <vector>
+#include <set>
 
 namespace LadderMono
 {
@@ -15,6 +16,54 @@ namespace LadderMono
 
         std::function<void(int note, float velocity)> onNoteOn;
         std::function<void(int note)> onNoteOff;
+
+        void setNoteActive(int note, bool active)
+        {
+            if (active)
+                activeNotes.insert(note);
+            else
+                activeNotes.erase(note);
+            repaint();
+        }
+
+        void clearAllActiveNotes()
+        {
+            activeNotes.clear();
+            repaint();
+        }
+
+        void setBaseOctaveNote(int note)
+        {
+            baseOctaveNote = note;
+            repaint();
+        }
+
+        int getBaseOctaveNote() const noexcept { return baseOctaveNote; }
+
+        juce::String getComputerKeyLabel(int note) const
+        {
+            int offset = note - baseOctaveNote;
+            switch (offset)
+            {
+                case 0:  return "A";
+                case 1:  return "W";
+                case 2:  return "S";
+                case 3:  return "E";
+                case 4:  return "D";
+                case 5:  return "F";
+                case 6:  return "T";
+                case 7:  return "G";
+                case 8:  return "Y";
+                case 9:  return "H";
+                case 10: return "U";
+                case 11: return "J";
+                case 12: return "K";
+                case 13: return "O";
+                case 14: return "L";
+                case 15: return "P";
+                default: return {};
+            }
+        }
 
         void paint(juce::Graphics& g) override
         {
@@ -40,7 +89,7 @@ namespace LadderMono
                 int note = startNote + i;
                 if (!isBlackKey(note))
                 {
-                    bool isDown = (activeKey == note);
+                    bool isDown = (activeNotes.count(note) > 0 || activeKey == note);
                     juce::Rectangle<float> keyRect(currentX, 0.0f, whiteKeyWidth, bounds.getHeight());
 
                     g.setColour(isDown ? juce::Colour(0xffe08b3c) : juce::Colour(0xffe8eaed));
@@ -49,6 +98,15 @@ namespace LadderMono
                     // Key border / separation
                     g.setColour(juce::Colour(0xff222428));
                     g.drawRect(keyRect, 1.0f);
+
+                    // Minimalist computer keyboard key label
+                    auto keyLabel = getComputerKeyLabel(note);
+                    if (keyLabel.isNotEmpty())
+                    {
+                        g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xff808590));
+                        g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+                        g.drawText(keyLabel, keyRect.removeFromBottom(18.0f).toNearestInt(), juce::Justification::centred);
+                    }
 
                     currentX += whiteKeyWidth;
                 }
@@ -61,11 +119,11 @@ namespace LadderMono
                 int note = startNote + i;
                 if (!isBlackKey(note))
                 {
-                    // Check if next note is black key
                     if (i + 1 < keyCount && isBlackKey(note + 1))
                     {
+                        int bNote = note + 1;
                         float blackX = currentX + whiteKeyWidth - (blackKeyWidth * 0.5f);
-                        bool isDown = (activeKey == note + 1);
+                        bool isDown = (activeNotes.count(bNote) > 0 || activeKey == bNote);
                         juce::Rectangle<float> blackRect(blackX, 0.0f, blackKeyWidth, blackKeyHeight);
 
                         g.setColour(isDown ? juce::Colour(0xffd47a2a) : juce::Colour(0xff1b1c20));
@@ -73,6 +131,14 @@ namespace LadderMono
 
                         g.setColour(juce::Colour(0xff0d0e10));
                         g.drawRect(blackRect, 1.0f);
+
+                        auto keyLabel = getComputerKeyLabel(bNote);
+                        if (keyLabel.isNotEmpty())
+                        {
+                            g.setColour(isDown ? juce::Colour(0xffffffff) : juce::Colour(0xffa0a5b2));
+                            g.setFont(juce::FontOptions(9.0f, juce::Font::bold));
+                            g.drawText(keyLabel, blackRect.removeFromBottom(16.0f).toNearestInt(), juce::Justification::centred);
+                        }
                     }
                     currentX += whiteKeyWidth;
                 }
@@ -85,8 +151,8 @@ namespace LadderMono
             if (note >= 0)
             {
                 activeKey = note;
+                setNoteActive(note, true);
                 if (onNoteOn) onNoteOn(note, 0.85f);
-                repaint();
             }
         }
 
@@ -95,10 +161,14 @@ namespace LadderMono
             int note = getNoteAtPos(e.position);
             if (note >= 0 && note != activeKey)
             {
-                if (activeKey >= 0 && onNoteOff) onNoteOff(activeKey);
+                if (activeKey >= 0)
+                {
+                    setNoteActive(activeKey, false);
+                    if (onNoteOff) onNoteOff(activeKey);
+                }
                 activeKey = note;
+                setNoteActive(note, true);
                 if (onNoteOn) onNoteOn(note, 0.85f);
-                repaint();
             }
         }
 
@@ -106,9 +176,9 @@ namespace LadderMono
         {
             if (activeKey >= 0)
             {
+                setNoteActive(activeKey, false);
                 if (onNoteOff) onNoteOff(activeKey);
                 activeKey = -1;
-                repaint();
             }
         }
 
@@ -116,6 +186,8 @@ namespace LadderMono
         int startNote = 48;
         int keyCount = 37;
         int activeKey = -1;
+        int baseOctaveNote = 60; // C4
+        std::set<int> activeNotes;
 
         static bool isBlackKey(int midiNote) noexcept
         {

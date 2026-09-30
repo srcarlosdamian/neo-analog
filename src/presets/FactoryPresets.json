@@ -566,5 +566,115 @@
       "aAttack": 0.0, "aDecay": 4.0, "aSustain": 6.0,
       "arpOn": true, "arpMode": 2, "arpOctaves": 2, "arpRateSync": 3
     }
+  },
+  {
+    "name": "Clockwork Funeral Brass",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["funeral", "brass", "majestic", "analog"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 2, "osc2Fine": 0.05, "mixOsc2": 8.0, "mixOsc2On": true,
+      "osc3Range": 1, "osc3Wave": 3, "osc3Fine": -0.04, "mixOsc3": 6.0, "mixOsc3On": true,
+      "cutoff": -1.5, "emphasis": 2.5, "contourAmount": 5.5,
+      "fAttack": 2.5, "fDecay": 6.0, "fSustain": 6.5,
+      "aAttack": 1.5, "aDecay": 6.5, "aSustain": 10.0,
+      "analogAmount": 0.45
+    }
+  },
+  {
+    "name": "Timestep Formant Lead",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["formant", "nasal", "resonant", "timesteps"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 1, "osc2Fine": 0.06, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": -0.5, "emphasis": 7.0, "contourAmount": 4.5,
+      "fAttack": 4.0, "fDecay": 7.0, "fSustain": 3.0,
+      "aAttack": 0.5, "aDecay": 6.0, "aSustain": 9.0
+    }
+  },
+  {
+    "name": "Ninth Symphony Scherzo",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["baroque", "articulate", "counterpoint", "scherzo"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 3, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 4, "osc2Wave": 2, "osc2Fine": 0.04, "mixOsc2": 8.0, "mixOsc2On": true,
+      "cutoff": 0.0, "emphasis": 3.5, "contourAmount": 6.0,
+      "kbd1": true, "kbd2": true,
+      "fAttack": 0.1, "fDecay": 3.0, "fSustain": 1.0,
+      "aAttack": 0.0, "aDecay": 4.0, "aSustain": 8.0
+    }
+  },
+  {
+    "name": "Mechanical Magpie Flute",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["woodwind", "flute", "piccolo", "rossini"],
+    "params": {
+      "osc1Range": 4, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 5, "osc2Wave": 0, "osc2Fine": 0.03, "mixOsc2": 5.0, "mixOsc2On": true,
+      "cutoff": 1.0, "emphasis": 4.5, "contourAmount": 3.0,
+      "fAttack": 0.8, "fDecay": 4.5, "fSustain": 5.0,
+      "aAttack": 0.5, "aDecay": 4.5, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Clockwork Synth Timpani",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["percussion", "timpani", "thud", "dramatic"],
+    "params": {
+      "osc1Range": 1, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
+      "mixNoise": 3.0, "mixNoiseOn": true, "noiseColor": 1,
+      "cutoff": -3.5, "emphasis": 6.0, "contourAmount": 9.5,
+      "fAttack": 0.0, "fDecay": 2.2, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.5, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Baroque Electronic Harpsichord",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["harpsichord", "plucked", "bright", "switched-on"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 10.0, "mixOsc1On": true,
+      "osc2Range": 4, "osc2Wave": 5, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": 1.5, "emphasis": 3.0, "contourAmount": 6.5,
+      "fAttack": 0.0, "fDecay": 2.0, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 2.8, "aSustain": 0.0
+    }
+  },
+  {
+    "name": "Dystopian Choral Swell",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["choir", "swell", "atmospheric", "eerie"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 2, "mixOsc1": 8.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 3, "osc2Fine": 0.08, "mixOsc2": 8.0, "mixOsc2On": true,
+      "osc3Range": 3, "osc3Wave": 2, "osc3Fine": -0.08, "mixOsc3": 8.0, "mixOsc3On": true,
+      "cutoff": -2.0, "emphasis": 4.5, "contourAmount": 3.5,
+      "analogAmount": 0.65,
+      "fAttack": 5.0, "fDecay": 7.5, "fSustain": 7.0,
+      "aAttack": 4.5, "aDecay": 8.0, "aSustain": 10.0
+    }
+  },
+  {
+    "name": "Electric Baroque Organ",
+    "category": "1971 Electronic",
+    "author": "Factory",
+    "tags": ["organ", "reedy", "baroque", "classic"],
+    "params": {
+      "osc1Range": 2, "osc1Wave": 3, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 2, "mixOsc2": 9.0, "mixOsc2On": true,
+      "osc3Range": 4, "osc3Wave": 3, "mixOsc3": 7.0, "mixOsc3On": true,
+      "cutoff": -0.5, "emphasis": 1.5, "contourAmount": 2.0,
+      "fAttack": 0.2, "fDecay": 5.0, "fSustain": 10.0,
+      "aAttack": 0.1, "aDecay": 5.0, "aSustain": 10.0
+    }
   }
 ]
