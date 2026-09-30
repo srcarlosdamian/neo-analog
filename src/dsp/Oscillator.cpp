@@ -112,6 +112,8 @@ namespace LadderMono
                 float tDuty = t - duty;
                 if (tDuty < 0.0f) tDuty += 1.0f;
                 out -= polyBLEP(tDuty, dt);
+                // AC-couple: subtract DC offset of asymmetric pulse and normalize
+                out = (out - (2.0f * duty - 1.0f)) / (2.0f * duty);
                 break;
             }
             case Waveform::NarrowPulse:
@@ -123,6 +125,8 @@ namespace LadderMono
                 float tDuty = t - duty;
                 if (tDuty < 0.0f) tDuty += 1.0f;
                 out -= polyBLEP(tDuty, dt);
+                // AC-couple: subtract DC offset of asymmetric pulse and normalize
+                out = (out - (2.0f * duty - 1.0f)) / (2.0f * duty);
                 break;
             }
             case Waveform::Triangle:

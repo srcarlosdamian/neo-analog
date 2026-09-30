@@ -331,11 +331,13 @@ namespace LadderMono
     "author": "Factory",
     "tags": ["pluck", "keys", "percussive"],
     "params": {
-      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 10.0, "mixOsc1On": true,
-      "osc2Range": 3, "osc2Wave": 5, "mixOsc2": 6.0, "mixOsc2On": true,
-      "cutoff": -3.0, "emphasis": 2.0, "contourAmount": 6.0,
-      "fAttack": 0.1, "fDecay": 3.5, "fSustain": 0.0,
-      "aAttack": 0.0, "aDecay": 4.5, "aSustain": 0.0
+      "osc1Range": 3, "osc1Wave": 2, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 5, "osc2Fine": 0.04, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": -0.8, "emphasis": 2.5, "contourAmount": 5.5,
+      "kbd1": true, "kbd2": true,
+      "fAttack": 0.0, "fDecay": 2.8, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.2, "aSustain": 1.5,
+      "decaySwitchOn": true
     }
   },
   {
@@ -346,22 +348,59 @@ namespace LadderMono
     "params": {
       "osc1Range": 3, "osc1Wave": 0, "mixOsc1": 10.0, "mixOsc1On": true,
       "osc2Range": 5, "osc2Wave": 0, "mixOsc2": 4.0, "mixOsc2On": true,
-      "cutoff": -2.0, "emphasis": 1.0, "contourAmount": 5.0,
-      "fAttack": 0.1, "fDecay": 2.2, "fSustain": 0.0,
-      "aAttack": 0.0, "aDecay": 3.2, "aSustain": 0.0
+      "cutoff": -1.0, "emphasis": 1.5, "contourAmount": 5.0,
+      "kbd1": true, "kbd2": true,
+      "fAttack": 0.0, "fDecay": 2.2, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.2, "aSustain": 0.0,
+      "decaySwitchOn": true
     }
   },
   {
     "name": "Clav-ish Bass Keys",
     "category": "Keys",
     "author": "Factory",
-    "tags": ["clavinet", "funky", "bite"],
+    "tags": ["clavinet", "funky", "bite", "bass"],
     "params": {
-      "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 10.0, "mixOsc1On": true,
-      "osc2Range": 3, "osc2Wave": 3, "mixOsc2": 6.0, "mixOsc2On": true,
-      "cutoff": -4.0, "emphasis": 5.0, "contourAmount": 6.0,
-      "fAttack": 0.1, "fDecay": 2.0, "fSustain": 0.0,
-      "aAttack": 0.0, "aDecay": 3.0, "aSustain": 3.0
+      "osc1Range": 2, "osc1Wave": 5, "mixOsc1": 9.5, "mixOsc1On": true,
+      "osc2Range": 2, "osc2Wave": 4, "osc2Fine": 0.03, "mixOsc2": 7.5, "mixOsc2On": true,
+      "cutoff": -1.0, "emphasis": 3.8, "contourAmount": 6.0,
+      "kbd1": true, "kbd2": true,
+      "mixerDrive": 2.0,
+      "fAttack": 0.0, "fDecay": 2.5, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 4.0, "aSustain": 1.0,
+      "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Electric Clavinet D6",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["clavinet", "funky", "percussive", "bite"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 9.0, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 5, "osc2Fine": 0.04, "mixOsc2": 9.0, "mixOsc2On": true,
+      "cutoff": -0.8, "emphasis": 4.2, "contourAmount": 6.2,
+      "kbd1": true, "kbd2": true,
+      "mixerDrive": 1.5,
+      "fAttack": 0.0, "fDecay": 2.4, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.8, "aSustain": 0.0,
+      "decaySwitchOn": true
+    }
+  },
+  {
+    "name": "Well-Tempered Clavier",
+    "category": "Keys",
+    "author": "Factory",
+    "tags": ["clavier", "baroque", "articulate", "polyphonic"],
+    "params": {
+      "osc1Range": 3, "osc1Wave": 1, "mixOsc1": 8.5, "mixOsc1On": true,
+      "osc2Range": 3, "osc2Wave": 3, "osc2Fine": 0.03, "mixOsc2": 7.5, "mixOsc2On": true,
+      "osc3Range": 4, "osc3Wave": 5, "osc3Fine": -0.03, "mixOsc3": 5.5, "mixOsc3On": true,
+      "cutoff": 0.0, "emphasis": 2.2, "contourAmount": 4.8,
+      "kbd1": true, "kbd2": true,
+      "fAttack": 0.05, "fDecay": 3.2, "fSustain": 3.0,
+      "aAttack": 0.0, "aDecay": 4.5, "aSustain": 5.0,
+      "decaySwitchOn": true
     }
   },
   {
@@ -647,10 +686,12 @@ namespace LadderMono
     "tags": ["harpsichord", "plucked", "bright", "switched-on"],
     "params": {
       "osc1Range": 3, "osc1Wave": 5, "mixOsc1": 10.0, "mixOsc1On": true,
-      "osc2Range": 4, "osc2Wave": 5, "mixOsc2": 7.0, "mixOsc2On": true,
-      "cutoff": 1.5, "emphasis": 3.0, "contourAmount": 6.5,
-      "fAttack": 0.0, "fDecay": 2.0, "fSustain": 0.0,
-      "aAttack": 0.0, "aDecay": 2.8, "aSustain": 0.0
+      "osc2Range": 4, "osc2Wave": 5, "osc2Fine": 0.02, "mixOsc2": 7.0, "mixOsc2On": true,
+      "cutoff": 0.5, "emphasis": 3.2, "contourAmount": 5.8,
+      "kbd1": true, "kbd2": true,
+      "fAttack": 0.0, "fDecay": 2.2, "fSustain": 0.0,
+      "aAttack": 0.0, "aDecay": 3.0, "aSustain": 0.0,
+      "decaySwitchOn": true
     }
   },
   {
