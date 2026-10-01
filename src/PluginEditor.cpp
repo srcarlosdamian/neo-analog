@@ -71,11 +71,13 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
             [this](int result) {
                 if (result == 9999)
                 {
+                    releaseAllHeldComputerKeys();
                     if (presetBrowser != nullptr)
                         presetBrowser->showBrowser();
                 }
                 else if (result > 0)
                 {
+                    releaseAllHeldComputerKeys();
                     audioProcessor.getPresetManager().loadPreset(result - 1);
                     updatePresetDisplay();
                 }
@@ -87,6 +89,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     browseBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2f333c));
     browseBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
     browseBtn.onClick = [this]() {
+        releaseAllHeldComputerKeys();
         if (presetBrowser != nullptr)
             presetBrowser->showBrowser();
     };
@@ -95,6 +98,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     prevPresetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     prevPresetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
     prevPresetBtn.onClick = [this]() {
+        releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().loadPrevPreset();
         updatePresetDisplay();
     };
@@ -103,6 +107,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     nextPresetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     nextPresetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
     nextPresetBtn.onClick = [this]() {
+        releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().loadNextPreset();
         updatePresetDisplay();
     };
@@ -111,6 +116,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     initBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     initBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xff9ea3b0));
     initBtn.onClick = [this]() {
+        releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().initPatch();
         updatePresetDisplay();
     };
@@ -253,6 +259,9 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
 LadderMonoAudioProcessorEditor::~LadderMonoAudioProcessorEditor()
 {
+    sliderAttachments.clear();
+    comboAttachments.clear();
+    buttonAttachments.clear();
     setLookAndFeel(nullptr);
 }
 
@@ -305,7 +314,10 @@ bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 bool LadderMonoAudioProcessorEditor::keyStateChanged(bool isKeyDown)
 {
     if (presetBrowser != nullptr && presetBrowser->isVisible())
+    {
+        releaseAllHeldComputerKeys();
         return false;
+    }
 
     static const std::vector<std::pair<juce::KeyPress, int>> keyMap = {
         { juce::KeyPress('a'), 0 },
@@ -326,29 +338,49 @@ bool LadderMonoAudioProcessorEditor::keyStateChanged(bool isKeyDown)
         { juce::KeyPress('p'), 15 }
     };
 
-    bool handled = false;
     for (const auto& [kp, semitoneOffset] : keyMap)
     {
         int charCode = kp.getKeyCode();
         bool isPressed = juce::KeyPress::isKeyCurrentlyDown(charCode);
-        int noteNumber = baseOctaveNote + semitoneOffset;
 
-        if (isPressed && pressedCharKeys.find(charCode) == pressedCharKeys.end())
+        auto it = charCodeToPlayingNote.find(charCode);
+        if (isPressed && it == charCodeToPlayingNote.end())
         {
-            pressedCharKeys.insert(charCode);
+            int noteNumber = baseOctaveNote + semitoneOffset;
+            charCodeToPlayingNote[charCode] = noteNumber;
             audioProcessor.handleNoteOn(noteNumber, 0.85f);
             keyboard.setNoteActive(noteNumber, true);
-            handled = true;
         }
-        else if (!isPressed && pressedCharKeys.find(charCode) != pressedCharKeys.end())
+        else if (!isPressed && it != charCodeToPlayingNote.end())
         {
-            pressedCharKeys.erase(charCode);
-            audioProcessor.handleNoteOff(noteNumber);
-            keyboard.setNoteActive(noteNumber, false);
-            handled = true;
+            int playedNote = it->second;
+            charCodeToPlayingNote.erase(it);
+            audioProcessor.handleNoteOff(playedNote);
+            keyboard.setNoteActive(playedNote, false);
         }
     }
     return true;
+}
+
+void LadderMonoAudioProcessorEditor::focusLost(FocusChangeType)
+{
+    releaseAllHeldComputerKeys();
+}
+
+void LadderMonoAudioProcessorEditor::visibilityChanged()
+{
+    if (!isVisible())
+        releaseAllHeldComputerKeys();
+}
+
+void LadderMonoAudioProcessorEditor::releaseAllHeldComputerKeys()
+{
+    for (const auto& [charCode, noteNumber] : charCodeToPlayingNote)
+    {
+        audioProcessor.handleNoteOff(noteNumber);
+        keyboard.setNoteActive(noteNumber, false);
+    }
+    charCodeToPlayingNote.clear();
 }
 
 void LadderMonoAudioProcessorEditor::mouseDown(const juce::MouseEvent& e)

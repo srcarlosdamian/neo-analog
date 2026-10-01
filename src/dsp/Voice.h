@@ -101,6 +101,13 @@ namespace LadderMono
         bool isAudible() const noexcept { return ampEnv.isActive(); }
         bool isKeyHeld() const noexcept { return activeNote >= 0; }
         int getActiveNote() const noexcept { return activeNote; }
+        bool hasNote(int noteNumber) const noexcept
+        {
+            if (activeNote == noteNumber) return true;
+            for (const auto& e : noteStack)
+                if (e.note == noteNumber) return true;
+            return false;
+        }
 
     private:
         double sampleRate = 44100.0;

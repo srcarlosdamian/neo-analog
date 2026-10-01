@@ -138,15 +138,19 @@ void LadderMonoAudioProcessor::handleNoteOff(int noteNumber) noexcept
     if (arpEnabled || voiceMode == 0)
     {
         voices[0].noteOff(noteNumber);
+        for (size_t i = 1; i < voices.size(); ++i)
+        {
+            if (voices[i].hasNote(noteNumber) || voices[i].getActiveNote() == noteNumber)
+                voices[i].noteOff(noteNumber);
+        }
         return;
     }
 
-    size_t maxActive = (voiceMode == 1) ? 4 : 8;
-    for (size_t i = 0; i < maxActive; ++i)
+    for (size_t i = 0; i < voices.size(); ++i)
     {
-        if (voices[i].getActiveNote() == noteNumber)
+        if (voices[i].getActiveNote() == noteNumber || voices[i].hasNote(noteNumber))
         {
-            voices[i].allNotesOff();
+            voices[i].noteOff(noteNumber);
         }
     }
 }

@@ -14,6 +14,13 @@ public:
     void paint(juce::Graphics&) override;
     void resized() override;
 
+    bool keyPressed(const juce::KeyPress& key) override;
+    bool keyStateChanged(bool isKeyDown) override;
+    void focusLost(FocusChangeType) override;
+    void visibilityChanged() override;
+    void releaseAllHeldComputerKeys();
+    void mouseDown(const juce::MouseEvent& e) override;
+
 private:
     LadderMonoAudioProcessor& audioProcessor;
     LadderMono::MinimalistLookAndFeel lnf;
@@ -83,11 +90,7 @@ private:
 
     // Computer Keyboard musical typing state
     int baseOctaveNote = 60; // C4 default
-    std::set<int> pressedCharKeys;
-
-    bool keyPressed(const juce::KeyPress& key) override;
-    bool keyStateChanged(bool isKeyDown) override;
-    void mouseDown(const juce::MouseEvent& e) override;
+    std::map<int, int> charCodeToPlayingNote;
 
     void setupKnob(Knobby& k, const juce::String& paramId, const juce::String& labelText, bool isBipolar = false);
     void setupComboBox(juce::ComboBox& box, const juce::String& paramId, const juce::StringArray& items);

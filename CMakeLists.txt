@@ -208,5 +208,29 @@ target_link_libraries(OfflineRenderer PRIVATE
     juce::juce_recommended_config_flags
 )
 
+add_executable(TestKeyHandling
+    tests/TestKeyHandling.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(TestKeyHandling PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(TestKeyHandling PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
 enable_testing()
 add_test(NAME AllTests COMMAND LadderMonoTests)
+add_test(NAME KeyHandlingTest COMMAND TestKeyHandling)

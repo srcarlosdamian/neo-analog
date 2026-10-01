@@ -200,20 +200,34 @@ namespace LadderMono
         void mouseDrag(const juce::MouseEvent& e) override
         {
             int note = getNoteAtPos(e.position);
-            if (note >= 0 && note != activeKey)
+            if (note != activeKey)
             {
                 if (activeKey >= 0)
                 {
                     setNoteActive(activeKey, false);
                     if (onNoteOff) onNoteOff(activeKey);
+                    activeKey = -1;
                 }
-                activeKey = note;
-                setNoteActive(note, true);
-                if (onNoteOn) onNoteOn(note, 0.85f);
+                if (note >= 0)
+                {
+                    activeKey = note;
+                    setNoteActive(note, true);
+                    if (onNoteOn) onNoteOn(note, 0.85f);
+                }
             }
         }
 
         void mouseUp(const juce::MouseEvent&) override
+        {
+            if (activeKey >= 0)
+            {
+                setNoteActive(activeKey, false);
+                if (onNoteOff) onNoteOff(activeKey);
+                activeKey = -1;
+            }
+        }
+
+        void mouseExit(const juce::MouseEvent&) override
         {
             if (activeKey >= 0)
             {

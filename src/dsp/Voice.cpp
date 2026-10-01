@@ -120,11 +120,19 @@ namespace LadderMono
             return;
         }
 
-        auto it = std::find_if(noteStack.begin(), noteStack.end(), [noteNumber](const NoteEntry& e) { return e.note == noteNumber; });
-        if (it != noteStack.end())
+        auto origCount = noteStack.size();
+        noteStack.erase(std::remove_if(noteStack.begin(), noteStack.end(),
+            [noteNumber](const NoteEntry& e) { return e.note == noteNumber; }), noteStack.end());
+
+        if (noteStack.size() != origCount)
         {
-            noteStack.erase(it);
             updateActiveNote(true);
+        }
+        else if (activeNote == noteNumber)
+        {
+            activeNote = -1;
+            filterEnv.startRelease(decaySwitch);
+            ampEnv.startRelease(decaySwitch);
         }
     }
 
