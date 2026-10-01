@@ -19,6 +19,7 @@ namespace LadderMono
                 Preset p;
                 p.name = item.getProperty("name", "Unnamed").toString();
                 p.category = item.getProperty("category", "General").toString();
+                p.soundType = item.getProperty("type", "Lead").toString();
                 p.author = item.getProperty("author", "Factory").toString();
 
                 if (auto* tagsArr = item.getProperty("tags", juce::var()).getArray())
@@ -48,7 +49,7 @@ namespace LadderMono
     juce::String PresetManager::getCurrentPresetName() const noexcept
     {
         if (currentPresetIndex >= 0 && currentPresetIndex < static_cast<int>(presets.size()))
-            return presets[currentPresetIndex].name;
+            return presets[static_cast<size_t>(currentPresetIndex)].name;
         return "Custom";
     }
 
@@ -57,7 +58,7 @@ namespace LadderMono
         if (index >= 0 && index < static_cast<int>(presets.size()))
         {
             currentPresetIndex = index;
-            applyPreset(presets[index]);
+            applyPreset(presets[static_cast<size_t>(index)]);
         }
     }
 

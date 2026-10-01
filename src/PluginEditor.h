@@ -3,6 +3,7 @@
 #include "PluginProcessor.h"
 #include "ui/MinimalistLookAndFeel.h"
 #include "ui/VirtualKeyboard.h"
+#include "ui/PresetBrowser.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor
 {
@@ -20,9 +21,12 @@ private:
     // Preset Controls
     juce::Label titleLabel;
     juce::TextButton presetButton;
+    juce::TextButton browseBtn{"Browse"};
     juce::TextButton prevPresetBtn{"<"};
     juce::TextButton nextPresetBtn{">"};
     juce::TextButton initBtn{"Init"};
+
+    std::unique_ptr<LadderMono::PresetBrowserOverlay> presetBrowser;
 
     // Helpers to create sliders and combos with APVTS attachments
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> sliderAttachments;

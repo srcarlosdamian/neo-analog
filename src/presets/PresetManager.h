@@ -7,7 +7,8 @@ namespace LadderMono
     struct Preset
     {
         juce::String name;
-        juce::String category;
+        juce::String category;  // Collection / Bank / Pack (e.g. "Basics", "French Touch", etc.)
+        juce::String soundType; // Primary Instrument Type (e.g. "Bass", "Lead", "Keys", etc.)
         juce::String author;
         std::vector<juce::String> tags;
         std::map<juce::String, float> params;

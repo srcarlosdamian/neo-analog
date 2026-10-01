@@ -18,7 +18,11 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe8eaee));
     presetButton.onClick = [this]() {
         juce::PopupMenu menu;
-        // Group presets by category
+
+        menu.addItem(9999, "★ Open Preset Browser...", true, false);
+        menu.addSeparator();
+
+        // Group presets by category with Basics first
         std::map<juce::String, std::vector<std::pair<int, juce::String>>> categorized;
         const auto& presets = audioProcessor.getPresetManager().getPresets();
         for (size_t i = 0; i < presets.size(); ++i)
@@ -26,8 +30,23 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
             categorized[presets[i].category].emplace_back(static_cast<int>(i + 1), presets[i].name);
         }
 
+        // 1. Basics first
+        if (categorized.find("Basics") != categorized.end())
+        {
+            juce::PopupMenu basicsMenu;
+            for (const auto& [id, name] : categorized["Basics"])
+            {
+                bool isCurrent = (id - 1 == audioProcessor.getPresetManager().getCurrentPresetIndex());
+                basicsMenu.addItem(id, name, true, isCurrent);
+            }
+            menu.addSubMenu("★ Basics (Sonidos Básicos)", basicsMenu);
+            menu.addSeparator();
+        }
+
+        // 2. Thematic packs
         for (const auto& [cat, list] : categorized)
         {
+            if (cat == "Basics" || cat == "Init") continue;
             juce::PopupMenu subMenu;
             for (const auto& [id, name] : list)
             {
@@ -37,9 +56,25 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
             menu.addSubMenu(cat, subMenu);
         }
 
+        // 3. Init Patch
+        if (categorized.find("Init") != categorized.end())
+        {
+            menu.addSeparator();
+            for (const auto& [id, name] : categorized["Init"])
+            {
+                bool isCurrent = (id - 1 == audioProcessor.getPresetManager().getCurrentPresetIndex());
+                menu.addItem(id, name, true, isCurrent);
+            }
+        }
+
         menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&presetButton),
             [this](int result) {
-                if (result > 0)
+                if (result == 9999)
+                {
+                    if (presetBrowser != nullptr)
+                        presetBrowser->showBrowser();
+                }
+                else if (result > 0)
                 {
                     audioProcessor.getPresetManager().loadPreset(result - 1);
                     updatePresetDisplay();
@@ -47,6 +82,15 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
             });
     };
     addAndMakeVisible(presetButton);
+
+    browseBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff22252c));
+    browseBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2f333c));
+    browseBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
+    browseBtn.onClick = [this]() {
+        if (presetBrowser != nullptr)
+            presetBrowser->showBrowser();
+    };
+    addAndMakeVisible(browseBtn);
 
     prevPresetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     prevPresetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
@@ -195,6 +239,12 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     addAndMakeVisible(keyboardHintLabel);
     updateKeyboardHint();
 
+    presetBrowser = std::make_unique<LadderMono::PresetBrowserOverlay>(
+        audioProcessor.getPresetManager(),
+        [this] { updatePresetDisplay(); }
+    );
+    addChildComponent(*presetBrowser);
+
     updatePresetDisplay();
 
     setWantsKeyboardFocus(true);
@@ -215,6 +265,16 @@ void LadderMonoAudioProcessorEditor::updateKeyboardHint()
 
 bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 {
+    if (presetBrowser != nullptr && presetBrowser->isVisible())
+    {
+        if (key == juce::KeyPress::escapeKey)
+        {
+            presetBrowser->setVisible(false);
+            return true;
+        }
+        return presetBrowser->keyPressed(key);
+    }
+
     auto text = key.getTextDescription();
     if (text.equalsIgnoreCase("Z"))
     {
@@ -244,6 +304,9 @@ bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 
 bool LadderMonoAudioProcessorEditor::keyStateChanged(bool isKeyDown)
 {
+    if (presetBrowser != nullptr && presetBrowser->isVisible())
+        return false;
+
     static const std::vector<std::pair<juce::KeyPress, int>> keyMap = {
         { juce::KeyPress('a'), 0 },
         { juce::KeyPress('w'), 1 },
@@ -335,6 +398,8 @@ void LadderMonoAudioProcessorEditor::setupToggle(juce::ToggleButton& btn, const 
 void LadderMonoAudioProcessorEditor::updatePresetDisplay()
 {
     presetButton.setButtonText(audioProcessor.getPresetManager().getCurrentPresetName() + "  ▾");
+    if (presetBrowser != nullptr)
+        presetBrowser->updateFilteredList();
 }
 
 // ====================================================================
@@ -582,10 +647,11 @@ void LadderMonoAudioProcessorEditor::resized()
 {
     // Top Bar (y: 0..42)
     titleLabel.setBounds(62, 8, 200, 26);
-    presetButton.setBounds(getWidth() - 480, 8, 220, 26);
-    prevPresetBtn.setBounds(getWidth() - 250, 8, 34, 26);
-    nextPresetBtn.setBounds(getWidth() - 212, 8, 34, 26);
-    initBtn.setBounds(getWidth() - 172, 8, 55, 26);
+    presetButton.setBounds(getWidth() - 505, 8, 215, 26);
+    browseBtn.setBounds(getWidth() - 285, 8, 65, 26);
+    prevPresetBtn.setBounds(getWidth() - 215, 8, 30, 26);
+    nextPresetBtn.setBounds(getWidth() - 180, 8, 30, 26);
+    initBtn.setBounds(getWidth() - 145, 8, 48, 26);
 
     // Section 1: Controllers (x: 24..164, y: 46..434)
     tuneKnob.slider.setBounds(30, 78, 60, 60);
@@ -702,4 +768,7 @@ void LadderMonoAudioProcessorEditor::resized()
     pitchWheel.setBounds(28, 492, 44, 160);
     modWheel.setBounds(78, 492, 44, 160);
     keyboard.setBounds(136, 482, getWidth() - 156, 190);
+
+    if (presetBrowser != nullptr)
+        presetBrowser->setBounds(getLocalBounds());
 }
