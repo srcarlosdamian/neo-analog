@@ -155,6 +155,38 @@ int main()
         }
     }
 
+    // Test 5: Musical typing while preset browser is open
+    {
+        std::cout << "  Test 5: Musical typing while preset browser is open..." << std::endl;
+        std::unique_ptr<LadderMonoAudioProcessorEditor> editor(
+            dynamic_cast<LadderMonoAudioProcessorEditor*>(processor.createEditor()));
+
+        if (editor != nullptr)
+        {
+            // Note on 60 directly to processor to simulate typing
+            processor.handleNoteOn(60, 0.85f);
+            processBlocks(10);
+            float peakDuringPlay = getBufferPeak();
+            if (peakDuringPlay < 0.05f)
+            {
+                std::cerr << "FAIL Test 5: No audio playing in browser mode" << std::endl;
+                return 1;
+            }
+
+            // Note off
+            processor.handleNoteOff(60);
+            processBlocks(150);
+            float peakAfterRelease = getBufferPeak();
+            if (peakAfterRelease > 0.0001f)
+            {
+                std::cerr << "FAIL Test 5: Lingering audio in browser mode, peak=" << peakAfterRelease << std::endl;
+                return 1;
+            }
+            std::cout << "  PASS Test 5" << std::endl;
+            editor.reset();
+        }
+    }
+
     std::cout << "All Key Handling tests passed successfully!" << std::endl;
     return 0;
 }

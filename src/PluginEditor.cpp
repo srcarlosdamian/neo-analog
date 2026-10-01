@@ -276,12 +276,39 @@ bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 {
     if (presetBrowser != nullptr && presetBrowser->isVisible())
     {
+        if (presetBrowser->isSearchFocused())
+        {
+            if (key == juce::KeyPress::escapeKey)
+            {
+                presetBrowser->clearSearchFocus();
+                return true;
+            }
+            if (key == juce::KeyPress::returnKey)
+            {
+                presetBrowser->clearSearchFocus();
+                return true;
+            }
+            return presetBrowser->keyPressed(key);
+        }
+
+        // Preset browser is open, but search bar is NOT focused:
         if (key == juce::KeyPress::escapeKey)
         {
             presetBrowser->setVisible(false);
             return true;
         }
-        return presetBrowser->keyPressed(key);
+
+        if (key == juce::KeyPress::upKey)
+        {
+            presetBrowser->selectPrevPreset();
+            return true;
+        }
+
+        if (key == juce::KeyPress::downKey)
+        {
+            presetBrowser->selectNextPreset();
+            return true;
+        }
     }
 
     auto text = key.getTextDescription();
@@ -315,8 +342,11 @@ bool LadderMonoAudioProcessorEditor::keyStateChanged(bool isKeyDown)
 {
     if (presetBrowser != nullptr && presetBrowser->isVisible())
     {
-        releaseAllHeldComputerKeys();
-        return false;
+        if (presetBrowser->isSearchFocused())
+        {
+            releaseAllHeldComputerKeys();
+            return false;
+        }
     }
 
     static const std::vector<std::pair<juce::KeyPress, int>> keyMap = {

@@ -20,8 +20,19 @@ namespace LadderMono
             searchEditor.setColour(juce::TextEditor::focusedOutlineColourId, juce::Colour(0xffe08b3c));
             searchEditor.setFont(juce::FontOptions(13.5f));
             searchEditor.onTextChange = [this] { updateFilteredList(); };
-            searchEditor.onEscapeKey = [this] { setVisible(false); };
-            searchEditor.onReturnKey = [this] { setVisible(false); };
+            searchEditor.onEscapeKey = [this] {
+                if (searchEditor.getText().isNotEmpty())
+                    searchEditor.setText("", juce::sendNotificationSync);
+                clearSearchFocus();
+            };
+            searchEditor.onReturnKey = [this] {
+                if (!filteredIndices.empty())
+                {
+                    listBox.selectRow(0);
+                    listBox.scrollToEnsureRowIsOnscreen(0);
+                }
+                clearSearchFocus();
+            };
             addAndMakeVisible(searchEditor);
 
             // Close button
@@ -56,6 +67,7 @@ namespace LadderMono
                 btn->onClick = [this, i] {
                     selectedTypeFilter = typeButtons[i].second;
                     updateFilteredList();
+                    clearSearchFocus();
                 };
                 addAndMakeVisible(*btn);
                 typeFilterBtns.push_back(std::move(btn));
@@ -87,6 +99,7 @@ namespace LadderMono
                 else if (id == 2) selectedCollectionFilter = "Basics";
                 else selectedCollectionFilter = collectionBox.getText();
                 updateFilteredList();
+                clearSearchFocus();
             };
             addAndMakeVisible(collectionBox);
 
@@ -100,12 +113,65 @@ namespace LadderMono
             updateFilteredList();
         }
 
+        bool isSearchFocused() const
+        {
+            return searchEditor.hasKeyboardFocus(true);
+        }
+
+        void clearSearchFocus()
+        {
+            searchEditor.giveAwayKeyboardFocus();
+            listBox.grabKeyboardFocus();
+        }
+
+        void selectNextPreset()
+        {
+            if (filteredIndices.empty()) return;
+            int cur = listBox.getSelectedRow();
+            if (cur < 0) cur = 0;
+            else if (cur + 1 < static_cast<int>(filteredIndices.size())) cur++;
+            listBox.selectRow(cur);
+            listBox.scrollToEnsureRowIsOnscreen(cur);
+        }
+
+        void selectPrevPreset()
+        {
+            if (filteredIndices.empty()) return;
+            int cur = listBox.getSelectedRow();
+            if (cur <= 0) cur = 0;
+            else cur--;
+            listBox.selectRow(cur);
+            listBox.scrollToEnsureRowIsOnscreen(cur);
+        }
+
         void showBrowser()
         {
             setVisible(true);
             toFront(true);
             updateFilteredList();
-            searchEditor.grabKeyboardFocus();
+
+            int currentPresetIdx = presetManager.getCurrentPresetIndex();
+            int rowToSelect = -1;
+            for (size_t i = 0; i < filteredIndices.size(); ++i)
+            {
+                if (filteredIndices[i] == currentPresetIdx)
+                {
+                    rowToSelect = static_cast<int>(i);
+                    break;
+                }
+            }
+            if (rowToSelect >= 0)
+            {
+                listBox.selectRow(rowToSelect);
+                listBox.scrollToEnsureRowIsOnscreen(rowToSelect);
+            }
+            else if (!filteredIndices.empty())
+            {
+                listBox.selectRow(0);
+                listBox.scrollToEnsureRowIsOnscreen(0);
+            }
+
+            clearSearchFocus();
         }
 
         void updateFilteredList()
@@ -233,6 +299,7 @@ namespace LadderMono
                 if (onPresetChanged)
                     onPresetChanged();
                 listBox.repaint();
+                clearSearchFocus();
             }
         }
 
@@ -266,6 +333,10 @@ namespace LadderMono
             if (!cardArea.contains(e.getPosition()))
             {
                 setVisible(false);
+            }
+            else
+            {
+                clearSearchFocus();
             }
         }
 
