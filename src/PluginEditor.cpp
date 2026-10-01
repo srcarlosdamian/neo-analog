@@ -13,6 +13,27 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     titleLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
     addAndMakeVisible(titleLabel);
 
+    versionBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1a261c));
+    versionBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff233526));
+    versionBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xff48c764));
+    versionBtn.setTooltip("Neo Analog v1.0 \xe2\x80\x94 Click for Credits & Roadmap");
+    versionBtn.onClick = [this] { showAboutDialog(); };
+    addAndMakeVisible(versionBtn);
+
+    aboutBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
+    aboutBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
+    aboutBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffa8adb8));
+    aboutBtn.onClick = [this] { showAboutDialog(); };
+    addAndMakeVisible(aboutBtn);
+
+    footerCreditsBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0x00000000));
+    footerCreditsBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0x00000000));
+    footerCreditsBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffc89240));
+    footerCreditsBtn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xfff5a642));
+    footerCreditsBtn.setTooltip("Designed by Carlos Dami\xc3\xa1n \xc2\xb7 Neo \xe2\x80\x94 Click for info & portfolio");
+    footerCreditsBtn.onClick = [this] { showAboutDialog(); };
+    addAndMakeVisible(footerCreditsBtn);
+
     presetButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     presetButton.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
     presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe8eaee));
@@ -251,6 +272,11 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     );
     addChildComponent(*presetBrowser);
 
+    aboutDialog = std::make_unique<LadderMono::AboutDialogOverlay>([this] {
+        grabKeyboardFocus();
+    });
+    addChildComponent(*aboutDialog);
+
     updatePresetDisplay();
 
     setWantsKeyboardFocus(true);
@@ -265,6 +291,15 @@ LadderMonoAudioProcessorEditor::~LadderMonoAudioProcessorEditor()
     setLookAndFeel(nullptr);
 }
 
+void LadderMonoAudioProcessorEditor::showAboutDialog()
+{
+    releaseAllHeldComputerKeys();
+    if (presetBrowser != nullptr)
+        presetBrowser->setVisible(false);
+    if (aboutDialog != nullptr)
+        aboutDialog->showDialog();
+}
+
 void LadderMonoAudioProcessorEditor::updateKeyboardHint()
 {
     int octNum = (baseOctaveNote / 12) - 1;
@@ -274,6 +309,16 @@ void LadderMonoAudioProcessorEditor::updateKeyboardHint()
 
 bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 {
+    if (aboutDialog != nullptr && aboutDialog->isVisible())
+    {
+        if (key == juce::KeyPress::escapeKey)
+        {
+            aboutDialog->setVisible(false);
+            return true;
+        }
+        return aboutDialog->keyPressed(key);
+    }
+
     if (presetBrowser != nullptr && presetBrowser->isVisible())
     {
         if (presetBrowser->isSearchFocused())
@@ -340,6 +385,12 @@ bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
 
 bool LadderMonoAudioProcessorEditor::keyStateChanged(bool isKeyDown)
 {
+    if (aboutDialog != nullptr && aboutDialog->isVisible())
+    {
+        releaseAllHeldComputerKeys();
+        return false;
+    }
+
     if (presetBrowser != nullptr && presetBrowser->isVisible())
     {
         if (presetBrowser->isSearchFocused())
@@ -708,12 +759,15 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
 void LadderMonoAudioProcessorEditor::resized()
 {
     // Top Bar (y: 0..42)
-    titleLabel.setBounds(62, 8, 200, 26);
-    presetButton.setBounds(getWidth() - 505, 8, 215, 26);
-    browseBtn.setBounds(getWidth() - 285, 8, 65, 26);
-    prevPresetBtn.setBounds(getWidth() - 215, 8, 30, 26);
-    nextPresetBtn.setBounds(getWidth() - 180, 8, 30, 26);
-    initBtn.setBounds(getWidth() - 145, 8, 48, 26);
+    titleLabel.setBounds(62, 8, 140, 26);
+    versionBtn.setBounds(206, 9, 44, 24);
+
+    presetButton.setBounds(getWidth() - 565, 8, 200, 26);
+    browseBtn.setBounds(getWidth() - 360, 8, 62, 26);
+    prevPresetBtn.setBounds(getWidth() - 293, 8, 28, 26);
+    nextPresetBtn.setBounds(getWidth() - 261, 8, 28, 26);
+    initBtn.setBounds(getWidth() - 229, 8, 44, 26);
+    aboutBtn.setBounds(getWidth() - 180, 8, 56, 26);
 
     // Section 1: Controllers (x: 24..164, y: 46..434)
     tuneKnob.slider.setBounds(30, 78, 60, 60);
@@ -824,7 +878,8 @@ void LadderMonoAudioProcessorEditor::resized()
     voicesBox.setBounds(1000, 275, 85, 24);
 
     // Middle Separation Wood Bar (y: 440..482)
-    keyboardHintLabel.setBounds(140, 448, 680, 26);
+    keyboardHintLabel.setBounds(140, 448, 480, 26);
+    footerCreditsBtn.setBounds(625, 449, 295, 24);
 
     // Lower Performance Section (y: 482..672)
     pitchWheel.setBounds(28, 492, 44, 160);
@@ -833,4 +888,6 @@ void LadderMonoAudioProcessorEditor::resized()
 
     if (presetBrowser != nullptr)
         presetBrowser->setBounds(getLocalBounds());
+    if (aboutDialog != nullptr)
+        aboutDialog->setBounds(getLocalBounds());
 }

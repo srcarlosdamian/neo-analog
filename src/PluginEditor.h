@@ -4,6 +4,7 @@
 #include "ui/MinimalistLookAndFeel.h"
 #include "ui/VirtualKeyboard.h"
 #include "ui/PresetBrowser.h"
+#include "ui/AboutDialog.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor
 {
@@ -21,19 +22,25 @@ public:
     void releaseAllHeldComputerKeys();
     void mouseDown(const juce::MouseEvent& e) override;
 
+    void showAboutDialog();
+
 private:
     LadderMonoAudioProcessor& audioProcessor;
     LadderMono::MinimalistLookAndFeel lnf;
 
-    // Preset Controls
+    // Preset & Header Controls
     juce::Label titleLabel;
+    juce::TextButton versionBtn{"v1.0"};
     juce::TextButton presetButton;
     juce::TextButton browseBtn{"Browse"};
     juce::TextButton prevPresetBtn{"<"};
     juce::TextButton nextPresetBtn{">"};
     juce::TextButton initBtn{"Init"};
+    juce::TextButton aboutBtn{"Credits"};
+    juce::TextButton footerCreditsBtn{juce::CharPointer_UTF8("Designed by Carlosdamian.com \xe2\x80\xa2 Neo")};
 
     std::unique_ptr<LadderMono::PresetBrowserOverlay> presetBrowser;
+    std::unique_ptr<LadderMono::AboutDialogOverlay> aboutDialog;
 
     // Helpers to create sliders and combos with APVTS attachments
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> sliderAttachments;
