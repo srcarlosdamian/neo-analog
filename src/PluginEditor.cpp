@@ -28,7 +28,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe8eaee));
     presetButton.onClick = [this]() {
         juce::PopupMenu menu;
-        menu.addItem(9999, juce::CharPointer_UTF8("\xe2\x98\x85 Open Preset Browser..."), true, false);
+        menu.addItem(9999, "Open Preset Browser...", true, false);
         menu.addSeparator();
 
         std::map<juce::String, std::vector<std::pair<int, juce::String>>> categorized;
@@ -38,21 +38,9 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
             categorized[presets[i].category].emplace_back(static_cast<int>(i + 1), presets[i].name);
         }
 
-        if (categorized.find("Basics") != categorized.end())
-        {
-            juce::PopupMenu basicsMenu;
-            for (const auto& [id, name] : categorized["Basics"])
-            {
-                bool isCurrent = (id - 1 == audioProcessor.getPresetManager().getCurrentPresetIndex());
-                basicsMenu.addItem(id, name, true, isCurrent);
-            }
-            menu.addSubMenu(juce::CharPointer_UTF8("\xe2\x98\x85 Basics (Essential)"), basicsMenu);
-            menu.addSeparator();
-        }
-
         for (const auto& [cat, list] : categorized)
         {
-            if (cat == "Basics" || cat == "Init") continue;
+            if (cat == "Init") continue;
             juce::PopupMenu subMenu;
             for (const auto& [id, name] : list)
             {
