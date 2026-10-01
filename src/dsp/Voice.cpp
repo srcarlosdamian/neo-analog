@@ -311,11 +311,19 @@ namespace LadderMono
 
         float modulatedCutoffHz = baseCutoffHz * std::exp2f(cutoffOctaves);
 
+        // Filter cutoff floor:
+        // Clamped at 15 Hz absolute minimum so the cutoff knob can still fully close to -5.0
+        // (attenuating mid/high notes by >35 dB as tested in TestAudit), while preventing
+        // numerical divergence or unmusical DC collapse.
+        float minAudibleCutoff = 15.0f;
+        modulatedCutoffHz = std::max(modulatedCutoffHz, minAudibleCutoff);
+
         // Process Ladder Filter
         float filterOut = filter.processSample(saturatedMixer, modulatedCutoffHz, emphasis, 1.0f, bassComp);
 
         // 9. VCA & Amp Envelope (calibrated analog stage with clean headroom)
-        float output = (filterOut * aEnvLevel) * 1.25f;
+        // Solid low-end output gain ensuring bass presets hit with full commercial power and punch
+        float output = (filterOut * aEnvLevel) * 1.40f;
 
         // Gentle voice headroom limiter (cushions extreme peaks above 1.0)
         output = Saturation::processVoiceClip(output);

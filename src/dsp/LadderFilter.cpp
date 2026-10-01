@@ -21,10 +21,10 @@ namespace LadderMono
         // G is the integrator gain g / (1 + g)
         float G = g / (1.0f + g);
 
-        // Bass compensation gain factor on input
-        float inputGain = 1.0f + (k * 0.95f * bassComp);
-        float drivenInput = input * drive * inputGain;
+        // Input drive
+        float drivenInput = input * drive;
 
+        float u_out = 0.0f;
         if (model == FilterModel::CleanZDF)
         {
             // Analytical Linear ZDF solution
@@ -44,7 +44,7 @@ namespace LadderMono
                 s[i] = y + v;
                 u = y;
             }
-            return u;
+            u_out = u;
         }
         else // SaturatedZDF (default) & Huovilainen
         {
@@ -74,8 +74,14 @@ namespace LadderMono
                 else
                     u = y;
             }
-            return u;
+            u_out = u;
         }
+
+        // Active low-frequency passband recovery:
+        // Physical ladder filters naturally lose passband gain by 1 / (1 + k) as resonance increases.
+        // This compensation ensures that turning up Emphasis / Resonance NEVER robs the synth of bass punch.
+        float passbandGain = 1.0f + (k * (0.35f + 0.65f * bassComp));
+        return u_out * passbandGain;
     }
 
     float LadderFilter::processSample(float input, float cutoffHz, float resonance, float drive, float bassCompensation) noexcept
