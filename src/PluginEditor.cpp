@@ -163,15 +163,6 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     aboutBtn.onClick = [this] { showAboutDialog(); };
     addAndMakeVisible(aboutBtn);
 
-    // Footer Credits Button
-    footerCreditsBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0x00000000));
-    footerCreditsBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0x00000000));
-    footerCreditsBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffc89240));
-    footerCreditsBtn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xfff5a642));
-    footerCreditsBtn.setTooltip("Designed by Carlos Dami\xc3\xa1n \xc2\xb7 Neo \xe2\x80\x94 Click for info & portfolio");
-    footerCreditsBtn.onClick = [this] { showAboutDialog(); };
-    addAndMakeVisible(footerCreditsBtn);
-
     // ====================================================================
     // Section 1: CONTROLLERS
     // ====================================================================
@@ -1133,8 +1124,7 @@ void LadderMonoAudioProcessorEditor::resized()
     arpGateKnob.slider.setBounds(576, 441, 38, 38);
     arpGateKnob.label.setBounds(616, 452, 38, 16);
 
-    keyboardHintLabel.setBounds(660, 448, 240, 24);
-    footerCreditsBtn.setBounds(getWidth() - 215, 448, 205, 24);
+    keyboardHintLabel.setBounds(660, 448, getWidth() - 670, 24);
 
     // ====================================================================
     // Lower Performance Section (y: 482..672)

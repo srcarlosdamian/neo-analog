@@ -45,7 +45,6 @@ private:
     juce::TextButton hqBtn{"HQ"};
     juce::Label cpuLabel;
     juce::TextButton aboutBtn{"Credits"};
-    juce::TextButton footerCreditsBtn{juce::CharPointer_UTF8("Designed by Carlosdamian.com \xe2\x80\xa2 Neo")};
 
     // A/B Comparison States
     juce::ValueTree stateA;
