@@ -1411,6 +1411,66 @@
     "type": "FX"
   },
   {
+    "name": "Pure Pink Noise",
+    "category": "Basics",
+    "author": "Factory",
+    "tags": [
+      "noise",
+      "pink",
+      "analog",
+      "warm",
+      "fx"
+    ],
+    "params": {
+      "mixOsc1On": false,
+      "mixOsc2On": false,
+      "mixOsc3On": false,
+      "mixNoise": 10.0,
+      "mixNoiseOn": true,
+      "noiseColor": 1,
+      "cutoff": 3.0,
+      "emphasis": 1.5,
+      "contourAmount": 0.0,
+      "kbd1": false,
+      "kbd2": false,
+      "aAttack": 0.01,
+      "aDecay": 1.5,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
+    },
+    "type": "FX"
+  },
+  {
+    "name": "Pure White Noise",
+    "category": "Basics",
+    "author": "Factory",
+    "tags": [
+      "noise",
+      "white",
+      "analog",
+      "bright",
+      "fx"
+    ],
+    "params": {
+      "mixOsc1On": false,
+      "mixOsc2On": false,
+      "mixOsc3On": false,
+      "mixNoise": 10.0,
+      "mixNoiseOn": true,
+      "noiseColor": 0,
+      "cutoff": 4.0,
+      "emphasis": 1.0,
+      "contourAmount": 0.0,
+      "kbd1": false,
+      "kbd2": false,
+      "aAttack": 0.01,
+      "aDecay": 1.5,
+      "aSustain": 10.0,
+      "decaySwitchOn": false
+    },
+    "type": "FX"
+  },
+  {
     "name": "Aggressive Street Bass",
     "category": "Pop & Funk 1982",
     "author": "Factory",

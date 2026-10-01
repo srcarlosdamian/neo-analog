@@ -181,7 +181,7 @@ namespace LadderMono
                            juce::Justification::centredLeft);
 
                 static const char* v1Features[] = {
-                    "\xe2\x9c\x93  200 factory presets in 13 curated sound collections (Basics, Hip-Hop, Pop/Funk, Cinema)",
+                    "\xe2\x9c\x93  202 factory presets in 13 curated sound collections (Basics, Hip-Hop, Pop/Funk, Cinema)",
                     "\xe2\x9c\x93  Discrete 4-pole 24 dB/oct Ladder filter with saturation, resonance, and self-oscillation",
                     "\xe2\x9c\x93  3 vintage multi-wave oscillators with fine detune, noise generator, and overdrive feedback",
                     "\xe2\x9c\x93  Monophonic, 4-voice, and 8-voice polyphony modes with vintage analog voice drift",

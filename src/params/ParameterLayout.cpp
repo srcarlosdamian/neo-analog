@@ -171,7 +171,7 @@ namespace LadderMono
 
         params.push_back(std::make_unique<juce::AudioParameterChoice>(
             juce::ParameterID{ParamIDs::voices, 1}, "Voices",
-            juce::StringArray{"Mono", "4 Voices", "8 Voices"}, 2));
+            juce::StringArray{"Mono", "4 Voices", "8 Voices"}, 0));
 
         // Arpeggiator
         params.push_back(std::make_unique<juce::AudioParameterBool>(

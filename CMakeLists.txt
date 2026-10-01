@@ -184,6 +184,29 @@ target_link_libraries(TestMarimba PRIVATE
     juce::juce_recommended_config_flags
 )
 
+add_executable(TestAudit
+    tests/TestAudit.cpp
+    src/PluginProcessor.cpp
+    src/PluginEditor.cpp
+    src/params/ParameterLayout.cpp
+    src/presets/PresetManager.cpp
+    src/dsp/Oscillator.cpp
+    src/dsp/LadderFilter.cpp
+    src/dsp/Voice.cpp
+)
+
+target_include_directories(TestAudit PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(TestAudit PRIVATE
+    juce::juce_audio_utils
+    juce::juce_audio_processors
+    juce::juce_dsp
+    juce::juce_gui_basics
+    juce::juce_recommended_config_flags
+)
+
 add_executable(OfflineRenderer
     tools/OfflineRenderer.cpp
     src/PluginProcessor.cpp

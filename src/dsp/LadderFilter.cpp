@@ -86,8 +86,18 @@ namespace LadderMono
         // Clamp cutoff to safe frequency below Nyquist
         float clampedCutoff = std::clamp(cutoffHz, 10.0f, static_cast<float>(osRate * 0.46));
 
-        // Bilinear prewarping for 2x rate
-        float g = static_cast<float>(std::tan(3.14159265358979323846 * clampedCutoff / osRate));
+        // Thermal noise floor to kickstart authentic analog self-oscillation
+        if (resonance > 8.5f)
+        {
+            thermalNoiseSeed = 1664525u * thermalNoiseSeed + 1013904223u;
+            float thermalNoise = (static_cast<float>(thermalNoiseSeed) / 4294967296.0f - 0.5f) * 1e-6f;
+            input += thermalNoise;
+        }
+
+        // Fast high-precision bilinear prewarping for 2x rate (Pade rational approximation)
+        float w = static_cast<float>(3.14159265358979323846 * clampedCutoff / osRate);
+        float w2 = w * w;
+        float g = w * (1.0f - 0.066667f * w2) / (1.0f - 0.40f * w2);
         g = std::clamp(g, 0.0001f, 0.999f);
 
         // Resonance parameter (0 to 10) mapped to feedback factor k

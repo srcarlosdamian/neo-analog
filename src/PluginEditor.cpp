@@ -190,13 +190,16 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     setupToggle(mix3Btn, LadderMono::ParamIDs::mixOsc3On);
     mix3Btn.setButtonText("3");
     setupKnob(mixNoiseKnob, LadderMono::ParamIDs::mixNoise, "NOISE");
+    mixNoiseKnob.slider.setTooltip("Noise Volume Level (0 to 10)");
     setupToggle(mixNoiseBtn, LadderMono::ParamIDs::mixNoiseOn);
     mixNoiseBtn.setButtonText("NOISE");
+    mixNoiseBtn.setTooltip("Toggle Noise Generator On/Off in Mixer");
     setupKnob(mixExtKnob, LadderMono::ParamIDs::mixExt, "EXT IN");
     setupToggle(mixExtBtn, LadderMono::ParamIDs::mixExtOn);
     mixExtBtn.setButtonText("FEED");
     setupKnob(driveKnob, LadderMono::ParamIDs::mixerDrive, "DRIVE", true);
     setupComboBox(noiseColorBox, LadderMono::ParamIDs::noiseColor, {"White", "Pink"});
+    noiseColorBox.setTooltip("Noise Type: White (full spectrum) or Pink (warm -3 dB/oct)");
 
     // Filter
     setupKnob(cutoffKnob, LadderMono::ParamIDs::cutoff, "CUTOFF", true);

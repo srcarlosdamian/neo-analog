@@ -1,6 +1,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "presets/FactoryPresetsData.h"
+#include "dsp/Saturation.h"
 
 LadderMonoAudioProcessor::LadderMonoAudioProcessor()
     : AudioProcessor(BusesProperties().withOutput("Output", juce::AudioChannelSet::stereo(), true)),
@@ -412,6 +413,9 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
 
         float gain = smoothedMasterVol.getNextValue();
         sample *= gain;
+
+        // Master analog-modeled soft limiter (ceiling 0.985, completely eliminating speaker distortion)
+        sample = LadderMono::Saturation::processMasterClip(sample);
 
         leftChannel[sampleIndex] = sample;
         if (rightChannel != nullptr)

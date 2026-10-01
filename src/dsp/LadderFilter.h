@@ -38,6 +38,7 @@ namespace LadderMono
 
         // Half-band filter states for 2x oversampling downsampling
         float downsampleState = 0.0f;
+        uint32_t thermalNoiseSeed = 13371337u;
 
         static inline float fastTanh(float x) noexcept
         {

@@ -123,11 +123,11 @@ namespace LadderMono
 
             // Determine Rocker Palette based on function
             juce::Colour activeColour(0xffe65100); // Default Vintage Orange
-            if (name == "1" || name == "2" || name == "3" || name.contains("Feed") || name.contains("Ext"))
+            if (name == "1" || name == "2" || name == "3" || name.containsIgnoreCase("Feed") || name.containsIgnoreCase("Ext"))
             {
                 activeColour = juce::Colour(0xff29b6f6); // Classic Blue/Cyan Mixer Rocker
             }
-            else if (name.contains("Noise") || name.contains("Decay") || name.contains("Latch"))
+            else if (name.containsIgnoreCase("Noise") || name.containsIgnoreCase("Decay") || name.containsIgnoreCase("Latch"))
             {
                 activeColour = juce::Colour(0xffe0e4eb); // White/Ivory Rocker
             }

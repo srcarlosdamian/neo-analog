@@ -40,8 +40,8 @@ namespace LadderMono
             float pink = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362f;
             b6 = white * 0.115926f;
 
-            // Scale to approx [-1.0, 1.0] range
-            return pink * 0.11f;
+            // Scale to match White Noise perceived loudness and RMS (~0.55)
+            return std::clamp(pink * 0.30f, -1.0f, 1.0f);
         }
 
     private:

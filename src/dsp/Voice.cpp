@@ -235,11 +235,11 @@ namespace LadderMono
 
         // 3. Process Glide & Pitch
         float currentPitchNote = glide.processSample();
-        float baseFreqHz = 440.0f * std::pow(2.0f, (currentPitchNote - 69.0f) / 12.0f);
+        float baseFreqHz = 440.0f * std::exp2f((currentPitchNote - 69.0f) * (1.0f / 12.0f));
 
         // Master tune
         if (std::abs(masterTuneCents) > 0.001f)
-            baseFreqHz *= std::pow(2.0f, masterTuneCents / 1200.0f);
+            baseFreqHz *= std::exp2f(masterTuneCents * (1.0f / 1200.0f));
 
         // 4. LFO & Modulation Bus
         float lfoOut = 0.0f;
@@ -309,17 +309,16 @@ namespace LadderMono
             cutoffOctaves += effectiveMod * 3.5f;
         }
 
-        float modulatedCutoffHz = baseCutoffHz * std::pow(2.0f, cutoffOctaves);
+        float modulatedCutoffHz = baseCutoffHz * std::exp2f(cutoffOctaves);
 
         // Process Ladder Filter
         float filterOut = filter.processSample(saturatedMixer, modulatedCutoffHz, emphasis, 1.0f, bassComp);
 
-        // 9. VCA & Amp Envelope (with Model D VCA stage makeup gain for robust VST output level)
-        constexpr float vcaMakeupGain = 1.75f;
-        float output = (filterOut * aEnvLevel) * vcaMakeupGain;
+        // 9. VCA & Amp Envelope (calibrated analog stage with clean headroom)
+        float output = (filterOut * aEnvLevel) * 1.25f;
 
-        // Soft clipper to prevent hard digital clipping
-        output = Saturation::processOutputClip(output);
+        // Gentle voice headroom limiter (cushions extreme peaks above 1.0)
+        output = Saturation::processVoiceClip(output);
 
         lastOutputSample = output;
         return output;
