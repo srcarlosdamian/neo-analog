@@ -317,6 +317,15 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
         buffer.clear(i, 0, buffer.getNumSamples());
 
     // Update voice parameters from APVTS atomics
+    if (bypassed.load())
+    {
+        buffer.clear();
+        cpuLoad.store(0.0f);
+        return;
+    }
+
+    auto startTime = juce::Time::getHighResolutionTicks();
+
     updateVoiceParameters();
 
     // Query host BPM
@@ -387,12 +396,13 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
             ++midiIterator;
         }
 
-        // Render audio sample from voices
+        // Render audio sample from voices (Dynamic Voice Sleeping for zero idle CPU)
         float sample = 0.0f;
 
         if (arpEnabled || voiceMode == 0)
         {
-            sample = voices[0].processSample(bpm);
+            if (arpEnabled || voices[0].isAudible() || voices[0].isKeyHeld())
+                sample = voices[0].processSample(bpm);
         }
         else
         {
@@ -423,6 +433,14 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
 
         ++sampleIndex;
     }
+
+    // Update smoothed CPU load measurement
+    auto elapsed = juce::Time::getHighResolutionTicks() - startTime;
+    double elapsedSec = juce::Time::highResolutionTicksToSeconds(elapsed);
+    double blockSec = static_cast<double>(numSamples) / std::max(44100.0, getSampleRate());
+    float currentLoad = static_cast<float>((elapsedSec / std::max(0.00001, blockSec)) * 100.0);
+    currentLoad = std::clamp(currentLoad, 0.0f, 100.0f);
+    cpuLoad.store(cpuLoad.load() * 0.90f + currentLoad * 0.10f);
 }
 
 juce::AudioProcessorEditor* LadderMonoAudioProcessor::createEditor()

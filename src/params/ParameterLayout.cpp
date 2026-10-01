@@ -62,10 +62,15 @@ namespace LadderMono
             juce::ParameterID{ParamIDs::osc2Range, 1}, "Osc 2 Range", rangeChoices, 3)); // 8'
         params.push_back(std::make_unique<juce::AudioParameterChoice>(
             juce::ParameterID{ParamIDs::osc2Wave, 1}, "Osc 2 Wave", waveChoices, 2));
+        auto semitoneStringer = [](float val, int) {
+            float cv = (std::abs(val) < 0.005f) ? 0.0f : val;
+            return (cv > 0.005f ? "+" : "") + juce::String(cv, 2) + " st";
+        };
+
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::osc2Fine, 1}, "Osc 2 Fine",
             juce::NormalisableRange<float>(-7.0f, 7.0f, 0.01f), 0.0f,
-            juce::AudioParameterFloatAttributes().withLabel("st")));
+            juce::AudioParameterFloatAttributes().withLabel("st").withStringFromValueFunction(semitoneStringer)));
 
         params.push_back(std::make_unique<juce::AudioParameterChoice>(
             juce::ParameterID{ParamIDs::osc3Range, 1}, "Osc 3 Range", rangeChoices, 3));
@@ -74,7 +79,7 @@ namespace LadderMono
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::osc3Fine, 1}, "Osc 3 Fine",
             juce::NormalisableRange<float>(-7.0f, 7.0f, 0.01f), 0.0f,
-            juce::AudioParameterFloatAttributes().withLabel("st")));
+            juce::AudioParameterFloatAttributes().withLabel("st").withStringFromValueFunction(semitoneStringer)));
         params.push_back(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{ParamIDs::osc3KbdOn, 1}, "Osc 3 Kbd Ctrl", true));
 
@@ -151,9 +156,16 @@ namespace LadderMono
         params.push_back(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{ParamIDs::decaySwitchOn, 1}, "Decay Switch", false));
 
-        // Global
+        auto dbStringer = [](float val, int) {
+            if (val <= -59.5f) return juce::String("-inf dB");
+            float cv = (std::abs(val) < 0.05f) ? 0.0f : val;
+            return juce::String(cv, 1) + " dB";
+        };
+
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
-            juce::ParameterID{ParamIDs::masterVol, 1}, "Master Volume", -60.0f, 12.0f, 0.0f));
+            juce::ParameterID{ParamIDs::masterVol, 1}, "Master Volume",
+            juce::NormalisableRange<float>(-60.0f, 12.0f, 0.1f), 0.0f,
+            juce::AudioParameterFloatAttributes().withLabel("dB").withStringFromValueFunction(dbStringer)));
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::analogAmount, 1}, "Analog Drift", 0.0f, 1.0f, 0.30f));
         params.push_back(std::make_unique<juce::AudioParameterBool>(

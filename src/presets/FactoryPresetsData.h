@@ -7316,7 +7316,7 @@ namespace LadderMono
       "aAttack": 0.15,
       "aDecay": 3.0,
       "aSustain": 8.0,
-      "decaySwitchOn": false,
+      "decaySwitchOn": true,
       "voices": 0
     },
     "type": "Lead"

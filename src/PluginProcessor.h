@@ -50,6 +50,11 @@ public:
     void handleNoteOff(int noteNumber) noexcept;
     void handleAllNotesOff() noexcept;
 
+    // CPU Load and Master Bypass
+    float getCpuUsagePercent() const noexcept { return cpuLoad.load(); }
+    bool isBypassed() const noexcept { return bypassed.load(); }
+    void setBypassed(bool b) noexcept { bypassed.store(b); }
+
 private:
     juce::AudioProcessorValueTreeState apvts;
     std::array<LadderMono::Voice, kMaxVoices> voices;
@@ -59,6 +64,8 @@ private:
 
     // Smoothed parameters
     juce::SmoothedValue<float> smoothedMasterVol;
+    std::atomic<float> cpuLoad{0.0f};
+    std::atomic<bool> bypassed{false};
 
     void updateVoiceParameters() noexcept;
 

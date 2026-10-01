@@ -121,16 +121,13 @@ namespace LadderMono
             auto name = button.getButtonText();
             bool isOn = button.getToggleState();
 
-            // Determine Rocker Palette based on function
-            juce::Colour activeColour(0xffe65100); // Default Vintage Orange
-            if (name == "1" || name == "2" || name == "3" || name.containsIgnoreCase("Feed") || name.containsIgnoreCase("Ext"))
-            {
-                activeColour = juce::Colour(0xff29b6f6); // Classic Blue/Cyan Mixer Rocker
-            }
-            else if (name.containsIgnoreCase("Noise") || name.containsIgnoreCase("Decay") || name.containsIgnoreCase("Latch"))
-            {
-                activeColour = juce::Colour(0xffe0e4eb); // White/Ivory Rocker
-            }
+            // Unified Vintage Illuminated Rocker Palette
+            // When ON: All switches glow with unified warm vintage amber
+            // When OFF: All switches have unified dark matte phenolic slate body (no beige or faded tints)
+            const juce::Colour onBaseColour(0xffe66a10);
+            const juce::Colour onBrightColour(0xffff9a36);
+            const juce::Colour offBaseColour(0xff22242a);
+            const juce::Colour offHighlightColour(0xff363942);
 
             // Outer recessed bezel area
             float switchWidth = 26.0f;
@@ -138,9 +135,9 @@ namespace LadderMono
             auto switchBox = bounds.removeFromLeft(switchWidth + 4.0f).withSizeKeepingCentre(switchWidth, switchHeight);
 
             // 1. Recessed Bezel (Outer Frame)
-            g.setColour(juce::Colour(0xff0d0e10));
+            g.setColour(juce::Colour(0xff0c0d10));
             g.fillRoundedRectangle(switchBox, 2.5f);
-            g.setColour(juce::Colour(0xff34373e));
+            g.setColour(isOn ? onBaseColour.withAlpha(0.6f) : juce::Colour(0xff32353d));
             g.drawRoundedRectangle(switchBox, 2.5f, 1.0f);
 
             // 2. Rocker Paddle (Divided into Top and Bottom Facets)
@@ -153,42 +150,38 @@ namespace LadderMono
             {
                 // Switched DOWN / ON:
                 // Upper half is angled forward (in shadow), Lower half is depressed (illuminated)
-                juce::Colour darkFace = activeColour.darker(0.6f);
-                juce::Colour brightFace = activeColour.brighter(0.15f);
+                juce::Colour darkFace = onBaseColour.darker(0.6f);
 
                 // Top facet (receded/shadow)
                 g.setColour(darkFace);
                 g.fillRect(topHalf);
 
-                // Bottom facet (pressed/prominent with highlight)
-                juce::ColourGradient btmGrad(brightFace, paddle.getX(), midY,
-                                             activeColour, paddle.getX(), paddle.getBottom(), false);
+                // Bottom facet (pressed/prominent with warm amber glow)
+                juce::ColourGradient btmGrad(onBrightColour, paddle.getX(), midY,
+                                             onBaseColour, paddle.getX(), paddle.getBottom(), false);
                 g.setGradientFill(btmGrad);
                 g.fillRect(btmHalf);
 
                 // Bottom edge highlight
-                g.setColour(brightFace.brighter(0.4f));
+                g.setColour(onBrightColour.brighter(0.4f));
                 g.drawHorizontalLine(static_cast<int>(paddle.getBottom() - 1.0f), paddle.getX(), paddle.getRight());
             }
             else
             {
                 // Switched UP / OFF:
-                // Upper half is pressed out (illuminated), Lower half is receded in shadow
-                juce::Colour mutedColour = activeColour.withSaturation(activeColour.getSaturation() * 0.4f).darker(0.35f);
-                juce::Colour highlight = mutedColour.brighter(0.3f);
-
+                // Clean uniform dark slate body across ALL switches
                 // Top facet (raised/highlighted)
-                juce::ColourGradient topGrad(highlight, paddle.getX(), paddle.getY(),
-                                             mutedColour, paddle.getX(), midY, false);
+                juce::ColourGradient topGrad(offHighlightColour, paddle.getX(), paddle.getY(),
+                                             offBaseColour, paddle.getX(), midY, false);
                 g.setGradientFill(topGrad);
                 g.fillRect(topHalf);
 
                 // Bottom facet (shadow)
-                g.setColour(mutedColour.darker(0.5f));
+                g.setColour(offBaseColour.darker(0.4f));
                 g.fillRect(btmHalf);
 
                 // Top edge highlight
-                g.setColour(highlight.brighter(0.3f));
+                g.setColour(offHighlightColour.brighter(0.25f));
                 g.drawHorizontalLine(static_cast<int>(paddle.getY()), paddle.getX(), paddle.getRight());
             }
 
@@ -198,7 +191,7 @@ namespace LadderMono
 
             // 3. Label Text Beside Switch
             bounds.removeFromLeft(4.0f);
-            g.setColour(isOn ? juce::Colour(0xffffffff) : juce::Colour(0xff9ea3b0));
+            g.setColour(isOn ? juce::Colour(0xffffffff) : juce::Colour(0xff9aa0af));
             g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
             g.drawFittedText(name, bounds.toNearestInt(), juce::Justification::centredLeft, 1);
         }
