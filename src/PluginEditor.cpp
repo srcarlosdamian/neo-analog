@@ -28,7 +28,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe8eaee));
     presetButton.onClick = [this]() {
         juce::PopupMenu menu;
-        menu.addItem(9999, "★ Open Preset Browser...", true, false);
+        menu.addItem(9999, juce::CharPointer_UTF8("\xe2\x98\x85 Open Preset Browser..."), true, false);
         menu.addSeparator();
 
         std::map<juce::String, std::vector<std::pair<int, juce::String>>> categorized;
@@ -46,7 +46,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
                 bool isCurrent = (id - 1 == audioProcessor.getPresetManager().getCurrentPresetIndex());
                 basicsMenu.addItem(id, name, true, isCurrent);
             }
-            menu.addSubMenu("★ Basics (Sonidos Básicos)", basicsMenu);
+            menu.addSubMenu(juce::CharPointer_UTF8("\xe2\x98\x85 Basics (Essential)"), basicsMenu);
             menu.addSeparator();
         }
 
