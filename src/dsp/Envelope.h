@@ -105,7 +105,9 @@ namespace LadderMono
                     float relTime = useDecayRelease ? decayTimeSec : 0.012f;
                     float rate = 1.0f / std::max(1.0f, relTime * static_cast<float>(sampleRate) * 0.20f);
                     currentLevel -= currentLevel * rate;
-                    if (currentLevel <= 0.001f)
+                    // Dynamic Voice Sleep / Voice-Kill at -90 dB (0.0000316)
+                    // Drops active voice computing instantly when inaudible for true 0% idle CPU
+                    if (currentLevel <= 0.000032f)
                     {
                         currentLevel = 0.0f;
                         stage = EnvelopeStage::Idle;

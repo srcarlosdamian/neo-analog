@@ -387,8 +387,47 @@ void LadderMonoAudioProcessorEditor::timerCallback()
     repaint(472, 46, 186, 388);
 }
 
+void LadderMonoAudioProcessorEditor::pushUndoSnapshot()
+{
+    if (isPerformingUndoRedo) return;
+    auto snap = audioProcessor.getAPVTS().copyState();
+    undoStack.push_back(snap);
+    if (undoStack.size() > 50)
+        undoStack.erase(undoStack.begin());
+    redoStack.clear();
+}
+
+void LadderMonoAudioProcessorEditor::undo()
+{
+    if (undoStack.empty()) return;
+    isPerformingUndoRedo = true;
+    auto current = audioProcessor.getAPVTS().copyState();
+    redoStack.push_back(current);
+
+    auto prev = undoStack.back();
+    undoStack.pop_back();
+    audioProcessor.getAPVTS().replaceState(prev);
+    updatePresetDisplay();
+    isPerformingUndoRedo = false;
+}
+
+void LadderMonoAudioProcessorEditor::redo()
+{
+    if (redoStack.empty()) return;
+    isPerformingUndoRedo = true;
+    auto current = audioProcessor.getAPVTS().copyState();
+    undoStack.push_back(current);
+
+    auto next = redoStack.back();
+    redoStack.pop_back();
+    audioProcessor.getAPVTS().replaceState(next);
+    updatePresetDisplay();
+    isPerformingUndoRedo = false;
+}
+
 void LadderMonoAudioProcessorEditor::toggleABState()
 {
+    pushUndoSnapshot();
     if (isShowingA)
     {
         // Save current to A, load B
@@ -510,7 +549,26 @@ bool LadderMonoAudioProcessorEditor::keyPressed(const juce::KeyPress& key)
         }
     }
 
-    // Octave shifting with Z and X
+    // Undo (Cmd+Z or Ctrl+Z) / Redo (Cmd+Shift+Z or Ctrl+Y)
+    auto mods = key.getModifiers();
+    if (mods.isCommandDown() || mods.isCtrlDown())
+    {
+        if (key.getKeyCode() == 'Z' || key.getKeyCode() == 'z')
+        {
+            if (mods.isShiftDown())
+                redo();
+            else
+                undo();
+            return true;
+        }
+        else if (key.getKeyCode() == 'Y' || key.getKeyCode() == 'y')
+        {
+            redo();
+            return true;
+        }
+    }
+
+    // Octave shifting with Z and X (when no Command/Ctrl modifier is held)
     int code = key.getKeyCode();
     if (code == 'Z' || code == 'z')
     {

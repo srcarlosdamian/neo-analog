@@ -25,9 +25,17 @@ public:
     void showAboutDialog();
     void saveCurrentPresetDialog();
     void toggleABState();
+    void undo();
+    void redo();
+    void pushUndoSnapshot();
 
 private:
     void timerCallback() override;
+
+    // Undo / Redo history
+    std::vector<juce::ValueTree> undoStack;
+    std::vector<juce::ValueTree> redoStack;
+    bool isPerformingUndoRedo = false;
 
     LadderMonoAudioProcessor& audioProcessor;
     LadderMono::MinimalistLookAndFeel lnf;

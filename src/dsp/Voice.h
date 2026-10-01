@@ -42,6 +42,7 @@ namespace LadderMono
 
         void prepare(double sampleRate) noexcept;
         void reset() noexcept;
+        void setVoiceIndex(size_t idx) noexcept;
 
         // MIDI note events
         void noteOn(int noteNumber, float velocity) noexcept;
@@ -165,10 +166,16 @@ namespace LadderMono
         float keyTrackingRatio = 0.0f;
         float bassComp = 0.25f;
 
-        // Analog drift state
+        // Analog drift & component tolerance state
         float analogAmount = 0.30f;
         std::array<float, 3> oscDriftCents = {0.0f, 0.0f, 0.0f};
         std::array<float, 3> driftNoiseState = {0.0f, 0.0f, 0.0f};
+
+        // Hardware Component Tolerances (1% - 3% physical component variance modeling)
+        size_t voiceIndex = 0;
+        std::array<float, 3> oscFixedToleranceCents = {0.0f, 0.0f, 0.0f};
+        float filterCutoffToleranceRatio = 1.0f;
+        float vcaGainTolerance = 1.0f;
 
         int selectNextActiveNote() const noexcept;
         void updateActiveNote(bool isLegato) noexcept;

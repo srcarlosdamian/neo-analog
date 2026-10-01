@@ -24,6 +24,37 @@ namespace LadderMono
         reset();
     }
 
+    void Voice::setVoiceIndex(size_t idx) noexcept
+    {
+        voiceIndex = idx;
+        // Hardware Component Tolerances (Model D / Diva / The Legend secret):
+        // Each analog voice and oscillator had unique capacitor/resistor physical variations (1% to 2.5%).
+        // Fixed micro-offsets give polyphonic chords and detuning massive 3D depth with ZERO CPU overhead.
+        static const float kVoiceOscCents[8][3] = {
+            { -0.65f,  0.42f, -0.28f },
+            {  0.55f, -0.72f,  0.35f },
+            { -0.32f,  0.68f, -0.45f },
+            {  0.78f, -0.35f,  0.58f },
+            { -0.50f,  0.25f, -0.62f },
+            {  0.38f, -0.58f,  0.22f },
+            { -0.82f,  0.48f, -0.15f },
+            {  0.45f, -0.29f,  0.64f }
+        };
+        static const float kVoiceCutoffRatio[8] = {
+            1.012f, 0.988f, 1.025f, 0.978f, 1.008f, 0.992f, 1.018f, 0.984f
+        };
+        static const float kVoiceVcaRatio[8] = {
+            1.005f, 0.995f, 1.012f, 0.989f, 1.002f, 0.998f, 1.009f, 0.991f
+        };
+
+        size_t safeIdx = idx % 8;
+        for (size_t i = 0; i < 3; ++i)
+            oscFixedToleranceCents[i] = kVoiceOscCents[safeIdx][i];
+
+        filterCutoffToleranceRatio = kVoiceCutoffRatio[safeIdx];
+        vcaGainTolerance = kVoiceVcaRatio[safeIdx];
+    }
+
     void Voice::reset() noexcept
     {
         for (auto& osc : oscs)
@@ -272,10 +303,10 @@ namespace LadderMono
             pitchModSemitones += effectiveMod * 7.0f;
         }
 
-        // 5. Generate Oscillators
-        float o1 = osc1On ? oscs[0].process(baseFreqHz, pitchModSemitones, oscDriftCents[0]) : 0.0f;
-        float o2 = osc2On ? oscs[1].process(baseFreqHz, pitchModSemitones, oscDriftCents[1]) : 0.0f;
-        float o3 = osc3On ? oscs[2].process(baseFreqHz, pitchModSemitones, oscDriftCents[2]) : 0.0f;
+        // 5. Generate Oscillators (with dynamic drift + hardware component tolerance)
+        float o1 = osc1On ? oscs[0].process(baseFreqHz, pitchModSemitones, oscDriftCents[0] + oscFixedToleranceCents[0]) : 0.0f;
+        float o2 = osc2On ? oscs[1].process(baseFreqHz, pitchModSemitones, oscDriftCents[1] + oscFixedToleranceCents[1]) : 0.0f;
+        float o3 = osc3On ? oscs[2].process(baseFreqHz, pitchModSemitones, oscDriftCents[2] + oscFixedToleranceCents[2]) : 0.0f;
 
         // 6. Mixer Summation & Overdrive
         float extInput = extOn ? (lastOutputSample + externalInputSample) : 0.0f;
@@ -309,7 +340,7 @@ namespace LadderMono
             cutoffOctaves += effectiveMod * 3.5f;
         }
 
-        float modulatedCutoffHz = baseCutoffHz * std::exp2f(cutoffOctaves);
+        float modulatedCutoffHz = baseCutoffHz * filterCutoffToleranceRatio * std::exp2f(cutoffOctaves);
 
         // Filter cutoff floor:
         // Clamped at 15 Hz absolute minimum so the cutoff knob can still fully close to -5.0
@@ -321,9 +352,9 @@ namespace LadderMono
         // Process Ladder Filter
         float filterOut = filter.processSample(saturatedMixer, modulatedCutoffHz, emphasis, 1.0f, bassComp);
 
-        // 9. VCA & Amp Envelope (calibrated analog stage with clean headroom)
+        // 9. VCA & Amp Envelope (calibrated analog stage with clean headroom and voice tolerance)
         // Solid low-end output gain ensuring bass presets hit with full commercial power and punch
-        float output = (filterOut * aEnvLevel) * 1.40f;
+        float output = (filterOut * aEnvLevel) * (1.40f * vcaGainTolerance);
 
         // Gentle voice headroom limiter (cushions extreme peaks above 1.0)
         output = Saturation::processVoiceClip(output);

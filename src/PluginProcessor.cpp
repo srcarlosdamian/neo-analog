@@ -36,8 +36,11 @@ bool LadderMonoAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts
 
 void LadderMonoAudioProcessor::prepareToPlay(double sampleRate, int /*samplesPerBlock*/)
 {
-    for (auto& v : voices)
-        v.prepare(sampleRate);
+    for (size_t i = 0; i < voices.size(); ++i)
+    {
+        voices[i].setVoiceIndex(i);
+        voices[i].prepare(sampleRate);
+    }
 
     voiceCounter = 0;
     voiceAge.fill(0);
