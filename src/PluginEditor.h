@@ -19,6 +19,7 @@ public:
     bool keyStateChanged(bool isKeyDown) override;
     void focusLost(FocusChangeType) override;
     void visibilityChanged() override;
+    void parentHierarchyChanged() override;
     void releaseAllHeldComputerKeys();
     void mouseDown(const juce::MouseEvent& e) override;
 

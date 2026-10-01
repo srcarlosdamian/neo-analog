@@ -654,6 +654,14 @@ void LadderMonoAudioProcessorEditor::visibilityChanged()
         releaseAllHeldComputerKeys();
 }
 
+void LadderMonoAudioProcessorEditor::parentHierarchyChanged()
+{
+    if (auto* window = findParentComponentOfClass<juce::DocumentWindow>())
+    {
+        window->setName("Neo Analog");
+    }
+}
+
 void LadderMonoAudioProcessorEditor::releaseAllHeldComputerKeys()
 {
     for (const auto& [charCode, noteNumber] : charCodeToPlayingNote)
