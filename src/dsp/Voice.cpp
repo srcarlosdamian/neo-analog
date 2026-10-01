@@ -306,8 +306,9 @@ namespace LadderMono
         // Process Ladder Filter
         float filterOut = filter.processSample(saturatedMixer, modulatedCutoffHz, emphasis, 1.0f, bassComp);
 
-        // 9. VCA & Amp Envelope
-        float output = filterOut * aEnvLevel;
+        // 9. VCA & Amp Envelope (with Model D VCA stage makeup gain for robust VST output level)
+        constexpr float vcaMakeupGain = 1.75f;
+        float output = (filterOut * aEnvLevel) * vcaMakeupGain;
 
         // Soft clipper to prevent hard digital clipping
         output = Saturation::processOutputClip(output);

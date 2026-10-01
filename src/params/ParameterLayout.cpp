@@ -153,7 +153,7 @@ namespace LadderMono
 
         // Global
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
-            juce::ParameterID{ParamIDs::masterVol, 1}, "Master Volume", -60.0f, 6.0f, -6.0f));
+            juce::ParameterID{ParamIDs::masterVol, 1}, "Master Volume", -60.0f, 12.0f, 0.0f));
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::analogAmount, 1}, "Analog Drift", 0.0f, 1.0f, 0.30f));
         params.push_back(std::make_unique<juce::AudioParameterBool>(

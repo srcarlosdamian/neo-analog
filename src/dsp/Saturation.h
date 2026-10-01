@@ -22,11 +22,20 @@ namespace LadderMono
         }
 
         /**
-         * Output stage soft-clipper to prevent harsh digital rail clipping.
+         * Output stage soft-clipper / warm analog limiter.
+         * Linear and completely transparent below 0.65 (-3.7 dBFS),
+         * with smooth C1 tanh saturation approaching 1.0 (0 dBFS).
+         * Prevents harsh digital rail clipping while preserving punch, volume and dynamics.
          */
         inline float processOutputClip(float input) noexcept
         {
-            return std::tanh(input * 0.9f);
+            constexpr float threshold = 0.65f;
+            constexpr float margin = 1.0f - threshold; // 0.35f
+            if (input > threshold)
+                return threshold + margin * std::tanh((input - threshold) / margin);
+            if (input < -threshold)
+                return -threshold + margin * std::tanh((input + threshold) / margin);
+            return input;
         }
     }
 }
