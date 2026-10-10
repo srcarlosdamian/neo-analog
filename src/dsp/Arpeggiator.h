@@ -26,6 +26,24 @@ namespace LadderMono
         Count
     };
 
+    enum class ArpPattern
+    {
+        Straight = 0,
+        Dotted,
+        Syncopated,
+        Euclid3_8,
+        Euclid5_8,
+        Count
+    };
+
+    enum class ArpOctMode
+    {
+        Ascend = 0,
+        Alternate,
+        Spiral,
+        Count
+    };
+
     class Arpeggiator
     {
     public:
@@ -47,6 +65,7 @@ namespace LadderMono
             currentNotePlaying = -1;
             isNoteOn = false;
             isFirstStep = true;
+            stepCount = 0;
         }
 
         void setEnabled(bool enabled) noexcept { isEnabled = enabled; }
@@ -81,10 +100,22 @@ namespace LadderMono
             }
         }
 
+        void setOctaveMode(ArpOctMode om) noexcept
+        {
+            if (octMode != om)
+            {
+                octMode = om;
+                rebuildSequence();
+            }
+        }
+
         void setRateSync(ArpRateSync r) noexcept { rateSync = r; }
         void setFreeRateHz(float hz) noexcept { freeRateHz = std::clamp(hz, 0.5f, 30.0f); }
         void setSyncMode(bool sync) noexcept { isTempoSynced = sync; }
         void setGate(float g) noexcept { gateRatio = std::clamp(g, 0.05f, 1.0f); }
+        void setSwing(float swingPct) noexcept { swingAmount = std::clamp(swingPct, 50.0f, 75.0f) / 100.0f; }
+        void setPattern(ArpPattern p) noexcept { pattern = p; }
+        void setMutate(float mutPct) noexcept { mutateChance = std::clamp(mutPct, 0.0f, 100.0f) / 100.0f; }
 
         void noteOn(int note)
         {
@@ -95,7 +126,6 @@ namespace LadderMono
 
             if (isLatch)
             {
-                // If all keys were released and a new note starts, reset latch
                 if (allKeysWereReleased)
                 {
                     latchedNotes.clear();
@@ -123,8 +153,6 @@ namespace LadderMono
             }
         }
 
-        // Returns true if a note is currently active from the arpeggiator,
-        // and sets activeMidiNote and whether this sample triggered a new noteOn.
         bool processSample(double bpm, int& activeMidiNote, bool& triggeredNoteOn, bool& triggeredNoteOff) noexcept
         {
             triggeredNoteOn = false;
@@ -141,7 +169,7 @@ namespace LadderMono
                 return false;
             }
 
-            // Calculate step duration in samples
+            // Calculate base step duration in samples
             double stepDurationSamples = 0.0;
             if (isTempoSynced)
             {
@@ -166,15 +194,24 @@ namespace LadderMono
                 stepDurationSamples = sampleRate / std::max(0.5f, freeRateHz);
             }
 
-            double gateDurationSamples = stepDurationSamples * gateRatio;
+            // Apply Swing / Shuffle timing
+            double currentStepDuration = stepDurationSamples;
+            if (swingAmount > 0.501f)
+            {
+                double swingDelta = (swingAmount - 0.5) * 0.60 * stepDurationSamples;
+                currentStepDuration = (stepCount % 2 == 1) ? (stepDurationSamples - swingDelta) : (stepDurationSamples + swingDelta);
+            }
+
+            double gateDurationSamples = currentStepDuration * gateRatio;
 
             // Trigger step boundary
-            if (sampleCounter >= stepDurationSamples || isFirstStep)
+            if (sampleCounter >= currentStepDuration || isFirstStep)
             {
                 sampleCounter = 0.0;
 
                 if (!isFirstStep)
                 {
+                    stepCount++;
                     if (mode == ArpMode::Random)
                     {
                         std::uniform_int_distribution<size_t> dist(0, sequence.size() - 1);
@@ -188,12 +225,62 @@ namespace LadderMono
                 else
                 {
                     currentIndex = 0;
+                    stepCount = 0;
                     isFirstStep = false;
                 }
 
-                currentNotePlaying = sequence[currentIndex];
-                triggeredNoteOn = true;
-                isNoteOn = true;
+                // Check rhythm pattern mask (Rests / Ties)
+                bool stepAllowed = true;
+                if (pattern == ArpPattern::Dotted)
+                {
+                    const int mask[8] = {1, 0, 1, 1, 0, 1, 1, 0};
+                    stepAllowed = (mask[stepCount % 8] != 0);
+                }
+                else if (pattern == ArpPattern::Syncopated)
+                {
+                    const int mask[8] = {1, 0, 0, 1, 0, 1, 0, 0};
+                    stepAllowed = (mask[stepCount % 8] != 0);
+                }
+                else if (pattern == ArpPattern::Euclid3_8)
+                {
+                    const int mask[8] = {1, 0, 0, 1, 0, 0, 1, 0};
+                    stepAllowed = (mask[stepCount % 8] != 0);
+                }
+                else if (pattern == ArpPattern::Euclid5_8)
+                {
+                    const int mask[8] = {1, 0, 1, 1, 0, 1, 1, 0};
+                    stepAllowed = (mask[stepCount % 8] != 0);
+                }
+
+                if (stepAllowed)
+                {
+                    int noteToPlay = sequence[currentIndex];
+
+                    // Mutate chance: probabilistic octave displacement
+                    if (mutateChance > 0.01f)
+                    {
+                        std::uniform_real_distribution<float> prob(0.0f, 1.0f);
+                        if (prob(rng) < mutateChance)
+                        {
+                            int octOffset = (prob(rng) > 0.5f) ? 12 : -12;
+                            int mutated = noteToPlay + octOffset;
+                            if (mutated >= 12 && mutated <= 127)
+                                noteToPlay = mutated;
+                        }
+                    }
+
+                    currentNotePlaying = noteToPlay;
+                    triggeredNoteOn = true;
+                    isNoteOn = true;
+                }
+                else
+                {
+                    if (isNoteOn)
+                    {
+                        triggeredNoteOff = true;
+                        isNoteOn = false;
+                    }
+                }
             }
             else if (isNoteOn && sampleCounter >= gateDurationSamples)
             {
@@ -219,14 +306,19 @@ namespace LadderMono
         bool isTempoSynced = true;
         float freeRateHz = 8.0f;
         float gateRatio = 0.85f;
+        float swingAmount = 0.50f; // 50% = straight
+        float mutateChance = 0.0f; // 0% to 100%
         int octaves = 1;
         ArpMode mode = ArpMode::Up;
         ArpRateSync rateSync = ArpRateSync::Sixteenth;
+        ArpPattern pattern = ArpPattern::Straight;
+        ArpOctMode octMode = ArpOctMode::Ascend;
 
         std::vector<int> heldNotes;
         std::vector<int> latchedNotes;
         std::vector<int> sequence;
         size_t currentIndex = 0;
+        uint32_t stepCount = 0;
         double sampleCounter = 0.0;
         int currentNotePlaying = -1;
         bool isNoteOn = false;
@@ -240,6 +332,7 @@ namespace LadderMono
             {
                 sequence.clear();
                 currentIndex = 0;
+                stepCount = 0;
                 isFirstStep = true;
                 return;
             }
@@ -251,13 +344,56 @@ namespace LadderMono
             }
 
             sequence.clear();
-            for (int oct = 0; oct < octaves; ++oct)
+
+            if (octMode == ArpOctMode::Alternate)
             {
+                // Alternate note by note across octaves (Note 1 Oct 0, Note 1 Oct 1..., Note 2...)
                 for (int n : baseNotes)
                 {
-                    int noteWithOct = n + oct * 12;
-                    if (noteWithOct <= 127)
-                        sequence.push_back(noteWithOct);
+                    for (int oct = 0; oct < octaves; ++oct)
+                    {
+                        int noteWithOct = n + oct * 12;
+                        if (noteWithOct <= 127)
+                            sequence.push_back(noteWithOct);
+                    }
+                }
+            }
+            else if (octMode == ArpOctMode::Spiral)
+            {
+                // Ascends octaves then descends octaves
+                for (int oct = 0; oct < octaves; ++oct)
+                {
+                    for (int n : baseNotes)
+                    {
+                        int noteWithOct = n + oct * 12;
+                        if (noteWithOct <= 127)
+                            sequence.push_back(noteWithOct);
+                    }
+                }
+                if (octaves > 2)
+                {
+                    for (int oct = octaves - 2; oct > 0; --oct)
+                    {
+                        for (int n : baseNotes)
+                        {
+                            int noteWithOct = n + oct * 12;
+                            if (noteWithOct <= 127)
+                                sequence.push_back(noteWithOct);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Normal Ascend
+                for (int oct = 0; oct < octaves; ++oct)
+                {
+                    for (int n : baseNotes)
+                    {
+                        int noteWithOct = n + oct * 12;
+                        if (noteWithOct <= 127)
+                            sequence.push_back(noteWithOct);
+                    }
                 }
             }
 

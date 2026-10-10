@@ -4,7 +4,70 @@ namespace LadderMono
 {
     inline constexpr const char* kFactoryPresetsJSON = R"JSON([
   {
-    "name": "Classic Bass",
+    "name": "Nazareth",
+    "category": "French Touch & Electro",
+    "type": "Lead",
+    "author": "Factory",
+    "tags": [
+      "french",
+      "distort",
+      "heavy",
+      "church",
+      "lead"
+    ],
+    "params": {
+      "tune": -0.064,
+      "glideTime": 9.05,
+      "glideOn": false,
+      "glideMode": 1,
+      "modMix": 1.4,
+      "lfoRate": 13.5,
+      "modSource": 0,
+      "lfoShape": 1,
+      "oscModOn": false,
+      "filterModOn": false,
+      "bendRange": 12,
+      "notePriority": 2,
+      "osc1Range": 3,
+      "osc1Wave": 2,
+      "mixOsc1": 10.0,
+      "mixOsc1On": true,
+      "osc2Range": 3,
+      "osc2Wave": 0,
+      "osc2Fine": 0.0,
+      "mixOsc2": 8.01,
+      "mixOsc2On": true,
+      "osc3Range": 3,
+      "osc3Wave": 4,
+      "osc3Fine": 0.0,
+      "osc3KbdOn": false,
+      "analogAmount": 0.3,
+      "mixNoise": 0.0,
+      "mixNoiseOn": true,
+      "noiseColor": 1,
+      "mixExt": 0.0,
+      "mixExtOn": false,
+      "mixerDrive": 0.0,
+      "cutoff": 3.0,
+      "emphasis": 0.0,
+      "contourAmount": 3.0,
+      "kbd1": false,
+      "kbd2": false,
+      "bassComp": 0.25,
+      "fAttack": 0.05,
+      "fDecay": 1.14,
+      "fSustain": 3.0,
+      "aAttack": 0.05,
+      "aDecay": 1.14,
+      "aSustain": 10.0,
+      "decaySwitchOn": false,
+      "masterVol": -5.4,
+      "voices": 1,
+      "arpOn": false
+    }
+  },
+  {
+    "name": "Classic",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -46,7 +109,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Clav Bass",
+    "name": "Clav",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -85,7 +148,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Dub Bass",
+    "name": "Dub",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -124,7 +187,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Growl Bass",
+    "name": "Growl",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -170,7 +233,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Octave Bass",
+    "name": "Octave",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -211,7 +274,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Pedal Bass",
+    "name": "Pedal",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -252,7 +315,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Rubber Bass",
+    "name": "Rubber",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -290,7 +353,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Sub Thump",
+    "name": "Sub",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -327,7 +390,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Unison Bass",
+    "name": "Unison",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -369,7 +432,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Wobble Bass",
+    "name": "Wobble",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -410,7 +473,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Bell (Osc FM)",
+    "name": "Bell",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -438,7 +501,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Expressive Lead",
+    "name": "Expressive",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -469,7 +532,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Feedback Growl",
+    "name": "Feedback",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -495,7 +558,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Funk Pluck",
+    "name": "Funk",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -526,7 +589,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Fusion Lead",
+    "name": "Fusion",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -559,7 +622,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Marimba-ish",
+    "name": "Marimba",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -592,7 +655,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Octave Lead",
+    "name": "Octave2",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -624,7 +687,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Overdrive Lead",
+    "name": "Overdrive",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -659,7 +722,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Porta Lead",
+    "name": "Porta",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -699,7 +762,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Pulse Lead",
+    "name": "Pulse",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -728,7 +791,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Singing Sine",
+    "name": "Singing",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -760,7 +823,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Sweep Lead",
+    "name": "Sweep",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -792,7 +855,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Whistle Lead",
+    "name": "Whistle",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -816,7 +879,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Clavier Keys",
+    "name": "Clavier",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -856,7 +919,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Clavinet D6",
+    "name": "Clavinet",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -892,7 +955,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Pluck Keys",
+    "name": "Pluck",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -926,7 +989,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Brass Lead",
+    "name": "Brass",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -958,7 +1021,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Brass Swell",
+    "name": "Brass2",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -989,7 +1052,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Mono Brass",
+    "name": "Mono",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1026,7 +1089,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Drone Pad",
+    "name": "Drone",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1063,7 +1126,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Hollow Pad",
+    "name": "Hollow",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1094,7 +1157,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Electro Arp",
+    "name": "Electro",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1129,7 +1192,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Minimal Arp",
+    "name": "Minimal",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1247,7 +1310,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Laser Zap",
+    "name": "Laser",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1274,7 +1337,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Sci-Fi Sweep",
+    "name": "Sci",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1342,7 +1405,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Self-Osc Sine",
+    "name": "Self",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1395,7 +1458,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Snare Noise",
+    "name": "Snare",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1452,7 +1515,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Wind Noise",
+    "name": "Wind",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1481,7 +1544,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Pure Pink Noise",
+    "name": "Pink",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1511,7 +1574,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Pure White Noise",
+    "name": "Pure",
     "category": "Basics",
     "author": "Factory",
     "tags": [
@@ -1541,7 +1604,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Aggressive Street Bass",
+    "name": "Aggressive",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1585,7 +1648,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Bouncy Young Funk",
+    "name": "Bouncy",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1629,7 +1692,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Criminal Staccato Bass",
+    "name": "Criminal",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1673,7 +1736,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Midnight Walker Bass",
+    "name": "Midnight",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1718,7 +1781,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Moonlight Stride Bass",
+    "name": "Moonlight",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1763,7 +1826,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Startin' Funk Bass",
+    "name": "Startin",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1799,7 +1862,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Studio 82 Funk Bass",
+    "name": "Studio",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1840,7 +1903,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Quirky Duck Lead",
+    "name": "Quirky",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1876,7 +1939,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Westlake Poly Chords",
+    "name": "Westlake",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1912,7 +1975,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Midnight Horror Brass",
+    "name": "Midnight2",
     "category": "Pop & Funk 1982",
     "author": "Factory",
     "tags": [
@@ -1953,7 +2016,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Aftermath Funk Bass",
+    "name": "Aftermath",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -1993,7 +2056,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Brooklyn Boom Bass",
+    "name": "Brooklyn",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2037,7 +2100,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Crate Digger Bass",
+    "name": "Crate",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2078,7 +2141,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Deep Chronic Sub",
+    "name": "Deep",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2118,7 +2181,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Grimey Street Bass",
+    "name": "Grimey",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2161,7 +2224,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Masked Analog Sub",
+    "name": "Masked",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2200,7 +2263,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "South Coast Sub",
+    "name": "South",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2240,7 +2303,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Accordion Reed Keys",
+    "name": "Accordion",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2289,7 +2352,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "California Gold Lead",
+    "name": "California",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2327,7 +2390,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Quasimoto Flute",
+    "name": "Quasimoto",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2366,7 +2429,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Samurai Flute",
+    "name": "Samurai",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2406,7 +2469,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "West Coast Worm",
+    "name": "West",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2445,7 +2508,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Dusty Crate Keys",
+    "name": "Dusty",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2484,7 +2547,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Grisly Tape Keys",
+    "name": "Grisly",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2520,7 +2583,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Luv Letter Keys",
+    "name": "Luv",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2556,7 +2619,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Melted Tape Keys",
+    "name": "Melted",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2595,7 +2658,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Street Drama Stab",
+    "name": "Street",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2631,7 +2694,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Chronic Anthem Brass",
+    "name": "Chronic",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2666,7 +2729,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Villain Comic Brass",
+    "name": "Villain",
     "category": "Hip-Hop & Lo-Fi Beats",
     "author": "Factory",
     "tags": [
@@ -2705,7 +2768,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Dark Electro Bass",
+    "name": "Dark",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2749,7 +2812,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Fuzz Analog Bass",
+    "name": "Fuzz",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2788,7 +2851,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Mellow Jazz Bass",
+    "name": "Mellow",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2830,7 +2893,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Oblivion Pop Bass",
+    "name": "Oblivion",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2874,7 +2937,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Radio Bass",
+    "name": "Radio",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2913,7 +2976,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Smoky Sub Bass",
+    "name": "Smoky",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2956,7 +3019,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Submerged Jazz Keys",
+    "name": "Submerged",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -2991,7 +3054,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Velvet Bass",
+    "name": "Velvet",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3030,7 +3093,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Baroque Glam Lead",
+    "name": "Baroque",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3068,7 +3131,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Chamber Pop Lead",
+    "name": "Chamber",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3106,7 +3169,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Heartbreaker Pluck",
+    "name": "Heartbreaker",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3139,7 +3202,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Playful Hook Lead",
+    "name": "Playful",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3177,7 +3240,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Psyche Wobble Lead",
+    "name": "Psyche",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3217,7 +3280,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Seaside Melodic",
+    "name": "Seaside",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3252,7 +3315,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Sun Structure Lead",
+    "name": "Sun",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3289,7 +3352,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Twigs Chamber Flute",
+    "name": "Twigs",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3326,7 +3389,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Versailles Lead",
+    "name": "Versailles",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3359,7 +3422,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Visions Vocal Lead",
+    "name": "Visions",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3398,7 +3461,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Cassette Romance",
+    "name": "Cassette",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3433,7 +3496,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Delicate Pluck",
+    "name": "Delicate",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3468,7 +3531,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Honey Dream Keys",
+    "name": "Honey",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3503,7 +3566,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Lush Psych Keys",
+    "name": "Lush",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3538,7 +3601,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Night Drive Pop",
+    "name": "Night",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3573,7 +3636,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Pastel Room Keys",
+    "name": "Pastel",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3608,7 +3671,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Pastel Tape Keys",
+    "name": "Pastel2",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3646,7 +3709,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Riviera Organ",
+    "name": "Riviera",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3684,7 +3747,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Silky Velvet Keys",
+    "name": "Silky",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3719,7 +3782,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Silver Lady Keys",
+    "name": "Silver",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3752,7 +3815,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Sun Shimmer Keys",
+    "name": "Sun2",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3790,7 +3853,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Sunny Day Pluck",
+    "name": "Sunny",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3825,7 +3888,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Woozy Tape Keys",
+    "name": "Woozy",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3860,7 +3923,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Ethereal Genesis Pad",
+    "name": "Ethereal",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3896,7 +3959,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Nostalgia Pad",
+    "name": "Nostalgia",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3934,7 +3997,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Cosmic Prism Arp",
+    "name": "Cosmic",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -3973,7 +4036,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Star Watcher Arp",
+    "name": "Star",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -4011,7 +4074,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Swim Shimmer Arp",
+    "name": "Swim",
     "category": "Psych & Bedroom Pop",
     "author": "Factory",
     "tags": [
@@ -4050,7 +4113,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Cross Bass",
+    "name": "Cross",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4062,13 +4125,13 @@ namespace LadderMono
     "params": {
       "tune": 0.0,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 0,
       "notePriority": 1,
@@ -4090,12 +4153,12 @@ namespace LadderMono
       "noiseColor": 1,
       "mixNoise": 0.0,
       "mixNoiseOn": true,
-      "mixExt": 3.50,
+      "mixExt": 3.5,
       "mixExtOn": true,
       "mixerDrive": 8.5,
       "cutoff": 1.56,
-      "emphasis": 8.50,
-      "contourAmount": 0.00,
+      "emphasis": 8.5,
+      "contourAmount": 0.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.77,
@@ -4107,7 +4170,7 @@ namespace LadderMono
       "aSustain": 8.5,
       "decaySwitchOn": false,
       "masterVol": 0.0,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 0,
       "arpOn": false,
       "arpLatch": false,
@@ -4119,7 +4182,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Friendship Disco",
+    "name": "Friendship",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4132,13 +4195,13 @@ namespace LadderMono
     "params": {
       "tune": 0.0,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 0,
       "notePriority": 1,
@@ -4164,20 +4227,20 @@ namespace LadderMono
       "mixExtOn": false,
       "mixerDrive": 2.5,
       "cutoff": 0.64,
-      "emphasis": 3.80,
-      "contourAmount": 5.50,
+      "emphasis": 3.8,
+      "contourAmount": 5.5,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.65,
       "fAttack": 0.05,
-      "fDecay": 3.00,
+      "fDecay": 3.0,
       "fSustain": 4.4,
-      "aAttack": 2.00,
-      "aDecay": 8.10,
+      "aAttack": 2.0,
+      "aDecay": 8.1,
       "aSustain": 6.0,
       "decaySwitchOn": true,
       "masterVol": 0.0,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 2,
       "arpOn": false,
       "arpLatch": false,
@@ -4189,7 +4252,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Night Cruise Lead",
+    "name": "Night2",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4201,13 +4264,13 @@ namespace LadderMono
     "params": {
       "tune": 17.9,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 0,
-      "lfoRate": 6.60,
+      "lfoRate": 6.6,
       "lfoShape": 1,
       "bendRange": 12,
       "notePriority": 0,
@@ -4217,7 +4280,7 @@ namespace LadderMono
       "mixOsc1On": false,
       "osc2Range": 3,
       "osc2Wave": 2,
-      "osc2Fine": 0.00,
+      "osc2Fine": 0.0,
       "mixOsc2": 7.0,
       "mixOsc2On": true,
       "osc3Range": 4,
@@ -4232,9 +4295,9 @@ namespace LadderMono
       "mixExt": 0.0,
       "mixExtOn": false,
       "mixerDrive": 0.0,
-      "cutoff": 3.00,
-      "emphasis": 0.00,
-      "contourAmount": 3.00,
+      "cutoff": 3.0,
+      "emphasis": 0.0,
+      "contourAmount": 3.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
@@ -4258,7 +4321,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Orbital Bass",
+    "name": "Orbital",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4297,7 +4360,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Raw Homework Acid",
+    "name": "Raw",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4338,7 +4401,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Cathedral Synth",
+    "name": "Cathedral",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4381,7 +4444,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Da Funk Reso Riff",
+    "name": "Da",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4424,7 +4487,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Filter Pluck",
+    "name": "Filter",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4457,7 +4520,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "French Lead",
+    "name": "French",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4493,7 +4556,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "High Stress Pulser",
+    "name": "High",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4529,7 +4592,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Opera Stab",
+    "name": "Opera",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4572,7 +4635,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Overdrive Stab",
+    "name": "Overdrive2",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4616,7 +4679,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Phantom Lead",
+    "name": "Phantom",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4650,7 +4713,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Voyager Lead",
+    "name": "Voyager",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4686,7 +4749,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Anthem Chords",
+    "name": "Anthem",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4724,7 +4787,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Gothic Cross Organ",
+    "name": "Gothic",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4769,7 +4832,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Genesis Brass",
+    "name": "Genesis",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4808,7 +4871,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Waters Heavy Stab",
+    "name": "Waters",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4848,7 +4911,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Aero Arp",
+    "name": "Aero",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4891,7 +4954,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Rollin Screamer FX",
+    "name": "Rollin",
     "category": "French Touch & Electro",
     "author": "Factory",
     "tags": [
@@ -4929,7 +4992,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Crusher Bass",
+    "name": "Crusher",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -4972,7 +5035,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Ideal Electro Bass",
+    "name": "Ideal",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5017,7 +5080,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Witch Sub Heavy",
+    "name": "Witch",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5065,7 +5128,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Crimewave Chip Saw",
+    "name": "Crimewave",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5105,7 +5168,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Electro Pluck",
+    "name": "Electro2",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5143,7 +5206,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Pogo Drive Lead",
+    "name": "Pogo",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5183,7 +5246,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Ghostly Witch Drone",
+    "name": "Ghostly",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5222,7 +5285,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Coast Arp",
+    "name": "Coast",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5272,7 +5335,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Highway Bass",
+    "name": "Highway",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5323,7 +5386,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Hustle Modular Arp",
+    "name": "Hustle",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5363,7 +5426,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Night Runner Arp",
+    "name": "Night3",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5408,7 +5471,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Red Coupe Lead",
+    "name": "Red",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5457,7 +5520,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Red Turbo Arp",
+    "name": "Red2",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5506,7 +5569,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Sleep Deprive Arp",
+    "name": "Sleep",
     "category": "Electroclash & Dark Wave",
     "author": "Factory",
     "tags": [
@@ -5546,7 +5609,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Dungeon Depths Sub",
+    "name": "Dungeon",
     "category": "Fantasy & Chiptune",
     "author": "Factory",
     "tags": [
@@ -5586,7 +5649,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Lost Forest Lead",
+    "name": "Lost",
     "category": "Fantasy & Chiptune",
     "author": "Factory",
     "tags": [
@@ -5625,7 +5688,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Hero Quest Brass",
+    "name": "Hero",
     "category": "Fantasy & Chiptune",
     "author": "Factory",
     "tags": [
@@ -5660,7 +5723,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Ancient Temple Swell",
+    "name": "Ancient",
     "category": "Fantasy & Chiptune",
     "author": "Factory",
     "tags": [
@@ -5696,7 +5759,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Fairy Fountain Arp",
+    "name": "Fairy",
     "category": "Fantasy & Chiptune",
     "author": "Factory",
     "tags": [
@@ -5736,7 +5799,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Beatbox Disco Bass",
+    "name": "Beatbox",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5776,7 +5839,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Warm Shadow Bass",
+    "name": "Warm",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5816,7 +5879,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "After Dark Synth",
+    "name": "After",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5851,7 +5914,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Lady Twilight Lead",
+    "name": "Lady",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5889,7 +5952,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Looking Glass Lead",
+    "name": "Looking",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5926,7 +5989,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Night Drive Chords",
+    "name": "Night4",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5961,7 +6024,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Velvet Mirror Keys",
+    "name": "Velvet2",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -5996,7 +6059,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Candy Beat Arp",
+    "name": "Candy",
     "category": "Neon Noir & Italo Disco",
     "author": "Factory",
     "tags": [
@@ -6035,7 +6098,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Ghost Culture Bass",
+    "name": "Ghost",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6048,7 +6111,7 @@ namespace LadderMono
       "tune": -2.4,
       "glideTime": 2.25,
       "modMix": 0.0,
-      "lfoRate": 20.80,
+      "lfoRate": 20.8,
       "oscModOn": false,
       "filterModOn": false,
       "arpOn": true,
@@ -6067,7 +6130,7 @@ namespace LadderMono
       "mixOsc2On": true,
       "osc3Range": 3,
       "osc3Wave": 2,
-      "osc3Fine": 0.10,
+      "osc3Fine": 0.1,
       "osc3KbdOn": true,
       "mixOsc3": 0.0,
       "mixOsc3On": false,
@@ -6097,7 +6160,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Submerged Swell",
+    "name": "Submerged2",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6135,7 +6198,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Sunset Bass",
+    "name": "Sunset",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6176,7 +6239,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Indian Summer Lead",
+    "name": "Indian",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6214,7 +6277,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Push Limit Lead",
+    "name": "Push",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6258,7 +6321,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Mansion Brass",
+    "name": "Mansion",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6302,7 +6365,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Miami Palm Arp",
+    "name": "Miami",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6351,7 +6414,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Munich 16th Arp",
+    "name": "Munich",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6399,7 +6462,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Phantasm 80s Arp",
+    "name": "Phantasm",
     "category": "80s Cinema & Disco",
     "author": "Factory",
     "tags": [
@@ -6438,7 +6501,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Cyber Blues Lead",
+    "name": "Cyber",
     "category": "Cinematic Cyber Noir",
     "author": "Factory",
     "tags": [
@@ -6478,7 +6541,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Cyber Brass",
+    "name": "Cyber2",
     "category": "Cinematic Cyber Noir",
     "author": "Factory",
     "tags": [
@@ -6528,7 +6591,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Golden Triumph",
+    "name": "Golden",
     "category": "Cinematic Cyber Noir",
     "author": "Factory",
     "tags": [
@@ -6572,7 +6635,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Tears in Neon",
+    "name": "Tears",
     "category": "Cinematic Cyber Noir",
     "author": "Factory",
     "tags": [
@@ -6619,7 +6682,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Spiral Arp",
+    "name": "Spiral",
     "category": "Cinematic Cyber Noir",
     "author": "Factory",
     "tags": [
@@ -6668,7 +6731,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Continuo Cello",
+    "name": "Continuo",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -6680,13 +6743,13 @@ namespace LadderMono
     "params": {
       "tune": -33.4,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 0,
       "notePriority": 1,
@@ -6712,11 +6775,11 @@ namespace LadderMono
       "mixExtOn": false,
       "mixerDrive": 0.0,
       "cutoff": 1.49,
-      "emphasis": 3.40,
-      "contourAmount": 3.50,
+      "emphasis": 3.4,
+      "contourAmount": 3.5,
       "kbd1": false,
       "kbd2": false,
-      "bassComp": 0.60,
+      "bassComp": 0.6,
       "fAttack": 0.0,
       "fDecay": 4.56,
       "fSustain": 5.0,
@@ -6737,7 +6800,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Fugue Subject Lead",
+    "name": "Fugue",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -6749,24 +6812,24 @@ namespace LadderMono
     "params": {
       "tune": 55.5,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 4.65,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
       "osc1Range": 4,
       "osc1Wave": 2,
-      "mixOsc1": 9.50,
+      "mixOsc1": 9.5,
       "mixOsc1On": true,
       "osc2Range": 3,
       "osc2Wave": 3,
       "osc2Fine": 0.04,
-      "mixOsc2": 7.00,
+      "mixOsc2": 7.0,
       "mixOsc2On": true,
       "osc3Range": 3,
       "osc3Wave": 2,
@@ -6806,7 +6869,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Little Fugue Bass",
+    "name": "Little",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -6819,7 +6882,7 @@ namespace LadderMono
       "tune": 100.0,
       "glideTime": 1.55,
       "modMix": 10.0,
-      "lfoRate": 30.00,
+      "lfoRate": 30.0,
       "oscModOn": true,
       "filterModOn": true,
       "arpOn": false,
@@ -6847,14 +6910,14 @@ namespace LadderMono
       "mixerDrive": 0.0,
       "cutoff": 1.23,
       "emphasis": 4.85,
-      "contourAmount": 3.90,
+      "contourAmount": 3.9,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.44,
       "fAttack": 2.58,
       "fDecay": 9.24,
       "fSustain": 10.0,
-      "aAttack": 1.00,
+      "aAttack": 1.0,
       "aDecay": 7.19,
       "aSustain": 8.55,
       "decaySwitchOn": true,
@@ -6865,7 +6928,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Counterpoint Reed",
+    "name": "Counterpoint",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -6889,12 +6952,12 @@ namespace LadderMono
       "notePriority": 0,
       "osc1Range": 3,
       "osc1Wave": 4,
-      "mixOsc1": 9.00,
+      "mixOsc1": 9.0,
       "mixOsc1On": true,
       "osc2Range": 4,
       "osc2Wave": 5,
       "osc2Fine": 0.05,
-      "mixOsc2": 7.50,
+      "mixOsc2": 7.5,
       "mixOsc2On": true,
       "osc3Range": 3,
       "osc3Wave": 2,
@@ -6910,12 +6973,12 @@ namespace LadderMono
       "mixerDrive": 7.4,
       "cutoff": 0.74,
       "emphasis": 6.11,
-      "contourAmount": 3.80,
+      "contourAmount": 3.8,
       "kbd1": true,
       "kbd2": true,
       "bassComp": 0.25,
       "fAttack": 0.0,
-      "fDecay": 2.50,
+      "fDecay": 2.5,
       "fSustain": 5.0,
       "aAttack": 0.0,
       "aDecay": 8.32,
@@ -6934,7 +6997,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Magpie Flute",
+    "name": "Magpie",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -6946,24 +7009,24 @@ namespace LadderMono
     "params": {
       "tune": 0.0,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
       "osc1Range": 4,
       "osc1Wave": 0,
-      "mixOsc1": 10.00,
+      "mixOsc1": 10.0,
       "mixOsc1On": true,
       "osc2Range": 5,
       "osc2Wave": 0,
       "osc2Fine": 0.03,
-      "mixOsc2": 5.00,
+      "mixOsc2": 5.0,
       "mixOsc2On": true,
       "osc3Range": 5,
       "osc3Wave": 0,
@@ -6979,11 +7042,11 @@ namespace LadderMono
       "mixerDrive": 0.0,
       "cutoff": 1.43,
       "emphasis": 3.15,
-      "contourAmount": 3.00,
+      "contourAmount": 3.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
-      "fAttack": 0.80,
+      "fAttack": 0.8,
       "fDecay": 5.18,
       "fSustain": 5.0,
       "aAttack": 0.52,
@@ -6991,7 +7054,7 @@ namespace LadderMono
       "aSustain": 10.0,
       "decaySwitchOn": true,
       "masterVol": 0.8,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 0,
       "arpOn": false,
       "arpLatch": false,
@@ -7003,7 +7066,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Queen of Night Lead",
+    "name": "Queen",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7021,13 +7084,13 @@ namespace LadderMono
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
       "osc1Range": 5,
       "osc1Wave": 3,
-      "mixOsc1": 9.00,
+      "mixOsc1": 9.0,
       "mixOsc1On": true,
       "osc2Range": 4,
       "osc2Wave": 3,
@@ -7046,14 +7109,14 @@ namespace LadderMono
       "mixExt": 0.0,
       "mixExtOn": true,
       "mixerDrive": 0.0,
-      "cutoff": 5.00,
-      "emphasis": 0.00,
-      "contourAmount": 0.00,
+      "cutoff": 5.0,
+      "emphasis": 0.0,
+      "contourAmount": 0.0,
       "kbd1": true,
       "kbd2": true,
       "bassComp": 0.24,
       "fAttack": 2.18,
-      "fDecay": 2.50,
+      "fDecay": 2.5,
       "fSustain": 7.9,
       "aAttack": 0.0,
       "aDecay": 7.03,
@@ -7072,7 +7135,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Requiem Lacrimosa",
+    "name": "Requiem",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7090,18 +7153,18 @@ namespace LadderMono
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
       "osc1Range": 3,
       "osc1Wave": 2,
-      "mixOsc1": 8.50,
+      "mixOsc1": 8.5,
       "mixOsc1On": true,
       "osc2Range": 3,
       "osc2Wave": 0,
       "osc2Fine": 0.07,
-      "mixOsc2": 7.50,
+      "mixOsc2": 7.5,
       "mixOsc2On": true,
       "osc3Range": 5,
       "osc3Wave": 0,
@@ -7116,13 +7179,13 @@ namespace LadderMono
       "mixExtOn": false,
       "mixerDrive": 0.0,
       "cutoff": 3.47,
-      "emphasis": 1.00,
-      "contourAmount": 2.00,
+      "emphasis": 1.0,
+      "contourAmount": 2.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
-      "fAttack": 0.80,
-      "fDecay": 3.20,
+      "fAttack": 0.8,
+      "fDecay": 3.2,
       "fSustain": 6.5,
       "aAttack": 0.42,
       "aDecay": 9.24,
@@ -7141,7 +7204,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Scherzo Synth",
+    "name": "Scherzo",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7153,13 +7216,13 @@ namespace LadderMono
     "params": {
       "tune": 100.0,
       "glideOn": true,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 0,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 1,
       "bendRange": 12,
       "notePriority": 2,
@@ -7184,9 +7247,9 @@ namespace LadderMono
       "mixExt": 10.0,
       "mixExtOn": false,
       "mixerDrive": 10.1,
-      "cutoff": 5.00,
-      "emphasis": 0.00,
-      "contourAmount": 0.00,
+      "cutoff": 5.0,
+      "emphasis": 0.0,
+      "contourAmount": 0.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
@@ -7198,7 +7261,7 @@ namespace LadderMono
       "aSustain": 8.7,
       "decaySwitchOn": true,
       "masterVol": 0.0,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 1,
       "arpOn": false,
       "arpLatch": false,
@@ -7210,7 +7273,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Sinfonia Pastorale",
+    "name": "Sinfonia",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7228,24 +7291,24 @@ namespace LadderMono
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 0,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 1,
       "bendRange": 7,
       "notePriority": 2,
       "osc1Range": 4,
       "osc1Wave": 0,
-      "mixOsc1": 9.00,
+      "mixOsc1": 9.0,
       "mixOsc1On": true,
       "osc2Range": 4,
       "osc2Wave": 1,
       "osc2Fine": 0.0,
-      "mixOsc2": 6.00,
+      "mixOsc2": 6.0,
       "mixOsc2On": true,
       "osc3Range": 4,
       "osc3Wave": 2,
       "osc3Fine": 0.0,
       "osc3KbdOn": true,
-      "mixOsc3": 4.10,
+      "mixOsc3": 4.1,
       "mixOsc3On": true,
       "noiseColor": 1,
       "mixNoise": 0.0,
@@ -7254,20 +7317,20 @@ namespace LadderMono
       "mixExtOn": false,
       "mixerDrive": 0.0,
       "cutoff": 3.29,
-      "emphasis": 0.00,
-      "contourAmount": 0.00,
+      "emphasis": 0.0,
+      "contourAmount": 0.0,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
       "fAttack": 0.27,
-      "fDecay": 5.00,
+      "fDecay": 5.0,
       "fSustain": 3.0,
       "aAttack": 0.0,
-      "aDecay": 5.00,
+      "aDecay": 5.0,
       "aSustain": 7.0,
       "decaySwitchOn": true,
       "masterVol": -4.3,
-      "analogAmount": 0.40,
+      "analogAmount": 0.4,
       "voices": 2,
       "arpOn": false,
       "arpLatch": false,
@@ -7279,7 +7342,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Synth Timpani",
+    "name": "Timpani",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7291,13 +7354,13 @@ namespace LadderMono
     "params": {
       "tune": -55.0,
       "glideOn": true,
-      "glideTime": 2.10,
+      "glideTime": 2.1,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
@@ -7317,26 +7380,26 @@ namespace LadderMono
       "mixOsc3": 0.0,
       "mixOsc3On": false,
       "noiseColor": 1,
-      "mixNoise": 3.00,
+      "mixNoise": 3.0,
       "mixNoiseOn": false,
       "mixExt": 0.0,
       "mixExtOn": false,
       "mixerDrive": 0.0,
       "cutoff": 0.73,
-      "emphasis": 6.00,
-      "contourAmount": 9.50,
+      "emphasis": 6.0,
+      "contourAmount": 9.5,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.25,
       "fAttack": 0.0,
-      "fDecay": 2.20,
+      "fDecay": 2.2,
       "fSustain": 0.0,
       "aAttack": 0.0,
       "aDecay": 10.0,
       "aSustain": 0.0,
       "decaySwitchOn": true,
       "masterVol": -11.2,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 0,
       "arpOn": false,
       "arpLatch": false,
@@ -7348,7 +7411,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Timestep Lead",
+    "name": "Timestep",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7381,7 +7444,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Toccata Pipe Lead",
+    "name": "Toccata",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7423,7 +7486,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Baroque Organ",
+    "name": "Baroque2",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7459,7 +7522,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Goldberg Pluck",
+    "name": "Goldberg",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7508,24 +7571,24 @@ namespace LadderMono
     "params": {
       "tune": 0.0,
       "glideOn": false,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideMode": 0,
       "modMix": 0.0,
       "oscModOn": false,
       "filterModOn": false,
       "modSource": 1,
-      "lfoRate": 5.00,
+      "lfoRate": 5.0,
       "lfoShape": 0,
       "bendRange": 2,
       "notePriority": 1,
       "osc1Range": 3,
       "osc1Wave": 2,
-      "mixOsc1": 10.00,
+      "mixOsc1": 10.0,
       "mixOsc1On": true,
       "osc2Range": 4,
       "osc2Wave": 5,
       "osc2Fine": 0.02,
-      "mixOsc2": 7.00,
+      "mixOsc2": 7.0,
       "mixOsc2On": true,
       "osc3Range": 3,
       "osc3Wave": 2,
@@ -7539,12 +7602,12 @@ namespace LadderMono
       "mixExt": 0.0,
       "mixExtOn": false,
       "mixerDrive": 0.0,
-      "cutoff": 5.00,
-      "emphasis": 0.00,
-      "contourAmount": 5.80,
+      "cutoff": 5.0,
+      "emphasis": 0.0,
+      "contourAmount": 5.8,
       "kbd1": true,
       "kbd2": true,
-      "bassComp": 0.00,
+      "bassComp": 0.0,
       "fAttack": 0.0,
       "fDecay": 3.97,
       "fSustain": 0.0,
@@ -7553,7 +7616,7 @@ namespace LadderMono
       "aSustain": 0.2,
       "decaySwitchOn": true,
       "masterVol": -13.4,
-      "analogAmount": 0.30,
+      "analogAmount": 0.3,
       "voices": 2,
       "arpOn": false,
       "arpLatch": false,
@@ -7565,7 +7628,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Brandenburg Trumpet",
+    "name": "Brandenburg",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7602,7 +7665,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Dies Irae Brass",
+    "name": "Dies",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7646,7 +7709,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Funeral Brass",
+    "name": "Funeral",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7685,7 +7748,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Choral Swell",
+    "name": "Choral",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7723,7 +7786,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Winter Lodge Swell",
+    "name": "Winter",
     "category": "1971 Baroque Electronic",
     "author": "Factory",
     "tags": [
@@ -7761,7 +7824,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Grid Monolith",
+    "name": "Grid",
     "category": "Digital Grid & Cyberpunk",
     "author": "Factory",
     "tags": [
@@ -7807,7 +7870,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Grid Combat",
+    "name": "Grid2",
     "category": "Digital Grid & Cyberpunk",
     "author": "Factory",
     "tags": [
@@ -7852,7 +7915,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "End of Line",
+    "name": "End",
     "category": "Digital Grid & Cyberpunk",
     "author": "Factory",
     "tags": [
@@ -7889,7 +7952,7 @@ namespace LadderMono
     "type": "Brass"
   },
   {
-    "name": "Solar Sailer",
+    "name": "Solar",
     "category": "Digital Grid & Cyberpunk",
     "author": "Factory",
     "tags": [
@@ -7932,7 +7995,7 @@ namespace LadderMono
     "type": "Pad"
   },
   {
-    "name": "Cyber Highway",
+    "name": "Cyber3",
     "category": "Digital Grid & Cyberpunk",
     "author": "Factory",
     "tags": [
@@ -7974,7 +8037,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Space Flute",
+    "name": "Space",
     "category": "Space Pop & Downtempo",
     "author": "Factory",
     "tags": [
@@ -8016,7 +8079,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Lounge Tape Piano",
+    "name": "Lounge",
     "category": "Space Pop & Downtempo",
     "author": "Factory",
     "tags": [
@@ -8059,7 +8122,7 @@ namespace LadderMono
     "type": "Keys"
   },
   {
-    "name": "Star Pulse",
+    "name": "Star2",
     "category": "Space Pop & Downtempo",
     "author": "Factory",
     "tags": [
@@ -8106,7 +8169,7 @@ namespace LadderMono
     "type": "Arp"
   },
   {
-    "name": "Bird Call",
+    "name": "Bird",
     "category": "Space Pop & Downtempo",
     "author": "Factory",
     "tags": [
@@ -8146,7 +8209,7 @@ namespace LadderMono
     "type": "FX"
   },
   {
-    "name": "Verdis Quo Flute",
+    "name": "Verdis",
     "category": "Basics",
     "author": "Carlos Damian",
     "tags": [
@@ -8191,17 +8254,17 @@ namespace LadderMono
       "mixExtOn": false,
       "mixerDrive": 0.0,
       "cutoff": 1.45,
-      "emphasis": 1.20,
-      "contourAmount": 2.10,
+      "emphasis": 1.2,
+      "contourAmount": 2.1,
       "kbd1": true,
       "kbd2": true,
-      "bassComp": 0.40,
+      "bassComp": 0.4,
       "fAttack": 0.04,
-      "fDecay": 1.80,
-      "fSustain": 7.50,
+      "fDecay": 1.8,
+      "fSustain": 7.5,
       "aAttack": 0.03,
-      "aDecay": 1.80,
-      "aSustain": 8.50,
+      "aDecay": 1.8,
+      "aSustain": 8.5,
       "decaySwitchOn": true,
       "masterVol": 0.0,
       "analogAmount": 0.35,
@@ -8210,7 +8273,7 @@ namespace LadderMono
     "type": "Lead"
   },
   {
-    "name": "Dracula Psych Bass",
+    "name": "Dracula",
     "category": "Basics",
     "author": "Carlos Damian",
     "tags": [
@@ -8223,7 +8286,7 @@ namespace LadderMono
     ],
     "params": {
       "tune": 0.0,
-      "glideTime": 0.40,
+      "glideTime": 0.4,
       "glideOn": false,
       "modMix": 0.0,
       "lfoRate": 4.5,
@@ -8254,16 +8317,16 @@ namespace LadderMono
       "mixerDrive": 2.2,
       "cutoff": 0.35,
       "emphasis": 2.15,
-      "contourAmount": 4.40,
+      "contourAmount": 4.4,
       "kbd1": false,
       "kbd2": false,
-      "bassComp": 0.70,
+      "bassComp": 0.7,
       "fAttack": 0.0,
-      "fDecay": 0.70,
-      "fSustain": 2.80,
+      "fDecay": 0.7,
+      "fSustain": 2.8,
       "aAttack": 0.0,
       "aDecay": 1.25,
-      "aSustain": 6.80,
+      "aSustain": 6.8,
       "decaySwitchOn": false,
       "masterVol": 0.0,
       "analogAmount": 0.58,
@@ -8272,7 +8335,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Dracula Fuzzy Groove",
+    "name": "Dracula2",
     "category": "Basics",
     "author": "Carlos Damian",
     "tags": [
@@ -8284,7 +8347,7 @@ namespace LadderMono
     ],
     "params": {
       "tune": 0.0,
-      "glideTime": 0.30,
+      "glideTime": 0.3,
       "glideOn": false,
       "modMix": 0.0,
       "lfoRate": 3.0,
@@ -8314,17 +8377,17 @@ namespace LadderMono
       "mixExtOn": true,
       "mixerDrive": 4.8,
       "cutoff": 0.65,
-      "emphasis": 2.80,
-      "contourAmount": 5.10,
+      "emphasis": 2.8,
+      "contourAmount": 5.1,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.75,
       "fAttack": 0.0,
       "fDecay": 0.55,
-      "fSustain": 3.20,
+      "fSustain": 3.2,
       "aAttack": 0.0,
-      "aDecay": 1.10,
-      "aSustain": 7.20,
+      "aDecay": 1.1,
+      "aSustain": 7.2,
       "decaySwitchOn": false,
       "masterVol": 0.0,
       "analogAmount": 0.62,
@@ -8333,7 +8396,7 @@ namespace LadderMono
     "type": "Bass"
   },
   {
-    "name": "Dracula Tape Sub",
+    "name": "Dracula3",
     "category": "Basics",
     "author": "Carlos Damian",
     "tags": [
@@ -8346,7 +8409,7 @@ namespace LadderMono
     ],
     "params": {
       "tune": 0.0,
-      "glideTime": 0.50,
+      "glideTime": 0.5,
       "glideOn": false,
       "modMix": 0.0,
       "lfoRate": 2.5,
@@ -8375,27 +8438,27 @@ namespace LadderMono
       "mixExt": 1.2,
       "mixExtOn": true,
       "mixerDrive": 1.5,
-      "cutoff": -0.10,
-      "emphasis": 1.40,
-      "contourAmount": 3.10,
+      "cutoff": -0.1,
+      "emphasis": 1.4,
+      "contourAmount": 3.1,
       "kbd1": false,
       "kbd2": false,
       "bassComp": 0.85,
       "fAttack": 0.01,
-      "fDecay": 0.90,
-      "fSustain": 4.50,
+      "fDecay": 0.9,
+      "fSustain": 4.5,
       "aAttack": 0.0,
-      "aDecay": 1.60,
-      "aSustain": 8.50,
+      "aDecay": 1.6,
+      "aSustain": 8.5,
       "decaySwitchOn": true,
       "masterVol": 0.0,
-      "analogAmount": 0.50,
+      "analogAmount": 0.5,
       "voices": 0
     },
     "type": "Bass"
   },
   {
-    "name": "Init Patch",
+    "name": "Init",
     "category": "Init",
     "author": "Factory",
     "tags": [

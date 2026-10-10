@@ -32,43 +32,29 @@ namespace LadderMono
             };
             addAndMakeVisible(websiteBtn);
 
-            // Theme Configuration Buttons
-            skinClassicBtn.setButtonText("Classic Vintage");
-            skinClassicBtn.onClick = [this] {
-                updateSkinSelection(MinimalistLookAndFeel::SkinMode::ClassicVintage);
-                if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::ClassicVintage);
-            };
-            addAndMakeVisible(skinClassicBtn);
-
-            skinCyberBtn.setButtonText("Cyber Schematic");
-            skinCyberBtn.onClick = [this] {
-                updateSkinSelection(MinimalistLookAndFeel::SkinMode::CyberSchematic);
-                if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::CyberSchematic);
-            };
-            addAndMakeVisible(skinCyberBtn);
-
-            skinNoirBtn.setButtonText("Noir Metal 3D");
+            // Theme Configuration Buttons (Noir Matte with Theme Studio)
+            skinNoirBtn.setButtonText("Noir Matte");
             skinNoirBtn.onClick = [this] {
                 updateSkinSelection(MinimalistLookAndFeel::SkinMode::Noir3D);
                 if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::Noir3D);
             };
             addAndMakeVisible(skinNoirBtn);
 
-            updateSkinSelection(MinimalistLookAndFeel::SkinMode::ClassicVintage);
+            updateSkinSelection(MinimalistLookAndFeel::SkinMode::Noir3D);
 
-            // Hidden v1.1 toggle button
-            revealV11Btn.setButtonText(juce::CharPointer_UTF8("\xe2\x9a\xa1 Reveal Upcoming v1.1 Updates [Hidden]"));
+            // Hidden v1.1 toggle button (Clean neutral text, no emojis)
+            revealV11Btn.setButtonText("Upcoming v1.1 Updates");
             revealV11Btn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff181a20));
             revealV11Btn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2d2315));
             revealV11Btn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xff8c92a2));
-            revealV11Btn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xfff5a642));
+            revealV11Btn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xffd4d8e2));
             revealV11Btn.setClickingTogglesState(true);
             revealV11Btn.onClick = [this] {
                 showV11 = revealV11Btn.getToggleState();
                 if (showV11)
-                    revealV11Btn.setButtonText(juce::CharPointer_UTF8("\xf0\x9f\x94\x93 v1.1 Roadmap Unlocked (Click to hide)"));
+                    revealV11Btn.setButtonText("v1.1 Roadmap (Click to hide)");
                 else
-                    revealV11Btn.setButtonText(juce::CharPointer_UTF8("\xe2\x9a\xa1 Reveal Upcoming v1.1 Updates [Hidden]"));
+                    revealV11Btn.setButtonText("Upcoming v1.1 Updates");
                 repaint();
             };
             addAndMakeVisible(revealV11Btn);
@@ -79,21 +65,8 @@ namespace LadderMono
         void updateSkinSelection(MinimalistLookAndFeel::SkinMode mode)
         {
             activeSkin = mode;
-            skinClassicBtn.setColour(juce::TextButton::buttonColourId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::ClassicVintage ? juce::Colour(0xffc87024) : juce::Colour(0xff181a20));
-            skinClassicBtn.setColour(juce::TextButton::textColourOffId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::ClassicVintage ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
-
-            skinCyberBtn.setColour(juce::TextButton::buttonColourId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? juce::Colour(0xff39ac7e) : juce::Colour(0xff181a20));
-            skinCyberBtn.setColour(juce::TextButton::textColourOffId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
-
-            skinNoirBtn.setColour(juce::TextButton::buttonColourId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D ? juce::Colour(0xff686e7a) : juce::Colour(0xff181a20));
-            skinNoirBtn.setColour(juce::TextButton::textColourOffId,
-                activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
-
+            skinNoirBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff25272e));
+            skinNoirBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffd4d8e2));
             repaint();
         }
 
@@ -133,68 +106,30 @@ namespace LadderMono
 
             auto card = getCardBounds().toFloat();
 
-            // Card border
-            if (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic)
-            {
-                g.setColour(CyberPalette::BG_DARK);
-                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
-                g.setColour(CyberPalette::S500);
-                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
+            // Card border (Deep Matte Noir chassis)
+            g.setColour(Noir3DPalette::PITCH_BLACK);
+            g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
+            g.setColour(Noir3DPalette::BEVEL_SPEC);
+            g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
 
-                juce::ColourGradient cardGrad(CyberPalette::BG_CARD, 0.0f, card.getY(),
-                                              CyberPalette::BG_PANEL, 0.0f, card.getBottom(), false);
-                g.setGradientFill(cardGrad);
-                g.fillRoundedRectangle(card, 5.0f);
-                g.setColour(CyberPalette::BORDER_HI);
-                g.drawRoundedRectangle(card, 5.0f, 1.0f);
-            }
-            else if (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D)
-            {
-                g.setColour(Noir3DPalette::PITCH_BLACK);
-                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
-                g.setColour(Noir3DPalette::BEVEL_SPEC);
-                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
-
-                juce::ColourGradient cardGrad(Noir3DPalette::PANEL_BG, 0.0f, card.getY(),
-                                              Noir3DPalette::PITCH_BLACK, 0.0f, card.getBottom(), false);
-                g.setGradientFill(cardGrad);
-                g.fillRoundedRectangle(card, 5.0f);
-                g.setColour(Noir3DPalette::BEVEL_LIGHT);
-                g.drawRoundedRectangle(card, 5.0f, 1.0f);
-            }
-            else
-            {
-                g.setColour(juce::Colour(0xff3e2415));
-                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
-                g.setColour(juce::Colour(0xffc89240));
-                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
-
-                juce::ColourGradient cardGrad(juce::Colour(0xff22242a), 0.0f, card.getY(),
-                                              juce::Colour(0xff141518), 0.0f, card.getBottom(), false);
-                g.setGradientFill(cardGrad);
-                g.fillRoundedRectangle(card, 5.0f);
-                g.setColour(juce::Colour(0xff444855));
-                g.drawRoundedRectangle(card, 5.0f, 1.0f);
-            }
+            juce::ColourGradient cardGrad(Noir3DPalette::PANEL_BG, 0.0f, card.getY(),
+                                          Noir3DPalette::PITCH_BLACK, 0.0f, card.getBottom(), false);
+            g.setGradientFill(cardGrad);
+            g.fillRoundedRectangle(card, 5.0f);
+            g.setColour(Noir3DPalette::BEVEL_LIGHT);
+            g.drawRoundedRectangle(card, 5.0f, 1.0f);
 
             // Title Badge
             juce::Rectangle<float> titleBadge(card.getX() + 24.0f, card.getY() + 16.0f, 220.0f, 28.0f);
-            juce::Colour badgeBg1 = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::BG_DARK :
-                                    (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::PITCH_BLACK : juce::Colour(0xff2a2214);
-            juce::Colour badgeBg2 = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::BG_CARD :
-                                    (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::PANEL_BG : juce::Colour(0xff161108);
-            juce::Colour badgeBorder = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::S500 :
-                                       (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::TEXT_TITLE : juce::Colour(0xffc89240);
-
-            juce::ColourGradient badgeGrad(badgeBg1, 0.0f, titleBadge.getY(),
-                                           badgeBg2, 0.0f, titleBadge.getBottom(), false);
+            juce::ColourGradient badgeGrad(Noir3DPalette::PITCH_BLACK, 0.0f, titleBadge.getY(),
+                                           Noir3DPalette::PANEL_BG, 0.0f, titleBadge.getBottom(), false);
             g.setGradientFill(badgeGrad);
             g.fillRoundedRectangle(titleBadge, 3.0f);
-            g.setColour(badgeBorder);
+            g.setColour(Noir3DPalette::TEXT_TITLE);
             g.drawRoundedRectangle(titleBadge, 3.0f, 1.2f);
 
             g.setFont(juce::FontOptions(13.0f, juce::Font::bold));
-            g.setColour(activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? CyberPalette::S300 : juce::Colour(0xffe89a38));
+            g.setColour(Noir3DPalette::TEXT_TITLE);
             g.drawText("N E O   A N A L O G", titleBadge.toNearestInt(), juce::Justification::centred);
 
             // Version Pill Badge
@@ -320,9 +255,9 @@ namespace LadderMono
             // Skin Selector Label in Settings
             float skinY = card.getBottom() - 84.0f;
             g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
-            g.setColour(activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? CyberPalette::S400 : juce::Colour(0xffe89a38));
-            g.drawText(juce::CharPointer_UTF8("\xe2\x9a\x99 UI THEME & SKIN CONFIGURATION:"),
-                       juce::Rectangle<float>(card.getX() + 26.0f, skinY, 240.0f, 24.0f).toNearestInt(),
+            g.setColour(juce::Colour(0xff989ea8));
+            g.drawText("THEME ARCHITECTURE: OP-XY NOIR & LIVE THEME STUDIO (CLICK ✎ IN TOP BAR)",
+                       juce::Rectangle<float>(card.getX() + 26.0f, skinY, card.getWidth() - 52.0f, 24.0f).toNearestInt(),
                        juce::Justification::centredLeft);
 
             // Bottom bar info
@@ -343,9 +278,7 @@ namespace LadderMono
             websiteBtn.setBounds(card.getRight() - 170, card.getY() + 82, 145, 24);
 
             float skinY = card.getBottom() - 86.0f;
-            skinClassicBtn.setBounds(card.getX() + 260, static_cast<int>(skinY), 125, 26);
-            skinCyberBtn.setBounds(card.getX() + 395, static_cast<int>(skinY), 125, 26);
-            skinNoirBtn.setBounds(card.getX() + 530, static_cast<int>(skinY), 125, 26);
+            skinNoirBtn.setBounds(card.getRight() - 170, static_cast<int>(skinY), 145, 26);
 
             revealV11Btn.setBounds(card.getRight() - 250, card.getBottom() - 38, 230, 24);
         }
@@ -355,10 +288,8 @@ namespace LadderMono
         juce::TextButton closeBtn;
         juce::TextButton websiteBtn;
         juce::TextButton revealV11Btn;
-        juce::TextButton skinClassicBtn;
-        juce::TextButton skinCyberBtn;
         juce::TextButton skinNoirBtn;
-        MinimalistLookAndFeel::SkinMode activeSkin = MinimalistLookAndFeel::SkinMode::ClassicVintage;
+        MinimalistLookAndFeel::SkinMode activeSkin = MinimalistLookAndFeel::SkinMode::Noir3D;
         bool showV11 = false;
 
         juce::Rectangle<int> getCardBounds() const

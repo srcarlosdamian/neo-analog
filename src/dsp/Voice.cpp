@@ -256,7 +256,7 @@ namespace LadderMono
                 float white = noiseGen.process(NoiseColor::White);
                 // Very slow one-pole lowpass filter (~0.1 Hz)
                 driftNoiseState[i] = 0.9997f * driftNoiseState[i] + 0.0003f * white;
-                oscDriftCents[i] = driftNoiseState[i] * (analogAmount * 4.0f); // +/- 1 to 4 cents
+                oscDriftCents[i] = driftNoiseState[i] * (analogAmount * 150.0f); // Natural analog wandering up to +/- 4.5 cents
             }
         }
         else
@@ -289,7 +289,7 @@ namespace LadderMono
         float noiseSample = noiseGen.process(noiseColor);
 
         // Osc 3 mod source (if osc3 is used as modulation source)
-        float osc3Sample = 0.0f;
+        float osc3Sample = lastOsc3Sample;
 
         // Mod mix: 0 = Osc3/LFO, 1 = Noise
         float modSourceSignal = (modSource == ModSource::LFO) ? lfoOut : osc3Sample;
@@ -306,11 +306,13 @@ namespace LadderMono
         // 5. Generate Oscillators (with dynamic drift + hardware component tolerance)
         float o1 = osc1On ? oscs[0].process(baseFreqHz, pitchModSemitones, oscDriftCents[0] + oscFixedToleranceCents[0]) : 0.0f;
         float o2 = osc2On ? oscs[1].process(baseFreqHz, pitchModSemitones, oscDriftCents[1] + oscFixedToleranceCents[1]) : 0.0f;
-        float o3 = osc3On ? oscs[2].process(baseFreqHz, pitchModSemitones, oscDriftCents[2] + oscFixedToleranceCents[2]) : 0.0f;
+        float o3 = oscs[2].process(baseFreqHz, pitchModSemitones, oscDriftCents[2] + oscFixedToleranceCents[2]);
+        lastOsc3Sample = o3;
+        float o3Mix = osc3On ? o3 : 0.0f;
 
         // 6. Mixer Summation & Overdrive
         float extInput = extOn ? (lastOutputSample + externalInputSample) : 0.0f;
-        float mixerSum = (o1 * osc1Level) + (o2 * osc2Level) + (o3 * osc3Level)
+        float mixerSum = (o1 * osc1Level) + (o2 * osc2Level) + (o3Mix * osc3Level)
                        + (noiseOn ? (noiseSample * noiseLevel) : 0.0f)
                        + (extInput * extLevel);
 

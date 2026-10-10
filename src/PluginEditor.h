@@ -5,6 +5,7 @@
 #include "ui/VirtualKeyboard.h"
 #include "ui/PresetBrowser.h"
 #include "ui/AboutDialog.h"
+#include "ui/ThemeEditorPanel.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor, private juce::Timer
 {
@@ -29,8 +30,8 @@ public:
     void undo();
     void redo();
     void pushUndoSnapshot();
-    void setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode mode);
-    void toggleSkinMode();
+    void applyTheme(const LadderMono::ThemeColors& theme);
+    void toggleThemeEditor();
 
 private:
     void timerCallback() override;
@@ -42,6 +43,7 @@ private:
 
     LadderMonoAudioProcessor& audioProcessor;
     LadderMono::MinimalistLookAndFeel lnf;
+    LadderMono::ThemeColors currentTheme;
 
     // Preset & Header Controls
     juce::Label titleLabel;
@@ -55,7 +57,7 @@ private:
     juce::TextButton abBtn{"A/B: A"};
     juce::TextButton hqBtn{"HQ"};
     juce::Label cpuLabel;
-    juce::TextButton skinBtn{"🎨 Vintage"};
+    juce::TextButton editThemeBtn;
     juce::TextButton aboutBtn{"Credits"};
 
     // A/B Comparison States
@@ -65,6 +67,7 @@ private:
 
     std::unique_ptr<LadderMono::PresetBrowserOverlay> presetBrowser;
     std::unique_ptr<LadderMono::AboutDialogOverlay> aboutDialog;
+    std::unique_ptr<LadderMono::ThemeEditorPanel> themeEditorPanel;
 
     // Window Resizer
     juce::ComponentBoundsConstrainer constrainer;
@@ -126,14 +129,17 @@ private:
     juce::Label arpSectionLabel;
     juce::ToggleButton arpOnBtn{"ARP ON"}, arpLatchBtn{"LATCH"};
     juce::ComboBox arpModeBox, arpOctaveBox, arpRateBox;
+    juce::ComboBox arpOctModeBox, arpPatternBox;
     Knobby arpGateKnob;
+    Knobby arpSwingKnob;
+    Knobby arpMutateKnob;
     juce::Label arpModeLabel, arpOctaveLabel, arpRateLabel;
+    juce::Label arpOctModeLabel, arpPatternLabel;
 
     // Performance Wheels & Keyboard
     juce::Slider pitchWheel;
     juce::Slider modWheel;
     LadderMono::VirtualKeyboard keyboard;
-    juce::Label keyboardHintLabel;
 
     // Computer Keyboard musical typing state
     int baseOctaveNote = 60; // C4 default
@@ -143,7 +149,6 @@ private:
     void setupComboBox(juce::ComboBox& box, const juce::String& paramId, const juce::StringArray& items);
     void setupToggle(juce::ToggleButton& btn, const juce::String& paramId);
     void updatePresetDisplay();
-    void updateKeyboardHint();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LadderMonoAudioProcessorEditor)
 };

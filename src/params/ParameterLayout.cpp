@@ -214,6 +214,20 @@ namespace LadderMono
         params.push_back(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{ParamIDs::arpLatch, 1}, "Arp Latch", false));
 
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{ParamIDs::arpSwing, 1}, "Arp Swing", 50.0f, 75.0f, 50.0f));
+
+        params.push_back(std::make_unique<juce::AudioParameterChoice>(
+            juce::ParameterID{ParamIDs::arpPattern, 1}, "Arp Pattern",
+            juce::StringArray{"Straight", "Dotted", "Syncopated", "Euclid 3/8", "Euclid 5/8"}, 0));
+
+        params.push_back(std::make_unique<juce::AudioParameterChoice>(
+            juce::ParameterID{ParamIDs::arpOctMode, 1}, "Arp Octave Direction",
+            juce::StringArray{"Ascend", "Alternate", "Spiral"}, 0));
+
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{ParamIDs::arpMutate, 1}, "Arp Mutate", 0.0f, 100.0f, 0.0f));
+
         return {params.begin(), params.end()};
     }
 }

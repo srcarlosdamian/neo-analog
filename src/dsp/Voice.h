@@ -153,6 +153,7 @@ namespace LadderMono
         // Mod bus & LFO
         float modMix = 0.0f; // 0 = Osc3/LFO, 1 = Noise
         ModSource modSource = ModSource::LFO;
+        float lastOsc3Sample = 0.0f;
         bool oscModEnabled = false;
         bool filterModEnabled = false;
         float lfoRate = 5.0f;

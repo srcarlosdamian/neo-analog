@@ -55,6 +55,10 @@ public:
     bool isBypassed() const noexcept { return bypassed.load(); }
     void setBypassed(bool b) noexcept { bypassed.store(b); }
 
+    // Physical Mod Wheel state
+    void setModWheelAmount(float mw) noexcept { currentModWheel.store(mw); }
+    float getModWheelAmount() const noexcept { return currentModWheel.load(); }
+
 private:
     juce::AudioProcessorValueTreeState apvts;
     std::array<LadderMono::Voice, kMaxVoices> voices;
@@ -66,6 +70,7 @@ private:
     juce::SmoothedValue<float> smoothedMasterVol;
     std::atomic<float> cpuLoad{0.0f};
     std::atomic<bool> bypassed{false};
+    std::atomic<float> currentModWheel{0.0f};
 
     void updateVoiceParameters() noexcept;
 

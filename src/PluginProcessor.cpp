@@ -244,11 +244,17 @@ void LadderMonoAudioProcessor::updateVoiceParameters() noexcept
     float arpFreeRate = apvts.getRawParameterValue(ParamIDs::arpFreeRate)->load();
     float arpGate = apvts.getRawParameterValue(ParamIDs::arpGate)->load();
     bool arpLatch = apvts.getRawParameterValue(ParamIDs::arpLatch)->load() > 0.5f;
+    float arpSwing = apvts.getRawParameterValue(ParamIDs::arpSwing)->load();
+    auto arpPattern = static_cast<ArpPattern>(static_cast<int>(apvts.getRawParameterValue(ParamIDs::arpPattern)->load()));
+    auto arpOctMode = static_cast<ArpOctMode>(static_cast<int>(apvts.getRawParameterValue(ParamIDs::arpOctMode)->load()));
+    float arpMutate = apvts.getRawParameterValue(ParamIDs::arpMutate)->load();
 
     // Apply to all voices
+    float currentMw = currentModWheel.load();
     for (auto& v : voices)
     {
         v.setMasterTune(tune);
+        v.setModWheel(currentMw);
         v.getGlide().setEnabled(glideOn);
         v.getGlide().setGlideTime(glideTime);
         v.getGlide().setMode(glideMode);
@@ -298,11 +304,15 @@ void LadderMonoAudioProcessor::updateVoiceParameters() noexcept
         arp.setEnabled(arpOn);
         arp.setMode(arpMode);
         arp.setOctaves(arpOct);
+        arp.setOctaveMode(arpOctMode);
         arp.setRateSync(arpSyncRate);
         arp.setSyncMode(arpSync);
         arp.setFreeRateHz(arpFreeRate);
         arp.setGate(arpGate);
         arp.setLatch(arpLatch);
+        arp.setSwing(arpSwing);
+        arp.setPattern(arpPattern);
+        arp.setMutate(arpMutate);
     }
 
     // Master Volume
@@ -391,6 +401,7 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
                 if (ccNum == 1) // Mod wheel
                 {
                     float mw = ccVal / 127.0f;
+                    currentModWheel.store(mw);
                     for (auto& v : voices)
                         v.setModWheel(mw);
                 }

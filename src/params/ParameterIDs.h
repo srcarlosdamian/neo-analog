@@ -82,6 +82,10 @@ namespace LadderMono
         inline constexpr auto arpFreeRate   = "arpFreeRate";
         inline constexpr auto arpGate       = "arpGate";
         inline constexpr auto arpLatch      = "arpLatch";
+        inline constexpr auto arpSwing      = "arpSwing";
+        inline constexpr auto arpPattern    = "arpPattern";
+        inline constexpr auto arpOctMode    = "arpOctMode";
+        inline constexpr auto arpMutate     = "arpMutate";
     }
 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();

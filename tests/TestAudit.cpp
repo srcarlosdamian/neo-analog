@@ -215,6 +215,56 @@ int main()
     }
 
     // =========================================================================
+    // AUDIT 2B: ANALOG DRIFT (Thermal Instability & Pitch Fluctuation)
+    // =========================================================================
+    std::cout << "\n--- AUDITING ANALOG DRIFT ---\n";
+    {
+        resetToInit();
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc1On) = 1.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc1) = 8.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc2On) = 1.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc2) = 8.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::osc1Wave) = 2; // Saw
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::osc2Wave) = 2; // Saw
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::osc2Fine) = 0.0f;
+
+        // With Drift = 1.0: active analog wandering and organic chorusing
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::analogAmount) = 1.0f;
+        midi.clear();
+        midi.addEvent(juce::MidiMessage::noteOn(1, 60, (juce::uint8)100), 0);
+        buffer.clear();
+        processor.processBlock(buffer, midi);
+
+        std::vector<float> highDriftRms;
+        for (int b = 0; b < 60; ++b) {
+            midi.clear();
+            buffer.clear();
+            processor.processBlock(buffer, midi);
+            float bRms = 0.0f;
+            for (int s = 0; s < 512; ++s) bRms += buffer.getSample(0, s) * buffer.getSample(0, s);
+            highDriftRms.push_back(std::sqrt(bRms / 512.0f));
+        }
+
+        // Measure envelope / amplitude variance induced by oscillator phase drift
+        float meanHigh = 0.0f;
+        for (float v : highDriftRms) meanHigh += v;
+        meanHigh /= (float)highDriftRms.size();
+
+        float varHigh = 0.0f;
+        for (float v : highDriftRms) varHigh += (v - meanHigh) * (v - meanHigh);
+        varHigh = std::sqrt(varHigh / (float)highDriftRms.size());
+
+        auditCheck(varHigh > 0.005f, "DRIFT",
+                   "Analog Drift produces organic inter-oscillator phase wandering",
+                   "RMS modulation variance: " + std::to_string(varHigh));
+
+        midi.clear();
+        midi.addEvent(juce::MidiMessage::noteOff(1, 60), 0);
+        buffer.clear();
+        processor.processBlock(buffer, midi);
+    }
+
+    // =========================================================================
     // AUDIT 3: FILTER CONTROLS & SELF-OSCILLATION
     // =========================================================================
     std::cout << "\n--- AUDITING FILTER SECTION ---\n";
