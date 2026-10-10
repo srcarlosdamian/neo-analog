@@ -327,10 +327,10 @@ namespace LadderMono
         // Modulation in octaves (1V/octave tracking)
         float cutoffOctaves = 0.0f;
 
-        // Keyboard tracking: note 60 (C4) is reference
+        // Keyboard tracking: note 36 (C2) is reference
         if (keyTrackingRatio > 0.0f)
         {
-            cutoffOctaves += (currentPitchNote - 60.0f) / 12.0f * keyTrackingRatio;
+            cutoffOctaves += (currentPitchNote - 36.0f) * (1.0f / 12.0f) * keyTrackingRatio;
         }
 
         // Filter contour envelope modulation (0 to ~4.5 octaves)

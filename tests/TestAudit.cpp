@@ -341,6 +341,58 @@ int main()
         midi.addEvent(juce::MidiMessage::noteOff(1, 60), 0);
         buffer.clear();
         processor.processBlock(buffer, midi);
+
+        // Test Keyboard Tracking (KBD 1 and KBD 2)
+        // With cutoff partly closed (-2.0), activating KBD 1 and KBD 2 on Middle C (note 60)
+        // must progressively open up harmonics (KBD off < KBD 1 < KBD 2 < Both).
+        resetToInit();
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc1On) = 1.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::mixOsc1) = 8.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::cutoff) = -2.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::contourAmount) = 0.0f; // no envelope modulation
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::fAttack) = 0.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::fDecay) = 10.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::fSustain) = 10.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::aAttack) = 0.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::aDecay) = 10.0f;
+        *apvts.getRawParameterValue(LadderMono::ParamIDs::aSustain) = 10.0f;
+
+        auto measureKbdRms = [&](float k1, float k2) {
+            *apvts.getRawParameterValue(LadderMono::ParamIDs::kbd1) = k1;
+            *apvts.getRawParameterValue(LadderMono::ParamIDs::kbd2) = k2;
+            midi.clear();
+            midi.addEvent(juce::MidiMessage::noteOn(1, 60, (juce::uint8)100), 0);
+            buffer.clear();
+            processor.processBlock(buffer, midi);
+            // Settle
+            for (int b = 0; b < 4; ++b) {
+                midi.clear();
+                buffer.clear();
+                processor.processBlock(buffer, midi);
+            }
+            float sumSq = 0.0f;
+            for (int b = 0; b < 10; ++b) {
+                midi.clear();
+                buffer.clear();
+                processor.processBlock(buffer, midi);
+                for (int s = 0; s < 512; ++s) sumSq += buffer.getSample(0, s) * buffer.getSample(0, s);
+            }
+            midi.clear();
+            midi.addEvent(juce::MidiMessage::noteOff(1, 60), 0);
+            buffer.clear();
+            processor.processBlock(buffer, midi);
+            return std::sqrt(sumSq / (10 * 512));
+        };
+
+        float rmsNone = measureKbdRms(0.0f, 0.0f);
+        float rmsKbd1 = measureKbdRms(1.0f, 0.0f);
+        float rmsKbd2 = measureKbdRms(0.0f, 1.0f);
+        float rmsBoth = measureKbdRms(1.0f, 1.0f);
+
+        bool kbdProgression = (rmsKbd1 > rmsNone * 1.05f) && (rmsKbd2 > rmsKbd1 * 1.05f) && (rmsBoth > rmsKbd2 * 1.05f);
+        auditCheck(kbdProgression, "FILTER", "KBD 1 and KBD 2 tracking progressively opens cutoff and harmonics",
+                   "RMS None: " + std::to_string(rmsNone) + ", KBD1: " + std::to_string(rmsKbd1) +
+                   ", KBD2: " + std::to_string(rmsKbd2) + ", Both: " + std::to_string(rmsBoth));
     }
 
     // =========================================================================
