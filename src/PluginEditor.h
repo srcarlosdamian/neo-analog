@@ -6,6 +6,7 @@
 #include "ui/PresetBrowser.h"
 #include "ui/AboutDialog.h"
 #include "ui/ThemeEditorPanel.h"
+#include "ui/MasterBypassButton.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor, private juce::Timer
 {
@@ -123,7 +124,7 @@ private:
     // Section 5: Output & Master
     Knobby masterVolKnob;
     juce::ComboBox voicesBox;
-    juce::TextButton bypassBtn{"BYPASS"};
+    LadderMono::MasterBypassButton bypassBtn;
 
     // Arpeggiator (Moved to dedicated Performance Bar above keyboard)
     juce::Label arpSectionLabel;

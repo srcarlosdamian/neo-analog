@@ -245,16 +245,11 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     setupKnob(masterVolKnob, LadderMono::ParamIDs::masterVol, "VOLUME");
     setupComboBox(voicesBox, LadderMono::ParamIDs::voices, {"Mono", "4 Voices", "8 Voices"});
 
-    bypassBtn.setClickingTogglesState(true);
-    bypassBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff22242a));
-    bypassBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff8b1c1c));
-    bypassBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffa0a5b2));
-    bypassBtn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xffffdddd));
-    bypassBtn.setTooltip("Audio Engine Bypass");
+    bypassBtn.setToggleState(audioProcessor.isBypassed(), juce::dontSendNotification);
+    bypassBtn.setTheme(currentTheme);
     bypassBtn.onClick = [this] {
         bool isByp = bypassBtn.getToggleState();
         audioProcessor.setBypassed(isByp);
-        bypassBtn.setButtonText(isByp ? "BYPASSED" : "BYPASS");
     };
     addAndMakeVisible(bypassBtn);
 
@@ -553,6 +548,8 @@ void LadderMonoAudioProcessorEditor::applyTheme(const LadderMono::ThemeColors& t
 
     aboutBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
     aboutBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
+
+    bypassBtn.setTheme(t);
 
     arpSectionLabel.setColour(juce::Label::textColourId, t.textPrimary);
     arpModeLabel.setColour(juce::Label::textColourId, t.textSecondary);
@@ -1023,10 +1020,11 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     drawSubHeader(672, 204, 280, "FILTER CONTOUR");
     drawSubHeader(672, 290, 280, "LOUDNESS CONTOUR");
 
-    // Voices Label
+    // Voices & Bypass Labels
     g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
     g.setColour(currentTheme.textSecondary);
     g.drawText("VOICES", 970, 202, 122, 14, juce::Justification::centred);
+    g.drawText("MASTER BYPASS", 970, 298, 122, 14, juce::Justification::centred);
 
     // Drive Overload Indicator
     float ovlX = 632.0f;
@@ -1251,7 +1249,7 @@ void LadderMonoAudioProcessorEditor::resized()
     masterVolKnob.label.setBounds(992, 150, 78, 14);
 
     voicesBox.setBounds(984, 224, 94, 26);
-    bypassBtn.setBounds(984, 318, 94, 30);
+    bypassBtn.setBounds(980, 318, 102, 34);
 
     // ====================================================================
     // Middle Crossbar: ARPEGGIATOR & PERFORMANCE BAR (y: 440..482)
