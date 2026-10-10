@@ -53,6 +53,7 @@ namespace LadderMono
         inline constexpr auto kbd2          = "kbd2";
         inline constexpr auto filterModel   = "filterModel";
         inline constexpr auto bassComp      = "bassComp";
+        inline constexpr auto spatialFilter = "spatialFilter";
 
         // Envelopes
         inline constexpr auto fAttack       = "fAttack";

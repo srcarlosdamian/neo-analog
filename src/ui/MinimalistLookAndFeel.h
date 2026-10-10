@@ -77,14 +77,14 @@ namespace LadderMono
             setColour(juce::Slider::rotarySliderFillColourId, theme.knobIndicator);
             setColour(juce::Slider::rotarySliderOutlineColourId, theme.wellDark);
             setColour(juce::Label::textColourId, theme.textSecondary);
-            setColour(juce::ComboBox::backgroundColourId, theme.panelLight);
+            setColour(juce::ComboBox::backgroundColourId, theme.comboBg);
             setColour(juce::ComboBox::textColourId, theme.textPrimary);
             setColour(juce::ComboBox::outlineColourId, theme.lineBorder);
-            setColour(juce::TextButton::buttonColourId, theme.panelLight);
+            setColour(juce::TextButton::buttonColourId, theme.buttonBg);
             setColour(juce::TextButton::buttonOnColourId, theme.lineAccent);
             setColour(juce::TextButton::textColourOnId, theme.textPrimary);
             setColour(juce::TextButton::textColourOffId, theme.textSecondary);
-            setColour(juce::PopupMenu::backgroundColourId, theme.panelLight);
+            setColour(juce::PopupMenu::backgroundColourId, theme.comboBg);
             setColour(juce::PopupMenu::textColourId, theme.textPrimary);
             setColour(juce::PopupMenu::highlightedBackgroundColourId, theme.lineAccent);
             setColour(juce::PopupMenu::highlightedTextColourId, juce::Colour(0xffffffff));
@@ -104,6 +104,80 @@ namespace LadderMono
         }
 
         SkinMode getSkinMode() const noexcept { return currentSkin; }
+
+        // ====================================================================
+        // Font helpers with theme scaling
+        // ====================================================================
+        juce::Font getLabelFont(juce::Label&) override
+        {
+            return juce::FontOptions(11.0f * theme.fontScale, juce::Font::plain);
+        }
+
+        juce::Font getComboBoxFont(juce::ComboBox&) override
+        {
+            return juce::FontOptions(11.0f * theme.fontScale, juce::Font::bold);
+        }
+
+        juce::Font getTextButtonFont(juce::TextButton&, int /*buttonHeight*/) override
+        {
+            return juce::FontOptions(11.0f * theme.fontScale, juce::Font::bold);
+        }
+
+        juce::Font getPopupMenuFont() override
+        {
+            return juce::FontOptions(11.0f * theme.fontScale, juce::Font::plain);
+        }
+
+        // ====================================================================
+        // TextButton Drawing (All rounded per user request with theme.buttonBg)
+        // ====================================================================
+        void drawButtonBackground(juce::Graphics& g, juce::Button& button,
+                                  const juce::Colour& backgroundColour,
+                                  bool shouldDrawButtonAsHighlighted,
+                                  bool shouldDrawButtonAsDown) override
+        {
+            auto bounds = button.getLocalBounds().toFloat().reduced(0.5f);
+            float r = theme.cornerRadius;
+
+            juce::Colour bg = button.findColour(juce::TextButton::buttonColourId, true);
+            if (bg.isTransparent()) bg = theme.buttonBg;
+
+            if (button.getToggleState())
+            {
+                bg = button.findColour(juce::TextButton::buttonOnColourId, true);
+                if (bg.isTransparent()) bg = theme.lineAccent;
+            }
+
+            if (shouldDrawButtonAsDown)
+                bg = bg.darker(0.2f);
+            else if (shouldDrawButtonAsHighlighted)
+                bg = bg.brighter(0.12f);
+
+            g.setColour(bg);
+            g.fillRoundedRectangle(bounds, r);
+
+            g.setColour(theme.lineBorder);
+            g.drawRoundedRectangle(bounds, r, 1.0f);
+        }
+
+        void drawButtonText(juce::Graphics& g, juce::TextButton& button,
+                            bool /*shouldDrawButtonAsHighlighted*/,
+                            bool /*shouldDrawButtonAsDown*/) override
+        {
+            auto font = getTextButtonFont(button, button.getHeight());
+            g.setFont(font);
+
+            juce::Colour textCol = button.getToggleState()
+                ? button.findColour(juce::TextButton::textColourOnId, true)
+                : button.findColour(juce::TextButton::textColourOffId, true);
+
+            if (textCol.isTransparent()) textCol = theme.textPrimary;
+            if (!button.isEnabled()) textCol = theme.textDim;
+
+            g.setColour(textCol);
+            auto textBounds = button.getLocalBounds().reduced(4, 1);
+            g.drawFittedText(button.getButtonText(), textBounds, juce::Justification::centred, 1);
+        }
 
         // ====================================================================
         // Rotary Slider Drawing (Pure Normalized Flat Matte OP-XY Dial)
@@ -163,20 +237,22 @@ namespace LadderMono
             auto name = button.getButtonText();
             bool isOn = button.getToggleState();
 
-            float switchWidth = 24.0f;
-            float switchHeight = 32.0f;
+            float switchHeight = juce::jmin(bounds.getHeight() * 0.82f, 24.0f);
+            float switchWidth = juce::jmax(14.0f, switchHeight * 0.70f);
             auto switchBox = bounds.removeFromLeft(switchWidth + 4.0f).withSizeKeepingCentre(switchWidth, switchHeight);
+
+            float r = juce::jmin(theme.cornerRadius, 4.0f);
 
             // 1. Recessed switch slot
             g.setColour(theme.wellDark);
-            g.fillRoundedRectangle(switchBox, 3.0f);
+            g.fillRoundedRectangle(switchBox, r);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(switchBox, 3.0f, 1.0f);
+            g.drawRoundedRectangle(switchBox, r, 1.0f);
 
             // 2. Flat matte switch body
             auto paddle = switchBox.reduced(2.0f);
             g.setColour(theme.switchBody);
-            g.fillRoundedRectangle(paddle, 2.0f);
+            g.fillRoundedRectangle(paddle, juce::jmax(1.0f, r - 1.0f));
 
             // 3. Indicator dot
             float dotR = 2.8f;
@@ -199,7 +275,7 @@ namespace LadderMono
             // Label Beside Switch
             bounds.removeFromLeft(4.0f);
             g.setColour(isOn ? theme.textPrimary : theme.textDim);
-            g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+            g.setFont(juce::FontOptions(10.5f * theme.fontScale, juce::Font::bold));
             g.drawFittedText(name, bounds.toNearestInt(), juce::Justification::centredLeft, 1);
         }
 
@@ -211,16 +287,17 @@ namespace LadderMono
                               juce::Slider::SliderStyle /*style*/, juce::Slider& slider) override
         {
             auto bounds = juce::Rectangle<int>(x, y, width, height).toFloat().reduced(2.0f);
+            float r = theme.cornerRadius;
 
             // Recessed well
             g.setColour(theme.wellDark);
-            g.fillRoundedRectangle(bounds, 3.0f);
+            g.fillRoundedRectangle(bounds, r);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, 3.0f, 1.0f);
+            g.drawRoundedRectangle(bounds, r, 1.0f);
 
             auto wheelBounds = bounds.reduced(3.0f, 3.0f);
             g.setColour(theme.knobBody);
-            g.fillRoundedRectangle(wheelBounds, 2.0f);
+            g.fillRoundedRectangle(wheelBounds, juce::jmax(1.0f, r - 1.5f));
 
             const int numRibs = 14;
             float stepY = wheelBounds.getHeight() / static_cast<float>(numRibs);
@@ -243,28 +320,85 @@ namespace LadderMono
         }
 
         // ====================================================================
-        // ComboBox Drawing
+        // ComboBox Drawing (All rounded per user request with theme.comboBg)
         // ====================================================================
         void drawComboBox(juce::Graphics& g, int width, int height, bool /*isButtonDown*/,
                           int /*buttonX*/, int /*buttonY*/, int /*buttonW*/, int /*buttonH*/,
                           juce::ComboBox& box) override
         {
-            auto bounds = juce::Rectangle<int>(0, 0, width, height).toFloat().reduced(1.0f);
+            auto bounds = juce::Rectangle<int>(0, 0, width, height).toFloat().reduced(0.5f);
+            float r = theme.cornerRadius;
 
-            g.setColour(theme.panelLight);
-            g.fillRoundedRectangle(bounds, 3.0f);
+            g.setColour(theme.comboBg);
+            g.fillRoundedRectangle(bounds, r);
 
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, 3.0f, 1.0f);
+            g.drawRoundedRectangle(bounds, r, 1.0f);
 
-            float arrowX = width - 16.0f;
+            float arrowX = width - 15.0f;
             float arrowY = height * 0.5f - 2.0f;
             juce::Path arrow;
             arrow.startNewSubPath(arrowX, arrowY);
-            arrow.lineTo(arrowX + 4.0f, arrowY + 4.0f);
-            arrow.lineTo(arrowX + 8.0f, arrowY);
+            arrow.lineTo(arrowX + 3.5f, arrowY + 4.0f);
+            arrow.lineTo(arrowX + 7.0f, arrowY);
             g.setColour(box.isEnabled() ? theme.textPrimary : theme.textDim);
-            g.strokePath(arrow, juce::PathStrokeType(1.4f, juce::PathStrokeType::mitered, juce::PathStrokeType::rounded));
+            g.strokePath(arrow, juce::PathStrokeType(1.3f, juce::PathStrokeType::mitered, juce::PathStrokeType::rounded));
+        }
+
+        // ====================================================================
+        // Popup Menu Drawing (All rounded corners with theme.comboBg)
+        // ====================================================================
+        void drawPopupMenuBackground(juce::Graphics& g, int width, int height) override
+        {
+            auto bounds = juce::Rectangle<int>(0, 0, width, height).toFloat().reduced(0.5f);
+            float r = theme.cornerRadius + 1.0f;
+
+            g.setColour(theme.comboBg);
+            g.fillRoundedRectangle(bounds, r);
+
+            g.setColour(theme.lineBorder);
+            g.drawRoundedRectangle(bounds, r, 1.2f);
+        }
+
+        void drawPopupMenuItem(juce::Graphics& g, const juce::Rectangle<int>& area,
+                               bool isSeparator, bool isActive, bool isHighlighted,
+                               bool isTicked, bool hasSubMenu,
+                               const juce::String& text, const juce::String& shortcutKeyText,
+                               const juce::Drawable* icon, const juce::Colour* textColour) override
+        {
+            if (isSeparator)
+            {
+                auto r = area.reduced(5, 0);
+                g.setColour(theme.lineBorder);
+                g.fillRect(r.removeFromTop(1));
+                return;
+            }
+
+            auto itemArea = area.toFloat().reduced(2.0f, 1.0f);
+            float r = juce::jmin(theme.cornerRadius, 3.0f);
+
+            if (isHighlighted && isActive)
+            {
+                g.setColour(theme.lineAccent);
+                g.fillRoundedRectangle(itemArea, r);
+            }
+
+            juce::Colour tc = theme.textPrimary;
+            if (textColour != nullptr) tc = *textColour;
+            if (!isActive) tc = theme.textDim;
+            else if (isHighlighted) tc = juce::Colour(0xffffffff);
+
+            g.setColour(tc);
+            g.setFont(juce::FontOptions(11.0f * theme.fontScale, juce::Font::plain));
+
+            auto textArea = area.reduced(8, 0);
+            if (isTicked)
+            {
+                g.drawText(juce::CharPointer_UTF8("\xe2\x9c\x93"), textArea.removeFromLeft(14), juce::Justification::centredLeft);
+                textArea.removeFromLeft(4);
+            }
+
+            g.drawFittedText(text, textArea, juce::Justification::centredLeft, 1);
         }
 
     private:

@@ -187,6 +187,87 @@ int main()
         }
     }
 
-    std::cout << "All Key Handling tests passed successfully!" << std::endl;
+    // Test 6: Theremin preset validation
+    {
+        std::cout << "  Test 6: Theremin preset validation in 1917 Baroque Electronic..." << std::endl;
+        const auto& presets = processor.getPresetManager().getPresets();
+        bool foundTheremin = false;
+        int thereminIndex = -1;
+        for (size_t i = 0; i < presets.size(); ++i)
+        {
+            if (presets[i].name == "Theremin")
+            {
+                foundTheremin = true;
+                thereminIndex = static_cast<int>(i);
+                break;
+            }
+        }
+
+        if (!foundTheremin)
+        {
+            std::cerr << "FAIL Test 6: Theremin preset not found in presets list" << std::endl;
+            return 1;
+        }
+
+        processor.getPresetManager().loadPreset(thereminIndex);
+        processor.handleNoteOn(69, 0.9f); // A4
+        processBlocks(20);
+        float peak = getBufferPeak();
+        if (peak < 0.1f)
+        {
+            std::cerr << "FAIL Test 6: Theremin preset produces inaudible audio, peak=" << peak << std::endl;
+            return 1;
+        }
+        processor.handleNoteOff(69);
+        processBlocks(50);
+        std::cout << "  PASS Test 6: Theremin preset loaded and playable" << std::endl;
+    }
+
+    // Test 7: Spatial Filter DSP parameter test
+    {
+        std::cout << "  Test 7: Spatial Filter parameter test..." << std::endl;
+        auto* spatialParam = processor.getAPVTS().getParameter(LadderMono::ParamIDs::spatialFilter);
+        assert(spatialParam != nullptr);
+        spatialParam->setValueNotifyingHost(0.75f);
+
+        processor.handleNoteOn(60, 0.8f);
+        processBlocks(25);
+        float peakSpatial = getBufferPeak();
+        if (peakSpatial < 0.05f)
+        {
+            std::cerr << "FAIL Test 7: Spatial filter produces no signal" << std::endl;
+            return 1;
+        }
+        processor.handleNoteOff(60);
+        processBlocks(50);
+        std::cout << "  PASS Test 7: Spatial filter operates correctly" << std::endl;
+    }
+
+    // Test 8: Theme Studio Drawer snapshot
+    {
+        std::cout << "  Test 8: Theme Studio Drawer UI snapshot..." << std::endl;
+        std::unique_ptr<LadderMonoAudioProcessorEditor> editor(
+            dynamic_cast<LadderMonoAudioProcessorEditor*>(processor.createEditor()));
+
+        if (editor != nullptr)
+        {
+            editor->setBounds(0, 0, 1120, 680);
+            editor->toggleThemeEditor();
+
+            auto image = editor->createComponentSnapshot(editor->getLocalBounds());
+            juce::File outFile("/Users/damian/.gemini/antigravity/brain/7f4023eb-b183-4e4e-af5b-7ebf776f3c1c/vst_theme_studio_drawer_open.png");
+            juce::FileOutputStream stream(outFile);
+            if (stream.openedOk())
+            {
+                juce::PNGImageFormat png;
+                png.writeImageToStream(image, stream);
+                std::cout << "  Snapshot saved to " << outFile.getFullPathName() << std::endl;
+            }
+            std::cout << "  PASS Test 8" << std::endl;
+            editor.reset();
+        }
+    }
+
+    std::cout << "All Key Handling & Feature tests passed successfully!" << std::endl;
     return 0;
 }

@@ -7,6 +7,7 @@
 #include "ui/AboutDialog.h"
 #include "ui/ThemeEditorPanel.h"
 #include "ui/MasterBypassButton.h"
+#include "ui/CornerResizer.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor, private juce::Timer
 {
@@ -72,7 +73,7 @@ private:
 
     // Window Resizer
     juce::ComponentBoundsConstrainer constrainer;
-    std::unique_ptr<juce::ResizableCornerComponent> resizer;
+    std::unique_ptr<LadderMono::CornerResizer> resizer;
 
     // Helpers to create sliders and combos with APVTS attachments
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> sliderAttachments;
@@ -113,7 +114,7 @@ private:
     juce::ComboBox noiseColorBox;
 
     // Section 4: Modifiers (Filter & Envelopes)
-    Knobby cutoffKnob, emphasisKnob, contourKnob, bassCompKnob;
+    Knobby cutoffKnob, emphasisKnob, contourKnob, bassCompKnob, spatialKnob;
     juce::ToggleButton kbd1Btn{"KBD 1"}, kbd2Btn{"KBD 2"};
     juce::ComboBox filterModelBox;
 

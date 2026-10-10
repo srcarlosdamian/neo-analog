@@ -137,6 +137,8 @@ namespace LadderMono
 
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::bassComp, 1}, "Bass Compensation", 0.0f, 1.0f, 0.25f));
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{ParamIDs::spatialFilter, 1}, "Spatial Filter", 0.0f, 1.0f, 0.0f));
 
         // Filter Contour
         params.push_back(std::make_unique<juce::AudioParameterFloat>(

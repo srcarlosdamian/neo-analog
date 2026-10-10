@@ -1,6 +1,7 @@
 #pragma once
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "dsp/Voice.h"
+#include "dsp/SpatialFilter.h"
 #include "params/ParameterIDs.h"
 #include "presets/PresetManager.h"
 
@@ -65,6 +66,7 @@ private:
     std::array<uint32_t, kMaxVoices> voiceAge = {0};
     uint32_t voiceCounter = 0;
     LadderMono::PresetManager presetManager;
+    LadderMono::SpatialFilter spatialFilter;
 
     // Smoothed parameters
     juce::SmoothedValue<float> smoothedMasterVol;

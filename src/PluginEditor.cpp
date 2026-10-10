@@ -225,6 +225,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     setupKnob(emphasisKnob, LadderMono::ParamIDs::emphasis, "EMPHASIS");
     setupKnob(contourKnob, LadderMono::ParamIDs::contourAmount, "CONTOUR AMT"); // Renamed from ambiguous AMOUNT!
     setupKnob(bassCompKnob, LadderMono::ParamIDs::bassComp, "BASS COMP");
+    setupKnob(spatialKnob, LadderMono::ParamIDs::spatialFilter, "SPATIAL");
     setupToggle(kbd1Btn, LadderMono::ParamIDs::kbd1);
     setupToggle(kbd2Btn, LadderMono::ParamIDs::kbd2);
 
@@ -364,9 +365,16 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
         loadedTheme.loadFromFile(themeFile);
     applyTheme(loadedTheme);
 
-    // Corner Resizer
-    constrainer.setSizeLimits(960, 580, 1680, 1050);
-    resizer = std::make_unique<juce::ResizableCornerComponent>(this, &constrainer);
+    // Corner Resizer & Host Aspect-Ratio Resizing Setup
+    setResizable(true, true);
+    setResizeLimits(952, 578, 1680, 1020);
+    if (getConstrainer() != nullptr)
+        getConstrainer()->setFixedAspectRatio(1120.0 / 680.0);
+
+    constrainer.setSizeLimits(952, 578, 1680, 1020);
+    constrainer.setFixedAspectRatio(1120.0 / 680.0);
+    resizer = std::make_unique<LadderMono::CornerResizer>(this, getConstrainer() != nullptr ? getConstrainer() : &constrainer);
+    resizer->setTheme(loadedTheme);
     addAndMakeVisible(*resizer);
 
     // Capture initial State A
@@ -518,38 +526,40 @@ void LadderMonoAudioProcessorEditor::applyTheme(const LadderMono::ThemeColors& t
 
     // Apply normalized colors across buttons & labels
     titleLabel.setColour(juce::Label::textColourId, t.textPrimary);
-    versionBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    versionBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     versionBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
     cpuLabel.setColour(juce::Label::textColourId, t.textSecondary);
 
-    presetButton.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    presetButton.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     presetButton.setColour(juce::TextButton::textColourOffId, t.textPrimary);
-    prevPresetBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    prevPresetBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     prevPresetBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
-    nextPresetBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    nextPresetBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     nextPresetBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
 
-    browseBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    browseBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     browseBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
-    saveBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    saveBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     saveBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
-    initBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    initBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     initBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
 
-    abBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    abBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     abBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
-    hqBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    hqBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     hqBtn.setColour(juce::TextButton::buttonOnColourId, t.lineAccent);
     hqBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
     hqBtn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xffffffff));
 
-    editThemeBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    editThemeBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     editThemeBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
 
-    aboutBtn.setColour(juce::TextButton::buttonColourId, t.panelLight);
+    aboutBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     aboutBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
 
     bypassBtn.setTheme(t);
+    if (resizer != nullptr)
+        resizer->setTheme(t);
 
     arpSectionLabel.setColour(juce::Label::textColourId, t.textPrimary);
     arpModeLabel.setColour(juce::Label::textColourId, t.textSecondary);
@@ -848,7 +858,8 @@ void LadderMonoAudioProcessorEditor::setupKnob(Knobby& k, const juce::String& pa
             return (cv > 0.005 ? "+" : "") + juce::String(cv, 2) + " oct";
         };
     }
-    else if (paramId == LadderMono::ParamIDs::analogAmount || paramId == LadderMono::ParamIDs::bassComp || paramId == LadderMono::ParamIDs::arpGate)
+    else if (paramId == LadderMono::ParamIDs::analogAmount || paramId == LadderMono::ParamIDs::bassComp ||
+             paramId == LadderMono::ParamIDs::arpGate || paramId == LadderMono::ParamIDs::spatialFilter)
     {
         k.slider.textFromValueFunction = [](double v) {
             return juce::String(juce::roundToInt(v * 100.0)) + "%";
@@ -923,7 +934,9 @@ void LadderMonoAudioProcessorEditor::updatePresetDisplay()
 // ====================================================================
 void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
 {
-    auto totalArea = getLocalBounds().toFloat();
+    float scale = static_cast<float>(getWidth()) / 1120.0f;
+    g.addTransform(juce::AffineTransform::scale(scale));
+    auto totalArea = juce::Rectangle<float>(0.0f, 0.0f, 1120.0f, 680.0f);
 
     // 1. Monolithic Dark Chassis Base
     g.fillAll(currentTheme.bgChassis);
@@ -970,69 +983,65 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     // 4. Normalized Section Frames (Milled into faceplate)
     auto drawSectionFrame = [this, &g](float x, float y, float w, float h, const juce::String& title) {
         juce::Rectangle<float> frame(x, y, w, h);
+        float r = currentTheme.cornerRadius;
 
         // Recessed cavity well
         g.setColour(currentTheme.wellDark);
-        g.fillRoundedRectangle(frame, 3.0f);
+        g.fillRoundedRectangle(frame, r);
 
         // Normalized Bevel & Border line
         g.setColour(currentTheme.lineBorder);
-        g.drawRoundedRectangle(frame, 3.0f, 1.2f);
+        g.drawRoundedRectangle(frame, r, 1.2f);
 
         // Section Header Plate
         juce::Rectangle<float> headerPlate(x + 10.0f, y - 9.0f, w - 20.0f, 18.0f);
         g.setColour(currentTheme.panelBg);
-        g.fillRect(headerPlate);
+        g.fillRoundedRectangle(headerPlate, juce::jmin(r, 3.0f));
         g.setColour(currentTheme.lineAccent);
-        g.drawRoundedRectangle(headerPlate, 2.0f, 1.0f);
+        g.drawRoundedRectangle(headerPlate, juce::jmin(r, 3.0f), 1.0f);
 
-        g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+        g.setFont(juce::FontOptions(11.0f * currentTheme.fontScale, juce::Font::bold));
         g.setColour(currentTheme.textPrimary);
         g.drawText(title, headerPlate.toNearestInt(), juce::Justification::centred);
     };
 
-    drawSectionFrame(24.0f, 46.0f, 176.0f, 388.0f, "CONTROLLERS");
-    drawSectionFrame(206.0f, 46.0f, 260.0f, 388.0f, "OSCILLATOR BANK");
-    drawSectionFrame(472.0f, 46.0f, 186.0f, 388.0f, "MIXER");
-    drawSectionFrame(664.0f, 46.0f, 296.0f, 388.0f, "MODIFIERS");
-    drawSectionFrame(966.0f, 46.0f, 130.0f, 388.0f, "OUTPUT");
+    drawSectionFrame(24.0f, 46.0f, 172.0f, 388.0f, "CONTROLLERS");
+    drawSectionFrame(202.0f, 46.0f, 236.0f, 388.0f, "OSCILLATOR BANK");
+    drawSectionFrame(444.0f, 46.0f, 176.0f, 388.0f, "MIXER");
+    drawSectionFrame(626.0f, 46.0f, 256.0f, 388.0f, "MODIFIERS");
+    drawSectionFrame(888.0f, 46.0f, 208.0f, 388.0f, "OUTPUT");
 
     // Oscillator Bank row labels (OSC 1, OSC 2, OSC 3)
-    g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
+    g.setFont(juce::FontOptions(10.5f * currentTheme.fontScale, juce::Font::bold));
     g.setColour(currentTheme.textSecondary);
-    g.drawText("OSC 1", 212, 78, 40, 24, juce::Justification::centredLeft);
-    g.drawText("OSC 2", 212, 138, 40, 24, juce::Justification::centredLeft);
-    g.drawText("OSC 3", 212, 215, 40, 24, juce::Justification::centredLeft);
+    g.drawText("OSC 1", 208, 78, 40, 24, juce::Justification::centredLeft);
+    g.drawText("OSC 2", 208, 138, 40, 24, juce::Justification::centredLeft);
+    g.drawText("OSC 3", 208, 215, 40, 24, juce::Justification::centredLeft);
 
     // Modifiers Sub-Headers (FILTER CONTOUR, LOUDNESS CONTOUR)
     auto drawSubHeader = [this, &g](float x, float y, float w, const juce::String& text) {
         juce::Rectangle<float> bar(x, y, w, 15.0f);
+        float r = juce::jmin(currentTheme.cornerRadius, 3.0f);
         g.setColour(currentTheme.panelLight);
-        g.fillRoundedRectangle(bar, 2.0f);
+        g.fillRoundedRectangle(bar, r);
         g.setColour(currentTheme.lineBorder);
-        g.drawRoundedRectangle(bar, 2.0f, 0.8f);
+        g.drawRoundedRectangle(bar, r, 0.8f);
 
-        g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+        g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
         g.setColour(currentTheme.textSecondary);
         g.drawText(text, bar.toNearestInt(), juce::Justification::centred);
     };
 
-    drawSubHeader(672, 204, 280, "FILTER CONTOUR");
-    drawSubHeader(672, 290, 280, "LOUDNESS CONTOUR");
-
-    // Voices & Bypass Labels
-    g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
-    g.setColour(currentTheme.textSecondary);
-    g.drawText("VOICES", 970, 202, 122, 14, juce::Justification::centred);
-    g.drawText("MASTER BYPASS", 970, 298, 122, 14, juce::Justification::centred);
+    drawSubHeader(632, 204, 244, "FILTER CONTOUR");
+    drawSubHeader(632, 290, 244, "LOUDNESS CONTOUR");
 
     // Drive Overload Indicator
-    float ovlX = 632.0f;
-    float ovlY = 405.0f;
+    float ovlX = 604.0f;
+    float ovlY = 395.0f;
     float driveVal = audioProcessor.getAPVTS().getRawParameterValue(LadderMono::ParamIDs::mixerDrive)->load();
     bool isOverload = driveVal > 0.05f;
 
-    g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+    g.setFont(juce::FontOptions(9.0f * currentTheme.fontScale, juce::Font::bold));
     if (isOverload)
     {
         // Bright glowing red badge text
@@ -1074,229 +1083,276 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     }
 
     // ================================================================
-    // OP-XY OLED Standby Screen
+    // Section 5: Top Horizontal Screen (Pure Black OLED as requested)
     // ================================================================
-    juce::Rectangle<float> screenBezel(28.0f, 372.0f, 168.0f, 56.0f);
+    juce::Rectangle<float> screenBezel(896.0f, 56.0f, 192.0f, 136.0f);
     g.setColour(currentTheme.wellDark);
-    g.fillRoundedRectangle(screenBezel, 3.0f);
-    g.setColour(currentTheme.screenBorder);
-    g.drawRoundedRectangle(screenBezel, 3.0f, 1.0f);
-
-    // Inner Pitch Black Glass
-    juce::Rectangle<float> screenGlass(32.0f, 376.0f, 160.0f, 48.0f);
-    g.setColour(currentTheme.screenBg);
-    g.fillRoundedRectangle(screenGlass, 2.0f);
+    g.fillRoundedRectangle(screenBezel, currentTheme.cornerRadius);
     g.setColour(currentTheme.lineBorder);
-    g.drawRoundedRectangle(screenGlass, 2.0f, 0.8f);
+    g.drawRoundedRectangle(screenBezel, currentTheme.cornerRadius, 1.0f);
 
-    // OLED standby indicator
-    g.setFont(juce::FontOptions(8.5f, juce::Font::bold));
-    g.setColour(currentTheme.screenText);
-    g.drawText(juce::CharPointer_UTF8("OLED \xe2\x80\xa2 STANDBY"), screenGlass.toNearestInt(), juce::Justification::centred);
+    // Inner Pitch Black Glass - "por ahora para identificarla pon la negra"
+    juce::Rectangle<float> screenGlass(900.0f, 60.0f, 184.0f, 128.0f);
+    g.setColour(juce::Colour(0xff000000));
+    g.fillRoundedRectangle(screenGlass, juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f));
+    g.setColour(juce::Colour(0x22ffffff));
+    g.drawRoundedRectangle(screenGlass, juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f), 0.8f);
+
+    // Subtle glass horizon reflection line
+    g.setColour(juce::Colour(0x0cffffff));
+    g.fillRoundedRectangle(screenGlass.removeFromTop(screenGlass.getHeight() * 0.45f), juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f));
+
+    // OLED Standby Text
+    g.setFont(juce::FontOptions(9.0f * currentTheme.fontScale, juce::Font::bold));
+    g.setColour(juce::Colour(0xff444854));
+    g.drawText(juce::CharPointer_UTF8("OLED DISPLAY \xe2\x80\xa2 STANDBY"), juce::Rectangle<float>(900.0f, 60.0f, 184.0f, 128.0f).toNearestInt(), juce::Justification::centred);
+
+    // Master Output sub-header bar
+    juce::Rectangle<float> outBar(896.0f, 204.0f, 192.0f, 16.0f);
+    g.setColour(currentTheme.panelLight);
+    g.fillRoundedRectangle(outBar, currentTheme.cornerRadius * 0.5f);
+    g.setColour(currentTheme.lineBorder);
+    g.drawRoundedRectangle(outBar, currentTheme.cornerRadius * 0.5f, 0.8f);
+    g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
+    g.setColour(currentTheme.textSecondary);
+    g.drawText("OUTPUT CONTROLS", outBar.toNearestInt(), juce::Justification::centred);
+
+    // Labels above horizontal controls
+    g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
+    g.setColour(currentTheme.textSecondary);
+    g.drawText("VOICES", 956, 226, 68, 14, juce::Justification::centred);
+    g.drawText("BYPASS", 1030, 226, 56, 14, juce::Justification::centred);
+
+    // Bottom Output Plate (Technical specifications plate)
+    juce::Rectangle<float> specPlate(896.0f, 324.0f, 192.0f, 98.0f);
+    g.setColour(currentTheme.wellDark);
+    g.fillRoundedRectangle(specPlate, currentTheme.cornerRadius);
+    g.setColour(currentTheme.lineBorder);
+    g.drawRoundedRectangle(specPlate, currentTheme.cornerRadius, 0.8f);
+
+    g.setFont(juce::FontOptions(8.5f * currentTheme.fontScale, juce::Font::bold));
+    g.setColour(currentTheme.textDim);
+    g.drawText("STEREO BALANCED BUS", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 10.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
+    g.drawText("SPATIAL DIFFUSION CORE", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 30.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
+    g.drawText(juce::CharPointer_UTF8("44.1 - 192 kHz \xe2\x80\xa2 64-BIT DSP"), static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 50.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
+    g.drawText("CALIBRATED ANALOG ENGINE", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 70.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
 }
 
 void LadderMonoAudioProcessorEditor::resized()
 {
+    float scale = static_cast<float>(getWidth()) / 1120.0f;
+    auto S = [scale](int v) -> int { return juce::roundToInt(static_cast<float>(v) * scale); };
+    auto Srect = [scale](int x, int y, int w, int h) -> juce::Rectangle<int> {
+        return { juce::roundToInt(static_cast<float>(x) * scale),
+                 juce::roundToInt(static_cast<float>(y) * scale),
+                 juce::roundToInt(static_cast<float>(w) * scale),
+                 juce::roundToInt(static_cast<float>(h) * scale) };
+    };
+
     // ====================================================================
     // Top Bar (y: 0..42)
     // ====================================================================
-    titleLabel.setBounds(62, 8, 135, 26);
-    versionBtn.setBounds(200, 9, 44, 24);
+    titleLabel.setBounds(Srect(62, 8, 135, 26));
+    versionBtn.setBounds(Srect(200, 9, 44, 24));
 
-    presetButton.setBounds(255, 8, 175, 26);
-    prevPresetBtn.setBounds(433, 8, 28, 26);
-    nextPresetBtn.setBounds(463, 8, 28, 26);
-    browseBtn.setBounds(495, 8, 58, 26);
-    saveBtn.setBounds(556, 8, 48, 26);
-    initBtn.setBounds(607, 8, 42, 26);
+    presetButton.setBounds(Srect(255, 8, 175, 26));
+    prevPresetBtn.setBounds(Srect(433, 8, 28, 26));
+    nextPresetBtn.setBounds(Srect(463, 8, 28, 26));
+    browseBtn.setBounds(Srect(495, 8, 58, 26));
+    saveBtn.setBounds(Srect(556, 8, 48, 26));
+    initBtn.setBounds(Srect(607, 8, 42, 26));
 
-    abBtn.setBounds(658, 8, 54, 26);
-    hqBtn.setBounds(716, 8, 40, 26);
-    cpuLabel.setBounds(getWidth() - 222, 8, 68, 26);
-    editThemeBtn.setBounds(getWidth() - 146, 8, 64, 26);
-    aboutBtn.setBounds(getWidth() - 76, 8, 62, 26);
+    abBtn.setBounds(Srect(658, 8, 54, 26));
+    hqBtn.setBounds(Srect(716, 8, 40, 26));
+    cpuLabel.setBounds(getWidth() - S(222), S(8), S(68), S(26));
+    editThemeBtn.setBounds(getWidth() - S(146), S(8), S(64), S(26));
+    aboutBtn.setBounds(getWidth() - S(76), S(8), S(62), S(26));
 
     // ====================================================================
-    // Section 1: CONTROLLERS (x: 24..200, w: 176)
+    // Section 1: CONTROLLERS (x: 24..196, w: 172)
     // ====================================================================
     // Row 1: Tune & Glide Time
-    tuneKnob.slider.setBounds(34, 72, 54, 54);
-    tuneKnob.label.setBounds(34, 126, 54, 14);
+    tuneKnob.slider.setBounds(Srect(34, 72, 52, 52));
+    tuneKnob.label.setBounds(Srect(34, 124, 52, 14));
 
-    glideKnob.slider.setBounds(124, 72, 54, 54);
-    glideKnob.label.setBounds(124, 126, 54, 14);
+    glideKnob.slider.setBounds(Srect(118, 72, 52, 52));
+    glideKnob.label.setBounds(Srect(118, 124, 52, 14));
 
     // Row 2: Glide Switch & Glide Mode
-    glideOnBtn.setBounds(32, 148, 78, 28);
-    glideModeBox.setBounds(118, 150, 74, 24);
+    glideOnBtn.setBounds(Srect(30, 146, 76, 28));
+    glideModeBox.setBounds(Srect(114, 148, 72, 24));
 
     // Row 3: Mod Mix & LFO Rate
-    modMixKnob.slider.setBounds(34, 184, 54, 54);
-    modMixKnob.label.setBounds(34, 238, 54, 14);
+    modMixKnob.slider.setBounds(Srect(34, 182, 52, 52));
+    modMixKnob.label.setBounds(Srect(34, 234, 52, 14));
 
-    lfoRateKnob.slider.setBounds(124, 184, 54, 54);
-    lfoRateKnob.label.setBounds(124, 238, 54, 14);
+    lfoRateKnob.slider.setBounds(Srect(118, 182, 52, 52));
+    lfoRateKnob.label.setBounds(Srect(118, 234, 52, 14));
 
     // Row 4: Mod Source & LFO Shape
-    modSourceBox.setBounds(32, 260, 78, 24);
-    lfoShapeBox.setBounds(118, 260, 74, 24);
+    modSourceBox.setBounds(Srect(30, 258, 76, 24));
+    lfoShapeBox.setBounds(Srect(114, 258, 72, 24));
 
     // Row 5: Osc Mod & Filter Mod switches
-    oscModBtn.setBounds(32, 296, 78, 30);
-    filterModBtn.setBounds(118, 296, 78, 30);
+    oscModBtn.setBounds(Srect(30, 294, 76, 30));
+    filterModBtn.setBounds(Srect(114, 294, 76, 30));
 
     // Row 6: Bend Range & Note Priority
-    bendRangeBox.setBounds(32, 340, 78, 24);
-    notePriorityBox.setBounds(118, 340, 74, 24);
+    bendRangeBox.setBounds(Srect(30, 338, 76, 24));
+    notePriorityBox.setBounds(Srect(114, 338, 72, 24));
 
     // ====================================================================
-    // Section 2: OSCILLATOR BANK (x: 206..466, w: 260)
+    // Section 2: OSCILLATOR BANK (x: 202..438, w: 236)
     // ====================================================================
     // Osc 1
-    osc1RangeBox.setBounds(256, 78, 88, 24);
-    osc1WaveBox.setBounds(354, 78, 98, 24);
+    osc1RangeBox.setBounds(Srect(248, 78, 86, 24));
+    osc1WaveBox.setBounds(Srect(342, 78, 88, 24));
 
     // Osc 2 (with its own FINE knob on the same row)
-    osc2RangeBox.setBounds(256, 138, 72, 24);
-    osc2WaveBox.setBounds(334, 138, 72, 24);
-    osc2FineKnob.slider.setBounds(412, 122, 48, 48);
-    osc2FineKnob.label.setBounds(412, 170, 48, 12);
+    osc2RangeBox.setBounds(Srect(248, 138, 68, 24));
+    osc2WaveBox.setBounds(Srect(322, 138, 62, 24));
+    osc2FineKnob.slider.setBounds(Srect(390, 122, 44, 44));
+    osc2FineKnob.label.setBounds(Srect(390, 168, 44, 12));
 
     // Osc 3 (with its own FINE knob and OSC 3 KBD on the same section)
-    osc3RangeBox.setBounds(256, 215, 72, 24);
-    osc3WaveBox.setBounds(334, 215, 72, 24);
-    osc3FineKnob.slider.setBounds(412, 199, 48, 48);
-    osc3FineKnob.label.setBounds(412, 247, 48, 12);
+    osc3RangeBox.setBounds(Srect(248, 215, 68, 24));
+    osc3WaveBox.setBounds(Srect(322, 215, 62, 24));
+    osc3FineKnob.slider.setBounds(Srect(390, 199, 44, 44));
+    osc3FineKnob.label.setBounds(Srect(390, 245, 44, 12));
 
-    osc3KbdBtn.setBounds(256, 250, 110, 30);
+    osc3KbdBtn.setBounds(Srect(248, 252, 94, 28));
 
-    // DRIFT Knob (Analog Component Tolerance & Thermal Drift - moved from Output)
-    analogKnob.slider.setBounds(325, 308, 62, 62);
-    analogKnob.label.setBounds(325, 370, 62, 14);
-
-    // ====================================================================
-    // Section 3: MIXER (x: 472..658, w: 186)
-    // ====================================================================
-    mix1Knob.slider.setBounds(480, 70, 50, 50);
-    mix1Knob.label.setBounds(480, 120, 50, 14);
-    mix1Btn.setBounds(548, 78, 75, 34);
-
-    mix2Knob.slider.setBounds(480, 134, 50, 50);
-    mix2Knob.label.setBounds(480, 184, 50, 14);
-    mix2Btn.setBounds(548, 142, 75, 34);
-
-    mix3Knob.slider.setBounds(480, 198, 50, 50);
-    mix3Knob.label.setBounds(480, 248, 50, 14);
-    mix3Btn.setBounds(548, 206, 75, 34);
-
-    mixNoiseKnob.slider.setBounds(480, 262, 50, 50);
-    mixNoiseKnob.label.setBounds(480, 312, 50, 14);
-    mixNoiseBtn.setBounds(548, 264, 75, 34);
-    noiseColorBox.setBounds(548, 302, 75, 22);
-
-    // Clean Feed & Drive (ZERO overlap between FEED switch and DRIVE knob)
-    mixExtKnob.slider.setBounds(480, 332, 48, 48);
-    mixExtKnob.label.setBounds(480, 380, 48, 14);
-    mixExtBtn.setBounds(548, 338, 75, 34);
-
-    driveKnob.slider.setBounds(538, 380, 46, 46);
-    driveKnob.label.setBounds(538, 426, 46, 12);
+    // DRIFT Knob (Analog Component Tolerance & Thermal Drift)
+    analogKnob.slider.setBounds(Srect(350, 266, 58, 58));
+    analogKnob.label.setBounds(Srect(350, 326, 58, 14));
 
     // ====================================================================
-    // Section 4: MODIFIERS (x: 664..960, w: 296)
+    // Section 3: MIXER (x: 444..620, w: 176)
     // ====================================================================
-    // Section 4: MODIFIERS (x: 664..960, w: 296)
+    mix1Knob.slider.setBounds(Srect(452, 70, 46, 46));
+    mix1Knob.label.setBounds(Srect(452, 118, 46, 13));
+    mix1Btn.setBounds(Srect(504, 78, 70, 30));
+
+    mix2Knob.slider.setBounds(Srect(452, 134, 46, 46));
+    mix2Knob.label.setBounds(Srect(452, 182, 46, 13));
+    mix2Btn.setBounds(Srect(504, 142, 70, 30));
+
+    mix3Knob.slider.setBounds(Srect(452, 198, 46, 46));
+    mix3Knob.label.setBounds(Srect(452, 246, 46, 13));
+    mix3Btn.setBounds(Srect(504, 206, 70, 30));
+
+    mixNoiseKnob.slider.setBounds(Srect(452, 262, 46, 46));
+    mixNoiseKnob.label.setBounds(Srect(452, 310, 46, 13));
+    mixNoiseBtn.setBounds(Srect(504, 264, 52, 26));
+    noiseColorBox.setBounds(Srect(560, 264, 52, 24));
+
+    // Clean Feed & Drive
+    mixExtKnob.slider.setBounds(Srect(452, 326, 46, 46));
+    mixExtKnob.label.setBounds(Srect(452, 374, 46, 13));
+    mixExtBtn.setBounds(Srect(504, 328, 70, 28));
+
+    driveKnob.slider.setBounds(Srect(546, 368, 46, 46));
+    driveKnob.label.setBounds(Srect(546, 416, 46, 12));
+
+    // ====================================================================
+    // Section 4: MODIFIERS (x: 626..882, w: 256)
     // ====================================================================
     // Filter Core
-    cutoffKnob.slider.setBounds(676, 68, 58, 58);
-    cutoffKnob.label.setBounds(676, 126, 58, 14);
+    cutoffKnob.slider.setBounds(Srect(636, 68, 54, 54));
+    cutoffKnob.label.setBounds(Srect(636, 124, 54, 14));
 
-    emphasisKnob.slider.setBounds(754, 68, 58, 58);
-    emphasisKnob.label.setBounds(754, 126, 58, 14);
+    emphasisKnob.slider.setBounds(Srect(700, 68, 54, 54));
+    emphasisKnob.label.setBounds(Srect(700, 124, 54, 14));
 
-    contourKnob.slider.setBounds(832, 68, 58, 58);
-    contourKnob.label.setBounds(822, 126, 78, 14); // CONTOUR AMT
+    contourKnob.slider.setBounds(Srect(764, 68, 54, 54));
+    contourKnob.label.setBounds(Srect(756, 124, 70, 14));
 
-    kbd1Btn.setBounds(678, 148, 68, 30);
-    kbd2Btn.setBounds(754, 148, 68, 30);
+    kbd1Btn.setBounds(Srect(632, 146, 56, 28));
+    kbd2Btn.setBounds(Srect(690, 146, 56, 28));
 
-    // Bass Comp (cleanly separated from keyboard switches)
-    bassCompKnob.slider.setBounds(838, 140, 48, 48);
-    bassCompKnob.label.setBounds(832, 186, 66, 13);
+    bassCompKnob.slider.setBounds(Srect(750, 138, 46, 46));
+    bassCompKnob.label.setBounds(Srect(746, 186, 54, 12));
+
+    spatialKnob.slider.setBounds(Srect(804, 138, 46, 46));
+    spatialKnob.label.setBounds(Srect(800, 186, 54, 12));
 
     // Filter Env (Row 3)
-    fAttackKnob.slider.setBounds(678, 224, 52, 52);
-    fAttackKnob.label.setBounds(678, 274, 52, 13);
-    fDecayKnob.slider.setBounds(754, 224, 52, 52);
-    fDecayKnob.label.setBounds(754, 274, 52, 13);
-    fSustainKnob.slider.setBounds(830, 224, 52, 52);
-    fSustainKnob.label.setBounds(830, 274, 52, 13);
+    fAttackKnob.slider.setBounds(Srect(642, 224, 48, 48));
+    fAttackKnob.label.setBounds(Srect(642, 272, 48, 13));
+    fDecayKnob.slider.setBounds(Srect(704, 224, 48, 48));
+    fDecayKnob.label.setBounds(Srect(704, 272, 48, 13));
+    fSustainKnob.slider.setBounds(Srect(766, 224, 48, 48));
+    fSustainKnob.label.setBounds(Srect(766, 272, 48, 13));
 
     // Amp Env (Row 4)
-    aAttackKnob.slider.setBounds(678, 308, 52, 52);
-    aAttackKnob.label.setBounds(678, 358, 52, 13);
-    aDecayKnob.slider.setBounds(754, 308, 52, 52);
-    aDecayKnob.label.setBounds(754, 358, 52, 13);
-    aSustainKnob.slider.setBounds(830, 308, 52, 52);
-    aSustainKnob.label.setBounds(830, 358, 52, 13);
+    aAttackKnob.slider.setBounds(Srect(642, 308, 48, 48));
+    aAttackKnob.label.setBounds(Srect(642, 356, 48, 13));
+    aDecayKnob.slider.setBounds(Srect(704, 308, 48, 48));
+    aDecayKnob.label.setBounds(Srect(704, 356, 48, 13));
+    aSustainKnob.slider.setBounds(Srect(766, 308, 48, 48));
+    aSustainKnob.label.setBounds(Srect(766, 356, 48, 13));
 
-    decaySwitchBtn.setBounds(745, 388, 106, 32);
+    decaySwitchBtn.setBounds(Srect(700, 388, 106, 32));
 
     // ====================================================================
-    // Section 5: OUTPUT & MASTER (x: 966..1096, w: 130)
+    // Section 5: OUTPUT (x: 888..1096, w: 208)
+    // Horizontal row below screen: Volume, Voices (Mono/Poly), Bypass
     // ====================================================================
-    masterVolKnob.slider.setBounds(992, 72, 78, 78);
-    masterVolKnob.label.setBounds(992, 150, 78, 14);
+    masterVolKnob.slider.setBounds(Srect(894, 228, 56, 56));
+    masterVolKnob.label.setBounds(Srect(890, 288, 64, 14));
 
-    voicesBox.setBounds(984, 224, 94, 26);
-    bypassBtn.setBounds(980, 318, 102, 34);
+    voicesBox.setBounds(Srect(956, 242, 68, 26));
+    bypassBtn.setBounds(Srect(1030, 240, 56, 30));
 
     // ====================================================================
     // Middle Crossbar: ARPEGGIATOR & PERFORMANCE BAR (y: 440..482)
     // ====================================================================
-    arpSectionLabel.setBounds(28, 444, 86, 34);
-    arpOnBtn.setBounds(118, 447, 54, 28);
-    arpLatchBtn.setBounds(176, 447, 58, 28);
+    arpSectionLabel.setBounds(Srect(28, 444, 86, 34));
+    arpOnBtn.setBounds(Srect(118, 447, 54, 28));
+    arpLatchBtn.setBounds(Srect(176, 447, 58, 28));
 
-    arpModeLabel.setBounds(240, 442, 64, 13);
-    arpModeBox.setBounds(240, 456, 64, 22);
+    arpModeLabel.setBounds(Srect(240, 442, 64, 13));
+    arpModeBox.setBounds(Srect(240, 456, 64, 22));
 
-    arpOctaveLabel.setBounds(310, 442, 54, 13);
-    arpOctaveBox.setBounds(310, 456, 54, 22);
+    arpOctaveLabel.setBounds(Srect(310, 442, 54, 13));
+    arpOctaveBox.setBounds(Srect(310, 456, 54, 22));
 
-    arpOctModeLabel.setBounds(370, 442, 68, 13);
-    arpOctModeBox.setBounds(370, 456, 68, 22);
+    arpOctModeLabel.setBounds(Srect(370, 442, 68, 13));
+    arpOctModeBox.setBounds(Srect(370, 456, 68, 22));
 
-    arpRateLabel.setBounds(444, 442, 58, 13);
-    arpRateBox.setBounds(444, 456, 58, 22);
+    arpRateLabel.setBounds(Srect(444, 442, 58, 13));
+    arpRateBox.setBounds(Srect(444, 456, 58, 22));
 
-    arpPatternLabel.setBounds(508, 442, 78, 13);
-    arpPatternBox.setBounds(508, 456, 78, 22);
+    arpPatternLabel.setBounds(Srect(508, 442, 78, 13));
+    arpPatternBox.setBounds(Srect(508, 456, 78, 22));
 
-    arpGateKnob.label.setBounds(592, 442, 58, 13);
-    arpGateKnob.slider.setBounds(592, 454, 58, 24);
+    arpGateKnob.label.setBounds(Srect(592, 442, 58, 13));
+    arpGateKnob.slider.setBounds(Srect(592, 454, 58, 24));
 
-    arpSwingKnob.label.setBounds(656, 442, 58, 13);
-    arpSwingKnob.slider.setBounds(656, 454, 58, 24);
+    arpSwingKnob.label.setBounds(Srect(656, 442, 58, 13));
+    arpSwingKnob.slider.setBounds(Srect(656, 454, 58, 24));
 
-    arpMutateKnob.label.setBounds(720, 442, 58, 13);
-    arpMutateKnob.slider.setBounds(720, 454, 58, 24);
+    arpMutateKnob.label.setBounds(Srect(720, 442, 58, 13));
+    arpMutateKnob.slider.setBounds(Srect(720, 454, 58, 24));
 
     // ====================================================================
     // Lower Performance Section (y: 482..672)
     // ====================================================================
-    pitchWheel.setBounds(28, 492, 44, 160);
-    modWheel.setBounds(78, 492, 44, 160);
-    keyboard.setBounds(136, 482, getWidth() - 156, 190);
+    pitchWheel.setBounds(Srect(28, 492, 44, 160));
+    modWheel.setBounds(Srect(78, 492, 44, 160));
+    keyboard.setBounds(S(136), S(482), getWidth() - S(156), getHeight() - S(486));
 
-    // Resizer handle in bottom-right corner
+    // Resizer handle in bottom-right corner (always on top)
     if (resizer != nullptr)
-        resizer->setBounds(getWidth() - 16, getHeight() - 16, 16, 16);
+    {
+        resizer->setBounds(getWidth() - 22, getHeight() - 22, 22, 22);
+        resizer->toFront(true);
+    }
 
     if (presetBrowser != nullptr)
         presetBrowser->setBounds(getLocalBounds());
     if (aboutDialog != nullptr)
         aboutDialog->setBounds(getLocalBounds());
     if (themeEditorPanel != nullptr)
-        themeEditorPanel->setBounds(getWidth() - 290, 42, 280, 400);
+        themeEditorPanel->setBounds(getWidth() - S(310), S(42), S(300), S(470));
 }

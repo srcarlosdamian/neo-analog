@@ -48,12 +48,15 @@ void LadderMonoAudioProcessor::prepareToPlay(double sampleRate, int /*samplesPer
     smoothedMasterVol.reset(sampleRate, 0.02);
     float initVolDb = apvts.getRawParameterValue(LadderMono::ParamIDs::masterVol)->load();
     smoothedMasterVol.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(initVolDb));
+
+    spatialFilter.prepare(sampleRate);
 }
 
 void LadderMonoAudioProcessor::releaseResources()
 {
     for (auto& v : voices)
         v.reset();
+    spatialFilter.reset();
 }
 
 void LadderMonoAudioProcessor::handleNoteOn(int noteNumber, float velocity) noexcept
@@ -447,6 +450,11 @@ void LadderMonoAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
 
         ++sampleIndex;
     }
+
+    // Spatial Ambient Filter (Stereo Cross-Diffusion & Space Resonator)
+    float spatialVal = apvts.getRawParameterValue(LadderMono::ParamIDs::spatialFilter)->load();
+    spatialFilter.setAmount(spatialVal);
+    spatialFilter.process(leftChannel, rightChannel, numSamples);
 
     // Update smoothed CPU load measurement
     auto elapsed = juce::Time::getHighResolutionTicks() - startTime;

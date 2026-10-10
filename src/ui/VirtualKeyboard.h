@@ -109,7 +109,9 @@ namespace LadderMono
             float blackKeyWidth = whiteKeyWidth * 0.62f;
             float blackKeyHeight = bounds.getHeight() * 0.62f;
 
-            // 2. Draw White Keys
+            bool isNoirKeyboard = (theme.keyWhiteRest.getBrightness() < 0.35f);
+
+            // 2. Draw White / Natural Keys
             float currentX = 0.0f;
             for (int i = 0; i < keyCount; ++i)
             {
@@ -119,38 +121,71 @@ namespace LadderMono
                     bool isDown = (activeNotes.count(note) > 0 || activeKey == note);
                     juce::Rectangle<float> keyRect(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight());
 
-                    if (isDown)
+                    if (isNoirKeyboard)
                     {
-                        g.setColour(theme.keyWhiteDown);
-                        g.fillRect(keyRect);
+                        // Noir All-Black Natural Keys: Sleek matte velvet charcoal plate
+                        if (isDown)
+                        {
+                            g.setColour(theme.keyWhiteDown);
+                            g.fillRoundedRectangle(keyRect, theme.cornerRadius);
+                            g.setColour(juce::Colour(0xaa000000));
+                            g.fillRect(keyRect.getX(), keyRect.getY(), keyRect.getWidth(), 14.0f);
+                        }
+                        else
+                        {
+                            juce::ColourGradient matteGrad(theme.keyWhiteRest.brighter(0.06f), keyRect.getX(), keyRect.getY(),
+                                                           theme.keyWhiteRest.darker(0.12f), keyRect.getX(), keyRect.getBottom(), false);
+                            g.setGradientFill(matteGrad);
+                            g.fillRoundedRectangle(keyRect, theme.cornerRadius);
 
-                        // Top rail drop shadow
-                        g.setColour(juce::Colour(0x66000000));
-                        g.fillRect(keyRect.getX(), keyRect.getY(), keyRect.getWidth(), 12.0f);
+                            // Subtle top fine rim
+                            g.setColour(juce::Colour(0x18ffffff));
+                            g.drawHorizontalLine(static_cast<int>(keyRect.getY()), keyRect.getX() + 1.0f, keyRect.getRight() - 1.0f);
+                        }
+
+                        // Front lip shadow
+                        g.setColour(juce::Colour(0x44000000));
+                        g.fillRoundedRectangle(keyRect.removeFromBottom(4.0f), theme.cornerRadius * 0.5f);
+
+                        // Key separation groove (deep pitch black recess between keys)
+                        g.setColour(theme.bgChassis);
+                        g.drawRoundedRectangle(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), theme.cornerRadius, 1.0f);
                     }
                     else
                     {
-                        g.setColour(theme.keyWhiteRest);
-                        g.fillRect(keyRect);
+                        if (isDown)
+                        {
+                            g.setColour(theme.keyWhiteDown);
+                            g.fillRect(keyRect);
 
-                        // Top fine rim
-                        g.setColour(juce::Colour(0x33ffffff));
-                        g.drawHorizontalLine(static_cast<int>(keyRect.getY()), keyRect.getX() + 1.0f, keyRect.getRight() - 1.0f);
+                            // Top rail drop shadow
+                            g.setColour(juce::Colour(0x66000000));
+                            g.fillRect(keyRect.getX(), keyRect.getY(), keyRect.getWidth(), 12.0f);
+                        }
+                        else
+                        {
+                            g.setColour(theme.keyWhiteRest);
+                            g.fillRect(keyRect);
+
+                            // Top fine rim
+                            g.setColour(juce::Colour(0x33ffffff));
+                            g.drawHorizontalLine(static_cast<int>(keyRect.getY()), keyRect.getX() + 1.0f, keyRect.getRight() - 1.0f);
+                        }
+
+                        // Front lip shadow
+                        g.setColour(juce::Colour(0x22000000));
+                        g.fillRect(keyRect.removeFromBottom(4.0f));
+
+                        // Key separation groove
+                        g.setColour(theme.lineBorder);
+                        g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), 1.0f);
                     }
-
-                    // Front lip shadow
-                    g.setColour(juce::Colour(0x22000000));
-                    g.fillRect(keyRect.removeFromBottom(4.0f));
-
-                    // Key separation groove
-                    g.setColour(theme.lineBorder);
-                    g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), 1.0f);
 
                     // Computer keyboard key label
                     auto keyLabel = getComputerKeyLabel(note);
                     if (keyLabel.isNotEmpty())
                     {
-                        g.setColour(isDown ? juce::Colour(0xffffffff) : theme.textDim);
+                        g.setColour(isDown ? juce::Colour(0xffffffff) : (isNoirKeyboard ? theme.textDim.brighter(0.2f) : theme.textDim));
                         g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
                         g.drawText(keyLabel, juce::Rectangle<float>(currentX, bounds.getBottom() - 20.0f, whiteKeyWidth, 16.0f).toNearestInt(), juce::Justification::centred);
                     }
@@ -159,7 +194,7 @@ namespace LadderMono
                 }
             }
 
-            // 3. Draw Black Keys
+            // 3. Draw Black / Accidental Keys
             currentX = 0.0f;
             for (int i = 0; i < keyCount; ++i)
             {
@@ -173,27 +208,97 @@ namespace LadderMono
                         bool isDown = (activeNotes.count(bNote) > 0 || activeKey == bNote);
                         juce::Rectangle<float> blackRect(blackX, bounds.getY(), blackKeyWidth, blackKeyHeight);
 
-                        // Drop shadow
-                        g.setColour(juce::Colour(0x55000000));
-                        g.fillRect(blackRect.translated(1.5f, 2.0f));
-
-                        if (isDown)
+                        if (isNoirKeyboard)
                         {
-                            g.setColour(theme.keyBlackDown);
-                            g.fillRect(blackRect);
+                            // 1. Deep 3D Drop Shadow onto the matte black keys
+                            g.setColour(juce::Colour(0xdd000000));
+                            g.fillRect(blackRect.translated(2.5f, 3.5f));
+                            g.setColour(juce::Colour(0x66000000));
+                            g.fillRect(blackRect.translated(4.5f, 6.0f));
+
+                            // 2. Glossy Piano-Lacquered Black Body
+                            juce::Rectangle<float> innerKey = blackRect;
+                            float r = juce::jmin(theme.cornerRadius, 4.0f);
+                            if (isDown)
+                            {
+                                g.setColour(theme.keyBlackDown);
+                                g.fillRoundedRectangle(innerKey, r);
+                            }
+                            else
+                            {
+                                juce::ColourGradient bodyGrad(theme.keyBlackRest.darker(0.3f), innerKey.getX(), innerKey.getY(),
+                                                              theme.keyBlackRest.brighter(0.2f), innerKey.getX(), innerKey.getBottom(), false);
+                                g.setGradientFill(bodyGrad);
+                                g.fillRoundedRectangle(innerKey, r);
+                            }
+
+                            // 3. Chiseled 3D Bevels (Biseles)
+                            // Top bevel highlight
+                            g.setColour(juce::Colour(0x88ffffff));
+                            g.drawHorizontalLine(static_cast<int>(innerKey.getY() + 1.0f), innerKey.getX() + 1.0f, innerKey.getRight() - 1.0f);
+
+                            // Left bevel light rim (catching specular light)
+                            g.setColour(juce::Colour(0x55ffffff));
+                            g.drawVerticalLine(static_cast<int>(innerKey.getX() + 1.0f), innerKey.getY() + 2.0f, innerKey.getBottom() - 7.0f);
+
+                            // Right bevel cast shadow
+                            g.setColour(juce::Colour(0x99000000));
+                            g.drawVerticalLine(static_cast<int>(innerKey.getRight() - 1.0f), innerKey.getY() + 2.0f, innerKey.getBottom() - 1.0f);
+
+                            // 4. Angled Front Chamfer Lip
+                            auto chamfer = innerKey.removeFromBottom(7.0f);
+                            g.setColour(juce::Colour(0xff181b24));
+                            g.fillRect(chamfer);
+                            // Chamfer bevel crease
+                            g.setColour(juce::Colour(0x77ffffff));
+                            g.drawHorizontalLine(static_cast<int>(chamfer.getY()), chamfer.getX() + 1.0f, chamfer.getRight() - 1.0f);
+                            // Chamfer bottom rim
+                            g.setColour(juce::Colour(0x33ffffff));
+                            g.drawHorizontalLine(static_cast<int>(chamfer.getBottom() - 1.0f), chamfer.getX() + 1.0f, chamfer.getRight() - 1.0f);
+
+                            // 5. High-Gloss Specular Reflection (Reflejos)
+                            if (!isDown)
+                            {
+                                float sheenW = innerKey.getWidth() * 0.38f;
+                                juce::Rectangle<float> sheenArea(innerKey.getX() + 3.0f, innerKey.getY() + 2.0f, sheenW, innerKey.getHeight() * 0.88f);
+                                juce::ColourGradient sheen(juce::Colour(0x60ffffff), sheenArea.getX(), sheenArea.getY(),
+                                                           juce::Colour(0x02ffffff), sheenArea.getRight(), sheenArea.getBottom(), false);
+                                g.setGradientFill(sheen);
+                                g.fillRect(sheenArea);
+
+                                // Specular hot spot
+                                g.setColour(juce::Colour(0x99ffffff));
+                                g.fillRect(sheenArea.getX(), sheenArea.getY(), sheenArea.getWidth() * 0.8f, 2.5f);
+                            }
+
+                            // Outer crisp vector frame
+                            g.setColour(juce::Colour(0x44ffffff));
+                            g.drawRect(blackRect, 1.0f);
                         }
                         else
                         {
-                            g.setColour(theme.keyBlackRest);
-                            g.fillRect(blackRect);
+                            // Drop shadow
+                            g.setColour(juce::Colour(0x55000000));
+                            g.fillRect(blackRect.translated(1.5f, 2.0f));
+
+                            if (isDown)
+                            {
+                                g.setColour(theme.keyBlackDown);
+                                g.fillRect(blackRect);
+                            }
+                            else
+                            {
+                                g.setColour(theme.keyBlackRest);
+                                g.fillRect(blackRect);
+                            }
+                            g.setColour(theme.lineBorder);
+                            g.drawRect(blackRect, 1.0f);
                         }
-                        g.setColour(theme.lineBorder);
-                        g.drawRect(blackRect, 1.0f);
 
                         auto keyLabel = getComputerKeyLabel(bNote);
                         if (keyLabel.isNotEmpty())
                         {
-                            g.setColour(isDown ? juce::Colour(0xffffffff) : theme.textSecondary);
+                            g.setColour(isDown ? juce::Colour(0xffffffff) : (isNoirKeyboard ? juce::Colour(0xffe0e4eb) : theme.textSecondary));
                             g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
                             g.drawText(keyLabel, juce::Rectangle<float>(blackX, blackRect.getBottom() - 18.0f, blackKeyWidth, 14.0f).toNearestInt(), juce::Justification::centred);
                         }
