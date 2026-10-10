@@ -1,5 +1,6 @@
 #pragma once
 #include <juce_gui_basics/juce_gui_basics.h>
+#include "MinimalistLookAndFeel.h"
 
 namespace LadderMono
 {
@@ -31,6 +32,30 @@ namespace LadderMono
             };
             addAndMakeVisible(websiteBtn);
 
+            // Theme Configuration Buttons
+            skinClassicBtn.setButtonText("Classic Vintage");
+            skinClassicBtn.onClick = [this] {
+                updateSkinSelection(MinimalistLookAndFeel::SkinMode::ClassicVintage);
+                if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::ClassicVintage);
+            };
+            addAndMakeVisible(skinClassicBtn);
+
+            skinCyberBtn.setButtonText("Cyber Schematic");
+            skinCyberBtn.onClick = [this] {
+                updateSkinSelection(MinimalistLookAndFeel::SkinMode::CyberSchematic);
+                if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::CyberSchematic);
+            };
+            addAndMakeVisible(skinCyberBtn);
+
+            skinNoirBtn.setButtonText("Noir Metal 3D");
+            skinNoirBtn.onClick = [this] {
+                updateSkinSelection(MinimalistLookAndFeel::SkinMode::Noir3D);
+                if (onSkinChanged) onSkinChanged(MinimalistLookAndFeel::SkinMode::Noir3D);
+            };
+            addAndMakeVisible(skinNoirBtn);
+
+            updateSkinSelection(MinimalistLookAndFeel::SkinMode::ClassicVintage);
+
             // Hidden v1.1 toggle button
             revealV11Btn.setButtonText(juce::CharPointer_UTF8("\xe2\x9a\xa1 Reveal Upcoming v1.1 Updates [Hidden]"));
             revealV11Btn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff181a20));
@@ -47,6 +72,29 @@ namespace LadderMono
                 repaint();
             };
             addAndMakeVisible(revealV11Btn);
+        }
+
+        std::function<void(MinimalistLookAndFeel::SkinMode)> onSkinChanged;
+
+        void updateSkinSelection(MinimalistLookAndFeel::SkinMode mode)
+        {
+            activeSkin = mode;
+            skinClassicBtn.setColour(juce::TextButton::buttonColourId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::ClassicVintage ? juce::Colour(0xffc87024) : juce::Colour(0xff181a20));
+            skinClassicBtn.setColour(juce::TextButton::textColourOffId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::ClassicVintage ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
+
+            skinCyberBtn.setColour(juce::TextButton::buttonColourId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? juce::Colour(0xff39ac7e) : juce::Colour(0xff181a20));
+            skinCyberBtn.setColour(juce::TextButton::textColourOffId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
+
+            skinNoirBtn.setColour(juce::TextButton::buttonColourId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D ? juce::Colour(0xff686e7a) : juce::Colour(0xff181a20));
+            skinNoirBtn.setColour(juce::TextButton::textColourOffId,
+                activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D ? juce::Colour(0xffffffff) : juce::Colour(0xff8c92a2));
+
+            repaint();
         }
 
         void showDialog()
@@ -85,31 +133,68 @@ namespace LadderMono
 
             auto card = getCardBounds().toFloat();
 
-            // Card walnut bevel & border
-            g.setColour(juce::Colour(0xff3e2415));
-            g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
-            g.setColour(juce::Colour(0xffc89240));
-            g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
+            // Card border
+            if (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic)
+            {
+                g.setColour(CyberPalette::BG_DARK);
+                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
+                g.setColour(CyberPalette::S500);
+                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
 
-            // Card body (brushed dark metal)
-            juce::ColourGradient cardGrad(juce::Colour(0xff22242a), 0.0f, card.getY(),
-                                          juce::Colour(0xff141518), 0.0f, card.getBottom(), false);
-            g.setGradientFill(cardGrad);
-            g.fillRoundedRectangle(card, 5.0f);
-            g.setColour(juce::Colour(0xff444855));
-            g.drawRoundedRectangle(card, 5.0f, 1.0f);
+                juce::ColourGradient cardGrad(CyberPalette::BG_CARD, 0.0f, card.getY(),
+                                              CyberPalette::BG_PANEL, 0.0f, card.getBottom(), false);
+                g.setGradientFill(cardGrad);
+                g.fillRoundedRectangle(card, 5.0f);
+                g.setColour(CyberPalette::BORDER_HI);
+                g.drawRoundedRectangle(card, 5.0f, 1.0f);
+            }
+            else if (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D)
+            {
+                g.setColour(Noir3DPalette::PITCH_BLACK);
+                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
+                g.setColour(Noir3DPalette::BEVEL_SPEC);
+                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
 
-            // Brass Title Badge
+                juce::ColourGradient cardGrad(Noir3DPalette::PANEL_BG, 0.0f, card.getY(),
+                                              Noir3DPalette::PITCH_BLACK, 0.0f, card.getBottom(), false);
+                g.setGradientFill(cardGrad);
+                g.fillRoundedRectangle(card, 5.0f);
+                g.setColour(Noir3DPalette::BEVEL_LIGHT);
+                g.drawRoundedRectangle(card, 5.0f, 1.0f);
+            }
+            else
+            {
+                g.setColour(juce::Colour(0xff3e2415));
+                g.fillRoundedRectangle(card.expanded(6.0f), 8.0f);
+                g.setColour(juce::Colour(0xffc89240));
+                g.drawRoundedRectangle(card.expanded(6.0f), 8.0f, 1.5f);
+
+                juce::ColourGradient cardGrad(juce::Colour(0xff22242a), 0.0f, card.getY(),
+                                              juce::Colour(0xff141518), 0.0f, card.getBottom(), false);
+                g.setGradientFill(cardGrad);
+                g.fillRoundedRectangle(card, 5.0f);
+                g.setColour(juce::Colour(0xff444855));
+                g.drawRoundedRectangle(card, 5.0f, 1.0f);
+            }
+
+            // Title Badge
             juce::Rectangle<float> titleBadge(card.getX() + 24.0f, card.getY() + 16.0f, 220.0f, 28.0f);
-            juce::ColourGradient badgeGrad(juce::Colour(0xff2a2214), 0.0f, titleBadge.getY(),
-                                           juce::Colour(0xff161108), 0.0f, titleBadge.getBottom(), false);
+            juce::Colour badgeBg1 = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::BG_DARK :
+                                    (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::PITCH_BLACK : juce::Colour(0xff2a2214);
+            juce::Colour badgeBg2 = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::BG_CARD :
+                                    (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::PANEL_BG : juce::Colour(0xff161108);
+            juce::Colour badgeBorder = (activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic) ? CyberPalette::S500 :
+                                       (activeSkin == MinimalistLookAndFeel::SkinMode::Noir3D) ? Noir3DPalette::TEXT_TITLE : juce::Colour(0xffc89240);
+
+            juce::ColourGradient badgeGrad(badgeBg1, 0.0f, titleBadge.getY(),
+                                           badgeBg2, 0.0f, titleBadge.getBottom(), false);
             g.setGradientFill(badgeGrad);
             g.fillRoundedRectangle(titleBadge, 3.0f);
-            g.setColour(juce::Colour(0xffc89240));
+            g.setColour(badgeBorder);
             g.drawRoundedRectangle(titleBadge, 3.0f, 1.2f);
 
             g.setFont(juce::FontOptions(13.0f, juce::Font::bold));
-            g.setColour(juce::Colour(0xffe89a38));
+            g.setColour(activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? CyberPalette::S300 : juce::Colour(0xffe89a38));
             g.drawText("N E O   A N A L O G", titleBadge.toNearestInt(), juce::Justification::centred);
 
             // Version Pill Badge
@@ -150,7 +235,7 @@ namespace LadderMono
                        juce::Justification::centredLeft);
 
             g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
-            g.setColour(juce::Colour(0xffe08b3c));
+            g.setColour(activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? CyberPalette::S500 : juce::Colour(0xffe08b3c));
             g.drawText(juce::CharPointer_UTF8("Product Designer & UX/UI Specialist  \xe2\x80\xa2  Founder of Neo"),
                        juce::Rectangle<float>(card.getX() + 26.0f, bioY + 20.0f, 400.0f, 16.0f).toNearestInt(),
                        juce::Justification::centredLeft);
@@ -185,17 +270,16 @@ namespace LadderMono
                     "\xe2\x9c\x93  Discrete 4-pole 24 dB/oct Ladder filter with saturation, resonance, and self-oscillation",
                     "\xe2\x9c\x93  3 vintage multi-wave oscillators with fine detune, noise generator, and overdrive feedback",
                     "\xe2\x9c\x93  Monophonic, 4-voice, and 8-voice polyphony modes with vintage analog voice drift",
-                    "\xe2\x9c\x93  Integrated multi-mode arpeggiator with host tempo sync and latch",
-                    "\xe2\x9c\x93  Universal .nlog preset import/export format & category search browser"
+                    "\xe2\x9c\x93  Integrated multi-mode arpeggiator with host tempo sync and latch"
                 };
 
                 g.setFont(juce::FontOptions(11.0f));
                 g.setColour(juce::Colour(0xff9ea4b4));
-                for (size_t i = 0; i < 6; ++i)
+                for (size_t i = 0; i < 5; ++i)
                 {
                     g.drawText(juce::CharPointer_UTF8(v1Features[i]),
-                               static_cast<int>(card.getX() + 32.0f), static_cast<int>(contentY + 24.0f + (i * 20.0f)),
-                               static_cast<int>(card.getWidth() - 64.0f), 18, juce::Justification::centredLeft);
+                               static_cast<int>(card.getX() + 32.0f), static_cast<int>(contentY + 22.0f + (i * 18.0f)),
+                               static_cast<int>(card.getWidth() - 64.0f), 17, juce::Justification::centredLeft);
                 }
             }
             else
@@ -220,28 +304,35 @@ namespace LadderMono
                     "\xe2\x97\x86  Real-time CRT phosphor oscilloscope & live harmonic spectrum analyzer",
                     "\xe2\x97\x86  Micro-tuning engine with Scala (.scl / .kbm) microtonal keyboard mapping",
                     "\xe2\x97\x86  Expanded Modulation Matrix (LFO routing to Pulse Width, Filter FM, Pitch EG)",
-                    "\xe2\x97\x86  Full MPE (MIDI Polyphonic Expression) per-note pitch bend and timber pressure",
-                    "\xe2\x97\x86  Preset tag cloud & one-click cloud backup sync for Neo accounts"
+                    "\xe2\x97\x86  Full MPE (MIDI Polyphonic Expression) per-note pitch bend and timber pressure"
                 };
 
                 g.setFont(juce::FontOptions(11.0f));
                 g.setColour(juce::Colour(0xffe0caa0));
-                for (size_t i = 0; i < 6; ++i)
+                for (size_t i = 0; i < 5; ++i)
                 {
                     g.drawText(juce::CharPointer_UTF8(v11Features[i]),
-                               static_cast<int>(card.getX() + 32.0f), static_cast<int>(contentY + 24.0f + (i * 20.0f)),
-                               static_cast<int>(card.getWidth() - 64.0f), 18, juce::Justification::centredLeft);
+                               static_cast<int>(card.getX() + 32.0f), static_cast<int>(contentY + 22.0f + (i * 18.0f)),
+                               static_cast<int>(card.getWidth() - 64.0f), 17, juce::Justification::centredLeft);
                 }
             }
 
+            // Skin Selector Label in Settings
+            float skinY = card.getBottom() - 84.0f;
+            g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+            g.setColour(activeSkin == MinimalistLookAndFeel::SkinMode::CyberSchematic ? CyberPalette::S400 : juce::Colour(0xffe89a38));
+            g.drawText(juce::CharPointer_UTF8("\xe2\x9a\x99 UI THEME & SKIN CONFIGURATION:"),
+                       juce::Rectangle<float>(card.getX() + 26.0f, skinY, 240.0f, 24.0f).toNearestInt(),
+                       juce::Justification::centredLeft);
+
             // Bottom bar info
             g.setColour(juce::Colour(0xff2d313c));
-            g.drawHorizontalLine(static_cast<int>(card.getBottom() - 48.0f), card.getX() + 24.0f, card.getRight() - 24.0f);
+            g.drawHorizontalLine(static_cast<int>(card.getBottom() - 44.0f), card.getX() + 24.0f, card.getRight() - 24.0f);
 
             g.setFont(juce::FontOptions(10.5f));
             g.setColour(juce::Colour(0xff686d7a));
             g.drawText(juce::CharPointer_UTF8("\xc2\xa9 2026 Neo \xe2\x80\xa2 Designed by Carlos Dami\xc3\xa1n \xe2\x80\xa2 All Rights Reserved"),
-                       juce::Rectangle<float>(card.getX() + 26.0f, card.getBottom() - 42.0f, 360.0f, 32.0f).toNearestInt(),
+                       juce::Rectangle<float>(card.getX() + 26.0f, card.getBottom() - 38.0f, 360.0f, 28.0f).toNearestInt(),
                        juce::Justification::centredLeft);
         }
 
@@ -250,7 +341,13 @@ namespace LadderMono
             auto card = getCardBounds();
             closeBtn.setBounds(card.getRight() - 42, card.getY() + 14, 28, 28);
             websiteBtn.setBounds(card.getRight() - 170, card.getY() + 82, 145, 24);
-            revealV11Btn.setBounds(card.getRight() - 260, card.getBottom() - 40, 235, 26);
+
+            float skinY = card.getBottom() - 86.0f;
+            skinClassicBtn.setBounds(card.getX() + 260, static_cast<int>(skinY), 125, 26);
+            skinCyberBtn.setBounds(card.getX() + 395, static_cast<int>(skinY), 125, 26);
+            skinNoirBtn.setBounds(card.getX() + 530, static_cast<int>(skinY), 125, 26);
+
+            revealV11Btn.setBounds(card.getRight() - 250, card.getBottom() - 38, 230, 24);
         }
 
     private:
@@ -258,12 +355,16 @@ namespace LadderMono
         juce::TextButton closeBtn;
         juce::TextButton websiteBtn;
         juce::TextButton revealV11Btn;
+        juce::TextButton skinClassicBtn;
+        juce::TextButton skinCyberBtn;
+        juce::TextButton skinNoirBtn;
+        MinimalistLookAndFeel::SkinMode activeSkin = MinimalistLookAndFeel::SkinMode::ClassicVintage;
         bool showV11 = false;
 
         juce::Rectangle<int> getCardBounds() const
         {
-            int cardW = 620;
-            int cardH = 430;
+            int cardW = 680;
+            int cardH = 460;
             return juce::Rectangle<int>((getWidth() - cardW) / 2,
                                         (getHeight() - cardH) / 2,
                                         cardW, cardH);

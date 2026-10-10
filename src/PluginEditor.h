@@ -29,6 +29,8 @@ public:
     void undo();
     void redo();
     void pushUndoSnapshot();
+    void setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode mode);
+    void toggleSkinMode();
 
 private:
     void timerCallback() override;
@@ -53,6 +55,7 @@ private:
     juce::TextButton abBtn{"A/B: A"};
     juce::TextButton hqBtn{"HQ"};
     juce::Label cpuLabel;
+    juce::TextButton skinBtn{"🎨 Vintage"};
     juce::TextButton aboutBtn{"Credits"};
 
     // A/B Comparison States

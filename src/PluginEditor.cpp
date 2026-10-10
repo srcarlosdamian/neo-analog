@@ -145,6 +145,12 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     cpuLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(cpuLabel);
 
+    skinBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
+    skinBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffdcdfe5));
+    skinBtn.setTooltip("Toggle UI Skin: Classic Vintage / Cyber Schematic");
+    skinBtn.onClick = [this] { toggleSkinMode(); };
+    addAndMakeVisible(skinBtn);
+
     aboutBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
     aboutBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
     aboutBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffa8adb8));
@@ -332,7 +338,23 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     aboutDialog = std::make_unique<LadderMono::AboutDialogOverlay>([this] {
         grabKeyboardFocus();
     });
+    aboutDialog->onSkinChanged = [this](LadderMono::MinimalistLookAndFeel::SkinMode mode) {
+        setSkinMode(mode);
+    };
     addChildComponent(*aboutDialog);
+
+    // Load saved skin mode
+    auto skinFile = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getChildFile("NeoAnalog").getChildFile("skin.txt");
+    if (skinFile.existsAsFile())
+    {
+        int saved = skinFile.loadFileAsString().trim().getIntValue();
+        if (saved == 1)
+            setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode::CyberSchematic);
+        else if (saved == 2)
+            setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode::Noir3D);
+        else
+            setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode::ClassicVintage);
+    }
 
     // Corner Resizer
     constrainer.setSizeLimits(960, 580, 1680, 1050);
@@ -475,6 +497,58 @@ void LadderMonoAudioProcessorEditor::saveCurrentPresetDialog()
                 file.replaceWithText(jsonString);
             }
         });
+}
+
+void LadderMonoAudioProcessorEditor::setSkinMode(LadderMono::MinimalistLookAndFeel::SkinMode mode)
+{
+    lnf.setSkinMode(mode);
+    keyboard.setSkinMode(mode);
+    if (aboutDialog != nullptr)
+        aboutDialog->updateSkinSelection(mode);
+
+    if (mode == LadderMono::MinimalistLookAndFeel::SkinMode::CyberSchematic)
+    {
+        skinBtn.setButtonText(juce::CharPointer_UTF8("\xe2\x9a\xa1 Cyber"));
+        skinBtn.setColour(juce::TextButton::buttonColourId, LadderMono::CyberPalette::S700);
+        skinBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffffffff));
+        titleLabel.setColour(juce::Label::textColourId, LadderMono::CyberPalette::S400);
+        arpSectionLabel.setColour(juce::Label::textColourId, LadderMono::CyberPalette::S500);
+    }
+    else if (mode == LadderMono::MinimalistLookAndFeel::SkinMode::Noir3D)
+    {
+        skinBtn.setButtonText(juce::CharPointer_UTF8("\xf0\x9f\x92\x8e Noir 3D"));
+        skinBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191c));
+        skinBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffeceff4));
+        titleLabel.setColour(juce::Label::textColourId, LadderMono::Noir3DPalette::TEXT_TITLE);
+        arpSectionLabel.setColour(juce::Label::textColourId, LadderMono::Noir3DPalette::TEXT_ACCENT);
+    }
+    else
+    {
+        skinBtn.setButtonText(juce::CharPointer_UTF8("\xf0\x9f\x8e\xa8 Vintage"));
+        skinBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff22242a));
+        skinBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffd0d4dc));
+        titleLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe89a38));
+        arpSectionLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
+    }
+
+    auto settingsDir = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getChildFile("NeoAnalog");
+    settingsDir.createDirectory();
+    settingsDir.getChildFile("skin.txt").replaceWithText(juce::String(static_cast<int>(mode)));
+
+    repaint();
+}
+
+void LadderMonoAudioProcessorEditor::toggleSkinMode()
+{
+    auto current = lnf.getSkinMode();
+    LadderMono::MinimalistLookAndFeel::SkinMode next;
+    if (current == LadderMono::MinimalistLookAndFeel::SkinMode::ClassicVintage)
+        next = LadderMono::MinimalistLookAndFeel::SkinMode::CyberSchematic;
+    else if (current == LadderMono::MinimalistLookAndFeel::SkinMode::CyberSchematic)
+        next = LadderMono::MinimalistLookAndFeel::SkinMode::Noir3D;
+    else
+        next = LadderMono::MinimalistLookAndFeel::SkinMode::ClassicVintage;
+    setSkinMode(next);
 }
 
 void LadderMonoAudioProcessorEditor::showAboutDialog()
@@ -685,6 +759,8 @@ void LadderMonoAudioProcessorEditor::setupKnob(Knobby& k, const juce::String& pa
 {
     k.slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     k.slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 58, 15);
+    k.slider.setName(labelText);
+    k.slider.setComponentID(paramId);
     k.slider.setColour(juce::Slider::textBoxTextColourId, juce::Colour(0xffdcdfe8));
     k.slider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colour(0xff18191d));
     k.slider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colour(0xff34363d));
@@ -889,6 +965,363 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
 {
     auto totalArea = getLocalBounds().toFloat();
 
+    if (lnf.getSkinMode() == LadderMono::MinimalistLookAndFeel::SkinMode::CyberSchematic)
+    {
+        // 1. Deep Obsidian Matte Base
+        g.fillAll(LadderMono::CyberPalette::BG_DARK);
+
+        // 2. High-Tech Frame Perimeter (No wood)
+        juce::Rectangle<float> topBarRect(0.0f, 0.0f, totalArea.getWidth(), 42.0f);
+        g.setColour(LadderMono::CyberPalette::BG_PANEL);
+        g.fillRect(topBarRect);
+        g.setColour(LadderMono::CyberPalette::BORDER_HI);
+        g.drawHorizontalLine(42, 0.0f, totalArea.getWidth());
+
+        // Side bezels with technical measurement tick marks
+        juce::Rectangle<float> leftBezel(0.0f, 42.0f, 20.0f, 398.0f);
+        juce::Rectangle<float> rightBezel(totalArea.getWidth() - 20.0f, 42.0f, 20.0f, 398.0f);
+        g.fillRect(leftBezel);
+        g.fillRect(rightBezel);
+        g.setColour(LadderMono::CyberPalette::P800);
+        for (float ty = 46.0f; ty < 436.0f; ty += 18.0f)
+        {
+            g.drawHorizontalLine(static_cast<int>(ty), 5.0f, 15.0f);
+            g.drawHorizontalLine(static_cast<int>(ty), totalArea.getWidth() - 15.0f, totalArea.getWidth() - 5.0f);
+        }
+
+        // Mid Arpeggiator Strip Perimeter
+        juce::Rectangle<float> arpBarRect(0.0f, 440.0f, totalArea.getWidth(), 42.0f);
+        g.setColour(LadderMono::CyberPalette::BG_PANEL);
+        g.fillRect(arpBarRect);
+        g.setColour(LadderMono::CyberPalette::BORDER_HI);
+        g.drawHorizontalLine(440, 0.0f, totalArea.getWidth());
+        g.drawHorizontalLine(482, 0.0f, totalArea.getWidth());
+
+        // Bottom border
+        g.fillRect(juce::Rectangle<float>(0.0f, totalArea.getHeight() - 8.0f, totalArea.getWidth(), 8.0f));
+
+        // 3. Technical Faceplate with Subtle Dot Grid
+        juce::Rectangle<float> panelRect(20.0f, 42.0f, totalArea.getWidth() - 40.0f, 398.0f);
+        g.setColour(LadderMono::CyberPalette::BG_DARK);
+        g.fillRect(panelRect);
+        g.setColour(LadderMono::CyberPalette::BORDER);
+        g.drawRect(panelRect, 1.0f);
+
+        // Technical Grid Dots
+        g.setColour(juce::Colour(0x18ffffff));
+        for (float gx = panelRect.getX() + 24.0f; gx < panelRect.getRight() - 12.0f; gx += 32.0f)
+            for (float gy = panelRect.getY() + 24.0f; gy < panelRect.getBottom() - 12.0f; gy += 32.0f)
+                g.fillEllipse(gx - 1.0f, gy - 1.0f, 2.0f, 2.0f);
+
+        // 4. Interconnecting Schematic Signal-Flow Conduit Lines (From Reference Image 1)
+        // Controllers -> Oscillators
+        g.setColour(LadderMono::CyberPalette::P700);
+        g.drawHorizontalLine(220, 200.0f, 206.0f);
+        g.drawHorizontalLine(223, 200.0f, 206.0f);
+
+        // Oscillators -> Mixer (Osc 1, 2, 3 conduits)
+        g.drawHorizontalLine(90, 466.0f, 472.0f);
+        g.drawHorizontalLine(150, 466.0f, 472.0f);
+        g.drawHorizontalLine(215, 466.0f, 472.0f);
+
+        // Signal Injection Arrows into Mixer (From Image 1: ↓ ↓ ↓ ↓)
+        g.setColour(LadderMono::CyberPalette::A400);
+        for (float ax : { 505.0f, 545.0f, 585.0f, 625.0f })
+        {
+            juce::Path arr;
+            arr.startNewSubPath(ax, 50.0f);
+            arr.lineTo(ax, 58.0f);
+            arr.lineTo(ax - 2.5f, 55.0f);
+            arr.startNewSubPath(ax, 58.0f);
+            arr.lineTo(ax + 2.5f, 55.0f);
+            g.strokePath(arr, juce::PathStrokeType(1.5f));
+        }
+
+        // Mixer -> Modifiers
+        g.setColour(LadderMono::CyberPalette::P700);
+        g.drawHorizontalLine(98, 658.0f, 664.0f);
+        g.drawHorizontalLine(101, 658.0f, 664.0f);
+
+        // Modifiers -> Output
+        g.drawHorizontalLine(108, 960.0f, 966.0f);
+        g.drawHorizontalLine(111, 960.0f, 966.0f);
+
+        // 5. Section Frames (Modules)
+        auto drawCyberSectionFrame = [&g](float x, float y, float w, float h, const juce::String& title, const juce::String& badge, juce::Colour badgeCol) {
+            juce::Rectangle<float> frame(x, y, w, h);
+            g.setColour(LadderMono::CyberPalette::BORDER);
+            g.drawRoundedRectangle(frame, 3.0f, 1.2f);
+
+            // Tech Corner Brackets
+            g.setColour(LadderMono::CyberPalette::BORDER_HI);
+            float clen = 8.0f;
+            g.drawLine(x, y + clen, x, y, 1.5f);
+            g.drawLine(x, y, x + clen, y, 1.5f);
+            g.drawLine(x + w - clen, y, x + w, y, 1.5f);
+            g.drawLine(x + w, y, x + w, y + clen, 1.5f);
+
+            // Header Banner
+            juce::Rectangle<float> headRect(x + 2.0f, y + 2.0f, w - 4.0f, 22.0f);
+            g.setColour(LadderMono::CyberPalette::BG_CARD);
+            g.fillRect(headRect);
+            g.setColour(LadderMono::CyberPalette::BORDER_HI);
+            g.drawHorizontalLine(static_cast<int>(y + 24.0f), x, x + w);
+
+            // Section Title
+            g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+            g.setColour(LadderMono::CyberPalette::P50);
+            g.drawText(title, juce::Rectangle<float>(x + 8.0f, y + 2.0f, w - 60.0f, 22.0f).toNearestInt(), juce::Justification::centredLeft);
+
+            // Schematic Badge (e.g. LFO, OSC ~, etc.)
+            if (badge.isNotEmpty())
+            {
+                juce::Rectangle<float> bRect(x + w - 54.0f, y + 4.0f, 48.0f, 16.0f);
+                g.setColour(badgeCol.withAlpha(0.2f));
+                g.fillRoundedRectangle(bRect, 2.0f);
+                g.setColour(badgeCol);
+                g.drawRoundedRectangle(bRect, 2.0f, 1.0f);
+                g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+                g.drawText(badge, bRect.toNearestInt(), juce::Justification::centred);
+            }
+        };
+
+        drawCyberSectionFrame(24.0f, 46.0f, 176.0f, 388.0f, "CONTROLLERS", "LFO", LadderMono::CyberPalette::S500);
+        drawCyberSectionFrame(206.0f, 46.0f, 260.0f, 388.0f, "OSCILLATOR BANK", "WAVE ~", LadderMono::CyberPalette::A400);
+        drawCyberSectionFrame(472.0f, 46.0f, 186.0f, 388.0f, "MIXER", "BUS", LadderMono::CyberPalette::P400);
+        drawCyberSectionFrame(664.0f, 46.0f, 296.0f, 388.0f, "MODIFIERS", "FILTER", LadderMono::CyberPalette::S400);
+        drawCyberSectionFrame(966.0f, 46.0f, 130.0f, 388.0f, "OUTPUT", "OUT", LadderMono::CyberPalette::R500);
+
+        // Oscillator Bank row labels (OSC 1, OSC 2, OSC 3)
+        g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
+        g.setColour(LadderMono::CyberPalette::A300);
+        g.drawText("OSC 1", 212, 78, 40, 24, juce::Justification::centredLeft);
+        g.drawText("OSC 2", 212, 138, 40, 24, juce::Justification::centredLeft);
+        g.drawText("OSC 3", 212, 215, 40, 24, juce::Justification::centredLeft);
+
+        // Modifiers Sub-Header Banners
+        auto drawCyberSubHeader = [&g](float x, float y, float w, const juce::String& text) {
+            g.setColour(LadderMono::CyberPalette::BG_CARD);
+            g.fillRoundedRectangle(x, y, w, 16.0f, 2.0f);
+            g.setColour(LadderMono::CyberPalette::BORDER);
+            g.drawRoundedRectangle(x, y, w, 16.0f, 2.0f, 1.0f);
+            g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+            g.setColour(LadderMono::CyberPalette::S400);
+            g.drawText(text, juce::Rectangle<float>(x, y, w, 16.0f).toNearestInt(), juce::Justification::centred);
+        };
+
+        drawCyberSubHeader(672, 204, 280, "FILTER CONTOUR");
+        drawCyberSubHeader(672, 290, 280, "LOUDNESS CONTOUR");
+
+        // Output Voices Label
+        g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+        g.setColour(LadderMono::CyberPalette::P200);
+        g.drawText("VOICES", 970, 202, 122, 14, juce::Justification::centred);
+
+        // Drive Schematic Warning Box (Image 1 reference!)
+        juce::Rectangle<float> driveBox(532.0f, 376.0f, 58.0f, 54.0f);
+        g.setColour(LadderMono::CyberPalette::R500.withAlpha(0.12f));
+        g.fillRoundedRectangle(driveBox, 3.0f);
+        g.setColour(LadderMono::CyberPalette::R500.withAlpha(0.6f));
+        g.drawRoundedRectangle(driveBox, 3.0f, 1.0f);
+
+        // Overload Hazard Triangle (From Reference Image 1)
+        float ovlX = 632.0f;
+        float ovlY = 405.0f;
+        float driveVal = audioProcessor.getAPVTS().getRawParameterValue(LadderMono::ParamIDs::mixerDrive)->load();
+        bool isOverload = driveVal > 0.05f;
+
+        g.setFont(juce::FontOptions(9.0f, juce::Font::bold));
+        g.setColour(isOverload ? LadderMono::CyberPalette::R400 : LadderMono::CyberPalette::P500);
+        g.drawText("OVERLOAD", static_cast<int>(ovlX - 35.0f), static_cast<int>(ovlY - 18.0f), 70, 14, juce::Justification::centred);
+
+        // Warning Triangle Vector
+        juce::Path tri;
+        tri.startNewSubPath(ovlX, ovlY - 10.0f);
+        tri.lineTo(ovlX + 11.0f, ovlY + 9.0f);
+        tri.lineTo(ovlX - 11.0f, ovlY + 9.0f);
+        tri.closeSubPath();
+
+        if (isOverload)
+        {
+            g.setColour(LadderMono::CyberPalette::R500.withAlpha(0.35f));
+            g.fillPath(tri);
+            g.setColour(LadderMono::CyberPalette::R500);
+            g.strokePath(tri, juce::PathStrokeType(2.0f));
+
+            // Exclamation point
+            g.setColour(juce::Colour(0xffffffff));
+            g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+            g.drawText("!", static_cast<int>(ovlX - 5.0f), static_cast<int>(ovlY - 6.0f), 10, 14, juce::Justification::centred);
+        }
+        else
+        {
+            g.setColour(LadderMono::CyberPalette::P950);
+            g.fillPath(tri);
+            g.setColour(LadderMono::CyberPalette::P800);
+            g.strokePath(tri, juce::PathStrokeType(1.2f));
+
+            g.setColour(LadderMono::CyberPalette::P700);
+            g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+            g.drawText("!", static_cast<int>(ovlX - 5.0f), static_cast<int>(ovlY - 6.0f), 10, 14, juce::Justification::centred);
+        }
+        return;
+    }
+
+    if (lnf.getSkinMode() == LadderMono::MinimalistLookAndFeel::SkinMode::Noir3D)
+    {
+        // 1. Deep Monolithic Dark Metal Base
+        g.fillAll(LadderMono::Noir3DPalette::PITCH_BLACK);
+
+        // 2. High-End Milled Aluminum Chassis Top Bar & Perimeter
+        juce::Rectangle<float> topBarRect(0.0f, 0.0f, totalArea.getWidth(), 42.0f);
+        juce::ColourGradient topBarGrad(LadderMono::Noir3DPalette::PANEL_BG, 0.0f, 0.0f,
+                                        LadderMono::Noir3DPalette::PITCH_BLACK, 0.0f, 42.0f, false);
+        g.setGradientFill(topBarGrad);
+        g.fillRect(topBarRect);
+
+        // Chamfer highlights on top bar
+        g.setColour(LadderMono::Noir3DPalette::BEVEL_SPEC.withAlpha(0.6f));
+        g.drawHorizontalLine(0, 0.0f, totalArea.getWidth());
+        g.setColour(LadderMono::Noir3DPalette::BEVEL_DARK);
+        g.drawHorizontalLine(42, 0.0f, totalArea.getWidth());
+
+        // Side Chassis Rails (Milled gunmetal columns)
+        juce::Rectangle<float> leftBezel(0.0f, 42.0f, 20.0f, 398.0f);
+        juce::Rectangle<float> rightBezel(totalArea.getWidth() - 20.0f, 42.0f, 20.0f, 398.0f);
+        juce::ColourGradient bezelGrad(LadderMono::Noir3DPalette::PANEL_BG, 0.0f, 42.0f,
+                                       LadderMono::Noir3DPalette::PITCH_BLACK, 20.0f, 42.0f, false);
+        g.setGradientFill(bezelGrad);
+        g.fillRect(leftBezel);
+        juce::ColourGradient rightBezelGrad(LadderMono::Noir3DPalette::PITCH_BLACK, totalArea.getWidth() - 20.0f, 42.0f,
+                                            LadderMono::Noir3DPalette::PANEL_BG, totalArea.getWidth(), 42.0f, false);
+        g.setGradientFill(rightBezelGrad);
+        g.fillRect(rightBezel);
+
+        // Mid Arpeggiator Strip Perimeter (Recessed milled tray)
+        juce::Rectangle<float> arpBarRect(0.0f, 440.0f, totalArea.getWidth(), 42.0f);
+        juce::ColourGradient arpGrad(LadderMono::Noir3DPalette::PITCH_BLACK, 0.0f, 440.0f,
+                                     LadderMono::Noir3DPalette::PANEL_BG, 0.0f, 482.0f, false);
+        g.setGradientFill(arpGrad);
+        g.fillRect(arpBarRect);
+        g.setColour(LadderMono::Noir3DPalette::BEVEL_LIGHT);
+        g.drawHorizontalLine(440, 0.0f, totalArea.getWidth());
+        g.setColour(LadderMono::Noir3DPalette::BEVEL_SPEC.withAlpha(0.5f));
+        g.drawHorizontalLine(482, 0.0f, totalArea.getWidth());
+
+        // Bottom border
+        g.setColour(LadderMono::Noir3DPalette::PITCH_BLACK);
+        g.fillRect(juce::Rectangle<float>(0.0f, totalArea.getHeight() - 8.0f, totalArea.getWidth(), 8.0f));
+
+        // 3. Central Dark Anodized Metal Faceplate
+        juce::Rectangle<float> panelRect(20.0f, 42.0f, totalArea.getWidth() - 40.0f, 398.0f);
+        juce::ColourGradient faceGrad(LadderMono::Noir3DPalette::PANEL_BG, 0.0f, panelRect.getY(),
+                                      LadderMono::Noir3DPalette::PITCH_BLACK, 0.0f, panelRect.getBottom(), false);
+        g.setGradientFill(faceGrad);
+        g.fillRect(panelRect);
+
+        // 4. Monolithic 3D Section Frames (Milled into faceplate)
+        auto drawNoirSectionFrame = [&g](float x, float y, float w, float h, const juce::String& title) {
+            juce::Rectangle<float> frame(x, y, w, h);
+            
+            // Recessed cavity shadow inside
+            g.setColour(LadderMono::Noir3DPalette::PITCH_BLACK.withAlpha(0.5f));
+            g.fillRoundedRectangle(frame, 3.0f);
+
+            // 3D Chiseled Bevel: top and left catch light, bottom and right cast shadow
+            g.setColour(LadderMono::Noir3DPalette::BEVEL_SPEC.withAlpha(0.45f));
+            g.drawHorizontalLine(static_cast<int>(y), x + 1.0f, x + w - 1.0f);
+            g.drawVerticalLine(static_cast<int>(x), y + 1.0f, y + h - 1.0f);
+
+            g.setColour(LadderMono::Noir3DPalette::BEVEL_DARK);
+            g.drawHorizontalLine(static_cast<int>(y + h), x, x + w);
+            g.drawVerticalLine(static_cast<int>(x + w), y, y + h);
+
+            // Monochromatic Section Header Plate
+            juce::Rectangle<float> headerPlate(x + 10.0f, y - 9.0f, w - 20.0f, 18.0f);
+            g.setColour(LadderMono::Noir3DPalette::PANEL_BG);
+            g.fillRect(headerPlate);
+
+            g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
+            g.setColour(LadderMono::Noir3DPalette::TEXT_TITLE);
+            g.drawText(title, headerPlate.toNearestInt(), juce::Justification::centred);
+        };
+
+        drawNoirSectionFrame(24.0f, 46.0f, 176.0f, 388.0f, "CONTROLLERS");
+        drawNoirSectionFrame(206.0f, 46.0f, 260.0f, 388.0f, "OSCILLATOR BANK");
+        drawNoirSectionFrame(472.0f, 46.0f, 186.0f, 388.0f, "MIXER");
+        drawNoirSectionFrame(664.0f, 46.0f, 296.0f, 388.0f, "MODIFIERS");
+        drawNoirSectionFrame(966.0f, 46.0f, 130.0f, 388.0f, "OUTPUT");
+
+        // Oscillator Bank row labels (OSC 1, OSC 2, OSC 3) in subtle gunmetal
+        g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
+        g.setColour(LadderMono::Noir3DPalette::TEXT_ACCENT);
+        g.drawText("OSC 1", 212, 78, 40, 24, juce::Justification::centredLeft);
+        g.drawText("OSC 2", 212, 138, 40, 24, juce::Justification::centredLeft);
+        g.drawText("OSC 3", 212, 215, 40, 24, juce::Justification::centredLeft);
+
+        // Modifiers Sub-Headers (FILTER CONTOUR, LOUDNESS CONTOUR)
+        auto drawNoirSubHeader = [&g](float x, float y, float w, const juce::String& text) {
+            juce::Rectangle<float> bar(x, y, w, 15.0f);
+            g.setColour(LadderMono::Noir3DPalette::PANEL_DARK);
+            g.fillRoundedRectangle(bar, 2.0f);
+            g.setColour(LadderMono::Noir3DPalette::BEVEL_SPEC.withAlpha(0.35f));
+            g.drawRoundedRectangle(bar, 2.0f, 0.8f);
+
+            g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+            g.setColour(LadderMono::Noir3DPalette::TEXT_ACCENT);
+            g.drawText(text, bar.toNearestInt(), juce::Justification::centred);
+        };
+
+        drawNoirSubHeader(672, 204, 280, "FILTER CONTOUR");
+        drawNoirSubHeader(672, 290, 280, "LOUDNESS CONTOUR");
+
+        // Voices Label
+        g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+        g.setColour(LadderMono::Noir3DPalette::TEXT_ACCENT);
+        g.drawText("VOICES", 970, 202, 122, 14, juce::Justification::centred);
+
+        // Drive Overload 3D Monochromatic Aperture / Specular Indicator
+        float ovlX = 632.0f;
+        float ovlY = 405.0f;
+        float driveVal = audioProcessor.getAPVTS().getRawParameterValue(LadderMono::ParamIDs::mixerDrive)->load();
+        bool isOverload = driveVal > 0.05f;
+
+        g.setFont(juce::FontOptions(9.0f, juce::Font::bold));
+        g.setColour(isOverload ? LadderMono::Noir3DPalette::TEXT_TITLE : LadderMono::Noir3DPalette::TEXT_DIM);
+        g.drawText("OVERLOAD", static_cast<int>(ovlX - 35.0f), static_cast<int>(ovlY - 18.0f), 70, 14, juce::Justification::centred);
+
+        // 3D Recessed Conical Lens
+        float ledR = 6.0f;
+        g.setColour(LadderMono::Noir3DPalette::PITCH_BLACK);
+        g.fillEllipse(ovlX - ledR - 1.0f, ovlY - ledR - 1.0f, (ledR + 1.0f) * 2.0f, (ledR + 1.0f) * 2.0f);
+
+        if (isOverload)
+        {
+            // Fully Illuminated by Light reflection (Bright metallic white / platinum gleam)
+            juce::ColourGradient ovlGrad(juce::Colour(0xffffffff), ovlX - 2.0f, ovlY - 2.0f,
+                                         LadderMono::Noir3DPalette::BEVEL_MID, ovlX + ledR, ovlY + ledR, true);
+            g.setGradientFill(ovlGrad);
+            g.fillEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f);
+            g.setColour(LadderMono::Noir3DPalette::BEVEL_SPEC);
+            g.drawEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f, 1.2f);
+        }
+        else
+        {
+            // Dark recessed cavity (Off state dictated purely by shadow)
+            juce::ColourGradient offGrad(LadderMono::Noir3DPalette::PANEL_DARK, ovlX, ovlY,
+                                         LadderMono::Noir3DPalette::PITCH_BLACK, ovlX + ledR, ovlY + ledR, true);
+            g.setGradientFill(offGrad);
+            g.fillEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f);
+            g.setColour(LadderMono::Noir3DPalette::BEVEL_LIGHT);
+            g.drawEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f, 0.8f);
+        }
+
+        return;
+    }
+
+    // ====================================================================
+    // Classic Vintage Wood & Anodized Faceplate (Original)
+    // ====================================================================
     // 1. Base dark background
     g.fillAll(juce::Colour(0xff141517));
 
@@ -940,7 +1373,6 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     };
 
     // 5 Clean Classic Hardware Signal-Flow Sections:
-    // CONTROLLERS -> OSCILLATOR BANK -> MIXER -> MODIFIERS -> OUTPUT
     drawSectionFrame(24.0f, 46.0f, 176.0f, 388.0f, "CONTROLLERS");
     drawSectionFrame(206.0f, 46.0f, 260.0f, 388.0f, "OSCILLATOR BANK");
     drawSectionFrame(472.0f, 46.0f, 186.0f, 388.0f, "MIXER");
@@ -961,7 +1393,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
         g.setColour(juce::Colour(0xff3a3e49));
         g.drawRoundedRectangle(x, y, w, 16.0f, 2.0f, 1.0f);
         g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
-        g.setColour(juce::Colour(0xffe89e4a)); // Warm distinct copper banner text
+        g.setColour(juce::Colour(0xffe89e4a));
         g.drawText(text, juce::Rectangle<float>(x, y, w, 16.0f).toNearestInt(), juce::Justification::centred);
     };
 
@@ -1021,7 +1453,8 @@ void LadderMonoAudioProcessorEditor::resized()
 
     abBtn.setBounds(658, 8, 54, 26);
     hqBtn.setBounds(716, 8, 40, 26);
-    cpuLabel.setBounds(762, 8, 70, 26);
+    cpuLabel.setBounds(760, 8, 68, 26);
+    skinBtn.setBounds(834, 8, 94, 26);
     aboutBtn.setBounds(getWidth() - 110, 8, 62, 26);
 
     // ====================================================================
