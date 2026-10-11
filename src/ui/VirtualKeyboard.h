@@ -201,70 +201,23 @@ namespace LadderMono
 
                         if (isNoirKeyboard)
                         {
-                            // 1. Deep 3D Drop Shadow onto the matte black keys
-                            g.setColour(juce::Colour(0xdd000000));
-                            g.fillRect(blackRect.translated(2.5f, 3.5f));
-                            g.setColour(juce::Colour(0x66000000));
-                            g.fillRect(blackRect.translated(4.5f, 6.0f));
+                            // 1. Soft matte drop shadow onto natural keys
+                            g.setColour(juce::Colour(0x77000000));
+                            g.fillRoundedRectangle(blackRect.translated(2.0f, 2.5f), theme.cornerRadius * 0.5f);
 
-                            // 2. Glossy Piano-Lacquered Black Body
-                            juce::Rectangle<float> innerKey = blackRect;
-                            float r = juce::jmin(theme.cornerRadius, 4.0f);
-                            if (isDown)
-                            {
-                                g.setColour(theme.keyBlackDown);
-                                g.fillRoundedRectangle(innerKey, r);
-                            }
-                            else
-                            {
-                                juce::ColourGradient bodyGrad(theme.keyBlackRest.darker(0.3f), innerKey.getX(), innerKey.getY(),
-                                                              theme.keyBlackRest.brighter(0.2f), innerKey.getX(), innerKey.getBottom(), false);
-                                g.setGradientFill(bodyGrad);
-                                g.fillRoundedRectangle(innerKey, r);
-                            }
+                            // 2. Pure Flat Matte Black Key Body (no glossy sheen or specular reflections)
+                            float r = juce::jlimit(1.0f, 4.0f, theme.cornerRadius * 0.6f);
+                            g.setColour(isDown ? theme.keyBlackDown : theme.keyBlackRest);
+                            g.fillRoundedRectangle(blackRect, r);
 
-                            // 3. Chiseled 3D Bevels (Biseles)
-                            // Top bevel highlight
-                            g.setColour(juce::Colour(0x88ffffff));
-                            g.drawHorizontalLine(static_cast<int>(innerKey.getY() + 1.0f), innerKey.getX() + 1.0f, innerKey.getRight() - 1.0f);
+                            // 3. Subtle bottom lip crease (matte depth)
+                            auto bottomLip = blackRect.removeFromBottom(4.0f);
+                            g.setColour(juce::Colour(0x44000000));
+                            g.fillRoundedRectangle(bottomLip, r * 0.5f);
 
-                            // Left bevel light rim (catching specular light)
-                            g.setColour(juce::Colour(0x55ffffff));
-                            g.drawVerticalLine(static_cast<int>(innerKey.getX() + 1.0f), innerKey.getY() + 2.0f, innerKey.getBottom() - 7.0f);
-
-                            // Right bevel cast shadow
-                            g.setColour(juce::Colour(0x99000000));
-                            g.drawVerticalLine(static_cast<int>(innerKey.getRight() - 1.0f), innerKey.getY() + 2.0f, innerKey.getBottom() - 1.0f);
-
-                            // 4. Angled Front Chamfer Lip
-                            auto chamfer = innerKey.removeFromBottom(7.0f);
-                            g.setColour(juce::Colour(0xff181b24));
-                            g.fillRect(chamfer);
-                            // Chamfer bevel crease
-                            g.setColour(juce::Colour(0x77ffffff));
-                            g.drawHorizontalLine(static_cast<int>(chamfer.getY()), chamfer.getX() + 1.0f, chamfer.getRight() - 1.0f);
-                            // Chamfer bottom rim
-                            g.setColour(juce::Colour(0x33ffffff));
-                            g.drawHorizontalLine(static_cast<int>(chamfer.getBottom() - 1.0f), chamfer.getX() + 1.0f, chamfer.getRight() - 1.0f);
-
-                            // 5. High-Gloss Specular Reflection (Reflejos)
-                            if (!isDown)
-                            {
-                                float sheenW = innerKey.getWidth() * 0.38f;
-                                juce::Rectangle<float> sheenArea(innerKey.getX() + 3.0f, innerKey.getY() + 2.0f, sheenW, innerKey.getHeight() * 0.88f);
-                                juce::ColourGradient sheen(juce::Colour(0x60ffffff), sheenArea.getX(), sheenArea.getY(),
-                                                           juce::Colour(0x02ffffff), sheenArea.getRight(), sheenArea.getBottom(), false);
-                                g.setGradientFill(sheen);
-                                g.fillRect(sheenArea);
-
-                                // Specular hot spot
-                                g.setColour(juce::Colour(0x99ffffff));
-                                g.fillRect(sheenArea.getX(), sheenArea.getY(), sheenArea.getWidth() * 0.8f, 2.5f);
-                            }
-
-                            // Outer crisp vector frame
-                            g.setColour(juce::Colour(0x44ffffff));
-                            g.drawRect(blackRect, 1.0f);
+                            // 4. Subtle crisp matte perimeter border
+                            g.setColour(theme.lineBorder.brighter(0.05f));
+                            g.drawRoundedRectangle(blackRect.withHeight(blackKeyHeight), r, 1.0f);
                         }
                         else
                         {

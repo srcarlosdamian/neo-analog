@@ -11,6 +11,8 @@ namespace LadderMono
     {
     public:
         float currentHue = 0.0f;
+        float currentSat = 1.0f;
+        float currentBri = 0.5f;
 
         void drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height,
                               float sliderPos, float /*minSliderPos*/, float /*maxSliderPos*/,
@@ -18,7 +20,7 @@ namespace LadderMono
         {
             auto bounds = juce::Rectangle<float>(static_cast<float>(x), static_cast<float>(y),
                                                  static_cast<float>(width), static_cast<float>(height))
-                              .reduced(2.0f, height * 0.22f);
+                               .reduced(2.0f, height * 0.22f);
             float r = 4.0f;
 
             if (slider.getName() == "HUE")
@@ -51,6 +53,25 @@ namespace LadderMono
                 juce::ColourGradient satGrad(juce::Colour(0xff555a66), bounds.getX(), bounds.getY(),
                                              satCol, bounds.getRight(), bounds.getY(), false);
                 g.setGradientFill(satGrad);
+                g.fillRoundedRectangle(bounds, r);
+            }
+            else if (slider.getName() == "OPACITY")
+            {
+                // Checkerboard pattern for alpha visibility
+                float boxSize = 4.0f;
+                for (float cy = bounds.getY(); cy < bounds.getBottom(); cy += boxSize)
+                {
+                    for (float cx = bounds.getX(); cx < bounds.getRight(); cx += boxSize)
+                    {
+                        bool dark = (static_cast<int>((cx - bounds.getX()) / boxSize) + static_cast<int>((cy - bounds.getY()) / boxSize)) % 2 == 0;
+                        g.setColour(dark ? juce::Colour(0xff181a20) : juce::Colour(0xff2c303c));
+                        g.fillRect(juce::Rectangle<float>(cx, cy, boxSize, boxSize).getIntersection(bounds));
+                    }
+                }
+                juce::Colour solidCol = juce::Colour::fromHSV(currentHue, currentSat, currentBri, 1.0f);
+                juce::ColourGradient alphaGrad(solidCol.withAlpha(0.0f), bounds.getX(), bounds.getY(),
+                                               solidCol, bounds.getRight(), bounds.getY(), false);
+                g.setGradientFill(alphaGrad);
                 g.fillRoundedRectangle(bounds, r);
             }
             else
@@ -203,6 +224,10 @@ namespace LadderMono
             setupColorSlider(hueSlider, hueLabel, "HUE", 0.0, 1.0, 0.0);
             setupColorSlider(satSlider, satLabel, "SAT", 0.0, 1.0, 0.0);
             setupColorSlider(briSlider, briLabel, "LIGHT", 0.0, 1.0, 0.5);
+            setupColorSlider(alphaSlider, alphaLabel, "OPACITY", 0.0, 1.0, 1.0);
+            alphaSlider.textFromValueFunction = [](double v) {
+                return juce::String(juce::roundToInt(v * 100.0)) + "%";
+            };
 
             // 8 Instant Color Chips (One-click colors!)
             struct ChipDef { const char* name; juce::Colour col; };
@@ -290,6 +315,7 @@ namespace LadderMono
             hueSlider.setLookAndFeel(nullptr);
             satSlider.setLookAndFeel(nullptr);
             briSlider.setLookAndFeel(nullptr);
+            alphaSlider.setLookAndFeel(nullptr);
         }
 
         std::function<void(const ThemeColors&)> onThemeChanged;
@@ -399,8 +425,18 @@ namespace LadderMono
             g.drawText("3. COLOR SPECTRUM", 398, 34, 260, 16, juce::Justification::centredLeft);
             g.drawText("4. STYLE & RESET", 678, 34, 170, 16, juce::Justification::centredLeft);
 
-            // Large Live Swatch Preview in Column 2
+            // Large Live Swatch Preview in Column 2 (with checkerboard underlay for alpha)
             auto swatch = juce::Rectangle<float>(184.0f, 116.0f, 44.0f, 44.0f);
+            float boxSize = 5.0f;
+            for (float cy = swatch.getY(); cy < swatch.getBottom(); cy += boxSize)
+            {
+                for (float cx = swatch.getX(); cx < swatch.getRight(); cx += boxSize)
+                {
+                    bool dark = (static_cast<int>((cx - swatch.getX()) / boxSize) + static_cast<int>((cy - swatch.getY()) / boxSize)) % 2 == 0;
+                    g.setColour(dark ? juce::Colour(0xff181a20) : juce::Colour(0xff343846));
+                    g.fillRect(juce::Rectangle<float>(cx, cy, boxSize, boxSize).getIntersection(swatch));
+                }
+            }
             g.setColour(getCurrentTargetColor());
             g.fillRoundedRectangle(swatch, juce::jmin(r, 4.0f));
             g.setColour(activeTheme.lineBorder);
@@ -409,7 +445,7 @@ namespace LadderMono
             // Quick Chips Label in Column 3
             g.setFont(juce::FontOptions(8.5f * activeTheme.fontScale, juce::Font::bold));
             g.setColour(activeTheme.textDim);
-            g.drawText("QUICK COLOR CHIPS", 398, 164, 250, 14, juce::Justification::centredLeft);
+            g.drawText("QUICK COLOR CHIPS", 398, 154, 250, 14, juce::Justification::centredLeft);
         }
 
         void resized() override
@@ -440,21 +476,25 @@ namespace LadderMono
             // Column 3: VISUAL COLOR PICKER (x: 398, w: 260)
             // Full left-to-right visual rainbow spectrum
             // ================================================================
-            int sy = 54;
-            hueLabel.setBounds(398, sy, 46, 20);
-            hueSlider.setBounds(448, sy, 210, 20);
+            int sy = 52;
+            hueLabel.setBounds(398, sy, 46, 18);
+            hueSlider.setBounds(448, sy, 210, 18);
 
-            sy += 28;
-            satLabel.setBounds(398, sy, 46, 20);
-            satSlider.setBounds(448, sy, 210, 20);
+            sy += 23;
+            satLabel.setBounds(398, sy, 46, 18);
+            satSlider.setBounds(448, sy, 210, 18);
 
-            sy += 28;
-            briLabel.setBounds(398, sy, 46, 20);
-            briSlider.setBounds(448, sy, 210, 20);
+            sy += 23;
+            briLabel.setBounds(398, sy, 46, 18);
+            briSlider.setBounds(448, sy, 210, 18);
+
+            sy += 23;
+            alphaLabel.setBounds(398, sy, 46, 18);
+            alphaSlider.setBounds(448, sy, 210, 18);
 
             // 8 Quick Color Chips (Horizontal Row)
             int chipX = 398;
-            int chipY = 180;
+            int chipY = 172;
             int chipSize = 25;
             for (size_t i = 0; i < colorChips.size(); ++i)
             {
@@ -491,8 +531,8 @@ namespace LadderMono
         juce::Label hexLabel;
         juce::TextEditor hexInput;
 
-        juce::Label hueLabel, satLabel, briLabel;
-        juce::Slider hueSlider, satSlider, briSlider;
+        juce::Label hueLabel, satLabel, briLabel, alphaLabel;
+        juce::Slider hueSlider, satSlider, briSlider, alphaSlider;
         std::vector<std::unique_ptr<juce::TextButton>> colorChips;
 
         juce::Label fontScaleLabel, cornerRadiusLabel;
@@ -502,6 +542,13 @@ namespace LadderMono
 
         static juce::String colorToHex(juce::Colour c)
         {
+            if (c.getAlpha() < 255)
+            {
+                return "#" + juce::String::toHexString(c.getRed()).paddedLeft('0', 2).toUpperCase()
+                           + juce::String::toHexString(c.getGreen()).paddedLeft('0', 2).toUpperCase()
+                           + juce::String::toHexString(c.getBlue()).paddedLeft('0', 2).toUpperCase()
+                           + juce::String::toHexString(c.getAlpha()).paddedLeft('0', 2).toUpperCase();
+            }
             return "#" + juce::String::toHexString((c.getRed() << 16) | (c.getGreen() << 8) | c.getBlue()).paddedLeft('0', 6).toUpperCase();
         }
 
@@ -560,10 +607,13 @@ namespace LadderMono
             hueSlider.setValue(c.getHue(), juce::dontSendNotification);
             satSlider.setValue(c.getSaturation(), juce::dontSendNotification);
             briSlider.setValue(c.getBrightness(), juce::dontSendNotification);
+            alphaSlider.setValue(c.getFloatAlpha(), juce::dontSendNotification);
             fontScaleSlider.setValue(activeTheme.fontScale, juce::dontSendNotification);
             cornerRadiusSlider.setValue(activeTheme.cornerRadius, juce::dontSendNotification);
 
             spectrumLnf.currentHue = c.getHue();
+            spectrumLnf.currentSat = c.getSaturation();
+            spectrumLnf.currentBri = c.getBrightness();
             isUpdatingSliders = false;
             repaint();
         }
@@ -578,7 +628,11 @@ namespace LadderMono
                 try
                 {
                     unsigned long val = std::stoul(text.toStdString(), nullptr, 16);
-                    juce::Colour newCol = juce::Colour::fromRGB((val >> 16) & 0xff, (val >> 8) & 0xff, val & 0xff);
+                    float currentAlpha = static_cast<float>(alphaSlider.getValue());
+                    juce::Colour newCol = juce::Colour::fromRGBA(static_cast<juce::uint8>((val >> 16) & 0xff),
+                                                                 static_cast<juce::uint8>((val >> 8) & 0xff),
+                                                                 static_cast<juce::uint8>(val & 0xff),
+                                                                 static_cast<juce::uint8>(juce::roundToInt(currentAlpha * 255.0f)));
                     setCurrentTargetColor(newCol);
 
                     isUpdatingSliders = true;
@@ -586,6 +640,35 @@ namespace LadderMono
                     satSlider.setValue(newCol.getSaturation(), juce::dontSendNotification);
                     briSlider.setValue(newCol.getBrightness(), juce::dontSendNotification);
                     spectrumLnf.currentHue = newCol.getHue();
+                    spectrumLnf.currentSat = newCol.getSaturation();
+                    spectrumLnf.currentBri = newCol.getBrightness();
+                    isUpdatingSliders = false;
+
+                    if (onThemeChanged) onThemeChanged(activeTheme);
+                    repaint();
+                }
+                catch (...) {}
+            }
+            else if (text.length() == 8)
+            {
+                try
+                {
+                    unsigned long long val = std::stoull(text.toStdString(), nullptr, 16);
+                    juce::uint8 r = static_cast<juce::uint8>((val >> 24) & 0xff);
+                    juce::uint8 g = static_cast<juce::uint8>((val >> 16) & 0xff);
+                    juce::uint8 b = static_cast<juce::uint8>((val >> 8) & 0xff);
+                    juce::uint8 a = static_cast<juce::uint8>(val & 0xff);
+                    juce::Colour newCol = juce::Colour::fromRGBA(r, g, b, a);
+                    setCurrentTargetColor(newCol);
+
+                    isUpdatingSliders = true;
+                    hueSlider.setValue(newCol.getHue(), juce::dontSendNotification);
+                    satSlider.setValue(newCol.getSaturation(), juce::dontSendNotification);
+                    briSlider.setValue(newCol.getBrightness(), juce::dontSendNotification);
+                    alphaSlider.setValue(newCol.getFloatAlpha(), juce::dontSendNotification);
+                    spectrumLnf.currentHue = newCol.getHue();
+                    spectrumLnf.currentSat = newCol.getSaturation();
+                    spectrumLnf.currentBri = newCol.getBrightness();
                     isUpdatingSliders = false;
 
                     if (onThemeChanged) onThemeChanged(activeTheme);
@@ -601,6 +684,7 @@ namespace LadderMono
             float h = static_cast<float>(hueSlider.getValue());
             float s = static_cast<float>(satSlider.getValue());
             float b = static_cast<float>(briSlider.getValue());
+            float a = static_cast<float>(alphaSlider.getValue());
 
             // If user moved hue while color was pitch black (sat=0 & b=0), auto-revive brightness
             if (b < 0.05f && s < 0.05f)
@@ -611,9 +695,11 @@ namespace LadderMono
                 briSlider.setValue(b, juce::dontSendNotification);
             }
 
-            juce::Colour newColor = juce::Colour::fromHSV(h, s, b, 1.0f);
+            juce::Colour newColor = juce::Colour::fromHSV(h, s, b, a);
             setCurrentTargetColor(newColor);
             spectrumLnf.currentHue = h;
+            spectrumLnf.currentSat = s;
+            spectrumLnf.currentBri = b;
 
             isUpdatingSliders = true;
             hexInput.setText(colorToHex(newColor), juce::dontSendNotification);
