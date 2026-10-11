@@ -7,34 +7,34 @@ namespace LadderMono
 {
     namespace Noir3DPalette
     {
-        inline const juce::Colour PITCH_BLACK  (0xff08090a);
-        inline const juce::Colour CHASSIS_BG   (0xff101114);
-        inline const juce::Colour PANEL_BG     (0xff141518);
-        inline const juce::Colour PANEL_LIGHT  (0xff1a1b20);
-        inline const juce::Colour PANEL_DARK   (0xff0e0f12);
-        inline const juce::Colour WELL_DARK    (0xff090a0d);
-        inline const juce::Colour WELL_BORDER  (0xff1b1d22);
+        inline const juce::Colour PITCH_BLACK  (0xff0a0a0a);
+        inline const juce::Colour CHASSIS_BG   (0xff121212);
+        inline const juce::Colour PANEL_BG     (0xff141414);
+        inline const juce::Colour PANEL_LIGHT  (0xff1c1c1c);
+        inline const juce::Colour PANEL_DARK   (0xff101010);
+        inline const juce::Colour WELL_DARK    (0xff0c0c0c);
+        inline const juce::Colour WELL_BORDER  (0xff282828);
 
-        inline const juce::Colour KNOB_BODY    (0xff1f2127);
-        inline const juce::Colour KNOB_CAP     (0xff141519);
-        inline const juce::Colour KNOB_RING    (0xff2c2e36);
-        inline const juce::Colour KNOB_DOT     (0xffd8dce6);
+        inline const juce::Colour KNOB_BODY    (0xff222222);
+        inline const juce::Colour KNOB_CAP     (0xff161616);
+        inline const juce::Colour KNOB_RING    (0xff2c2c2c);
+        inline const juce::Colour KNOB_DOT     (0xffe0e0e0);
 
-        inline const juce::Colour SWITCH_BG    (0xff0a0b0e);
-        inline const juce::Colour SWITCH_BODY  (0xff1d1f25);
-        inline const juce::Colour SWITCH_ON_DOT (0xffeaedf4);
-        inline const juce::Colour SWITCH_OFF_DOT (0xff0e0f12);
+        inline const juce::Colour SWITCH_BG    (0xff0e0e0e);
+        inline const juce::Colour SWITCH_BODY  (0xff1e1e1e);
+        inline const juce::Colour SWITCH_ON_DOT (0xfff0f0f0);
+        inline const juce::Colour SWITCH_OFF_DOT (0xff101010);
 
-        inline const juce::Colour BEVEL_SPEC   (0xffd4d8e2);
-        inline const juce::Colour BEVEL_LIGHT  (0xff606470);
-        inline const juce::Colour BEVEL_MID    (0xff2a2c34);
-        inline const juce::Colour BEVEL_DARK   (0xff18191e);
-        inline const juce::Colour BEVEL_SHADOW (0xff08090b);
+        inline const juce::Colour BEVEL_SPEC   (0xffe0e0e0);
+        inline const juce::Colour BEVEL_LIGHT  (0xff686868);
+        inline const juce::Colour BEVEL_MID    (0xff2c2c2c);
+        inline const juce::Colour BEVEL_DARK   (0xff181818);
+        inline const juce::Colour BEVEL_SHADOW (0xff0a0a0a);
 
-        inline const juce::Colour TEXT_TITLE   (0xffd4d8e2);
-        inline const juce::Colour TEXT_BODY    (0xff969ca8);
-        inline const juce::Colour TEXT_ACCENT  (0xff727782);
-        inline const juce::Colour TEXT_DIM     (0xff444750);
+        inline const juce::Colour TEXT_TITLE   (0xffe0e0e0);
+        inline const juce::Colour TEXT_BODY    (0xff9c9c9c);
+        inline const juce::Colour TEXT_ACCENT  (0xff787878);
+        inline const juce::Colour TEXT_DIM     (0xff585858);
     }
 
     namespace CyberPalette

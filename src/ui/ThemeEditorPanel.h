@@ -113,9 +113,9 @@ namespace LadderMono
             // Column 1: Theme & Clipboard Action Buttons
             auto setupActionBtn = [this](juce::TextButton& btn, const juce::String& text, std::function<void()> onClick) {
                 btn.setButtonText(text);
-                btn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff181a20));
-                btn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff262a34));
-                btn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffc2c7d4));
+                btn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e1e1e));
+                btn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2a2a2a));
+                btn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffd0d0d0));
                 btn.onClick = onClick;
                 addAndMakeVisible(btn);
             };
@@ -190,16 +190,16 @@ namespace LadderMono
             // Hex Code Input
             hexLabel.setText("HEX CODE", juce::dontSendNotification);
             hexLabel.setFont(juce::FontOptions(10.0f, juce::Font::bold));
-            hexLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
+            hexLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(hexLabel);
 
             hexInput.setMultiLine(false);
             hexInput.setReturnKeyStartsNewLine(false);
             hexInput.setFont(juce::FontOptions(13.0f, juce::Font::bold));
-            hexInput.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0xff14161c));
-            hexInput.setColour(juce::TextEditor::textColourId, juce::Colour(0xffe2e6f0));
-            hexInput.setColour(juce::TextEditor::outlineColourId, juce::Colour(0xff2f333e));
-            hexInput.setColour(juce::TextEditor::focusedOutlineColourId, juce::Colour(0xff4a5264));
+            hexInput.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0xff141414));
+            hexInput.setColour(juce::TextEditor::textColourId, juce::Colour(0xffe0e0e0));
+            hexInput.setColour(juce::TextEditor::outlineColourId, juce::Colour(0xff282828));
+            hexInput.setColour(juce::TextEditor::focusedOutlineColourId, juce::Colour(0xff444444));
             hexInput.setInputRestrictions(9, "#0123456789abcdefABCDEF");
             hexInput.onTextChange = [this] { onHexInputChanged(); };
             addAndMakeVisible(hexInput);
@@ -217,7 +217,7 @@ namespace LadderMono
 
                 lbl.setText(name, juce::dontSendNotification);
                 lbl.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-                lbl.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
+                lbl.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
                 addAndMakeVisible(lbl);
             };
 
@@ -261,7 +261,7 @@ namespace LadderMono
             // Geometry & Font controls
             fontScaleLabel.setText("FONT SIZE", juce::dontSendNotification);
             fontScaleLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-            fontScaleLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
+            fontScaleLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(fontScaleLabel);
 
             fontScaleSlider.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -280,7 +280,7 @@ namespace LadderMono
 
             cornerRadiusLabel.setText("ROUNDING", juce::dontSendNotification);
             cornerRadiusLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-            cornerRadiusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
+            cornerRadiusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(cornerRadiusLabel);
 
             cornerRadiusSlider.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -299,8 +299,8 @@ namespace LadderMono
 
             // Reset Button
             resetBtn.setButtonText("Reset to Default");
-            resetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff221b1b));
-            resetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe88a8a));
+            resetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff222222));
+            resetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe0e0e0));
             resetBtn.onClick = [this] {
                 activeTheme = ThemeColors::getDefaultNoir();
                 notifyThemeChanged();
@@ -433,7 +433,7 @@ namespace LadderMono
                 for (float cx = swatch.getX(); cx < swatch.getRight(); cx += boxSize)
                 {
                     bool dark = (static_cast<int>((cx - swatch.getX()) / boxSize) + static_cast<int>((cy - swatch.getY()) / boxSize)) % 2 == 0;
-                    g.setColour(dark ? juce::Colour(0xff181a20) : juce::Colour(0xff343846));
+                    g.setColour(dark ? juce::Colour(0xff181818) : juce::Colour(0xff303030));
                     g.fillRect(juce::Rectangle<float>(cx, cy, boxSize, boxSize).getIntersection(swatch));
                 }
             }

@@ -12,20 +12,20 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     // ====================================================================
     titleLabel.setText("N E O   A N A L O G", juce::dontSendNotification);
     titleLabel.setFont(juce::FontOptions(14.0f, juce::Font::bold));
-    titleLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
+    titleLabel.setColour(juce::Label::textColourId, currentTheme.textPrimary);
     addAndMakeVisible(titleLabel);
 
-    versionBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1a261c));
-    versionBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff233526));
-    versionBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xff48c764));
+    versionBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    versionBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
+    versionBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     versionBtn.setTooltip("Neo Analog v1.0 \xe2\x80\x94 Click for Credits & Roadmap");
     versionBtn.onClick = [this] { showAboutDialog(); };
     addAndMakeVisible(versionBtn);
 
     // Preset selector button
-    presetButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    presetButton.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
-    presetButton.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe8eaee));
+    presetButton.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    presetButton.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
+    presetButton.setColour(juce::TextButton::textColourOffId, currentTheme.textPrimary);
     presetButton.onClick = [this]() {
         juce::PopupMenu menu;
         menu.addItem(9999, "Open Preset Browser...", true, false);
@@ -78,8 +78,8 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(presetButton);
 
-    prevPresetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    prevPresetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
+    prevPresetBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    prevPresetBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     prevPresetBtn.onClick = [this]() {
         releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().loadPrevPreset();
@@ -87,8 +87,8 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(prevPresetBtn);
 
-    nextPresetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    nextPresetBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
+    nextPresetBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    nextPresetBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     nextPresetBtn.onClick = [this]() {
         releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().loadNextPreset();
@@ -96,9 +96,9 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(nextPresetBtn);
 
-    browseBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff22252c));
-    browseBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff2f333c));
-    browseBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe08b3c));
+    browseBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    browseBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
+    browseBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textPrimary);
     browseBtn.onClick = [this]() {
         releaseAllHeldComputerKeys();
         if (presetBrowser != nullptr)
@@ -106,14 +106,14 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(browseBtn);
 
-    saveBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    saveBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe0a350));
+    saveBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    saveBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textPrimary);
     saveBtn.setTooltip("Save / Export Preset (.nlog file)");
     saveBtn.onClick = [this] { saveCurrentPresetDialog(); };
     addAndMakeVisible(saveBtn);
 
-    initBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    initBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xff9ea3b0));
+    initBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    initBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     initBtn.onClick = [this]() {
         releaseAllHeldComputerKeys();
         audioProcessor.getPresetManager().initPatch();
@@ -122,16 +122,17 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     addAndMakeVisible(initBtn);
 
     // A/B Comparison Toggle
-    abBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e2026));
-    abBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffe0e4eb));
+    abBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    abBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textPrimary);
     abBtn.setTooltip("A/B State Compare — Switch between Patch A and Patch B");
     abBtn.onClick = [this] { toggleABState(); };
     addAndMakeVisible(abBtn);
 
     // High Quality Oversampling Toggle
-    hqBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e2026));
-    hqBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xffe08b3c));
+    hqBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    hqBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
     hqBtn.setColour(juce::TextButton::textColourOnId, juce::Colour(0xffffffff));
+    hqBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     hqBtn.setClickingTogglesState(true);
     hqBtn.setTooltip("HQ Mode (2x Oversampling & Anti-Aliasing)");
     buttonAttachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(
@@ -141,21 +142,21 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     // CPU Usage Meter
     cpuLabel.setText("CPU: 0.0%", juce::dontSendNotification);
     cpuLabel.setFont(juce::FontOptions(11.0f, juce::Font::bold));
-    cpuLabel.setColour(juce::Label::textColourId, juce::Colour(0xff6fc070));
+    cpuLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     cpuLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(cpuLabel);
 
     editThemeBtn.setButtonText(juce::CharPointer_UTF8("\xe2\x9c\x8e Theme"));
-    editThemeBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    editThemeBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
-    editThemeBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffd4d8e2));
+    editThemeBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    editThemeBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
+    editThemeBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textPrimary);
     editThemeBtn.setTooltip("Theme Studio \xe2\x80\x94 Custom Live Palette & Color Editor");
     editThemeBtn.onClick = [this] { toggleThemeEditor(); };
     addAndMakeVisible(editThemeBtn);
 
-    aboutBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff18191d));
-    aboutBtn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff25272e));
-    aboutBtn.setColour(juce::TextButton::textColourOffId, juce::Colour(0xffa8adb8));
+    aboutBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    aboutBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
+    aboutBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
     aboutBtn.onClick = [this] { showAboutDialog(); };
     addAndMakeVisible(aboutBtn);
 
@@ -259,7 +260,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     // ====================================================================
     arpSectionLabel.setText("ARPEGGIATOR", juce::dontSendNotification);
     arpSectionLabel.setFont(juce::FontOptions(11.0f, juce::Font::bold));
-    arpSectionLabel.setColour(juce::Label::textColourId, juce::Colour(0xffe08b3c));
+    arpSectionLabel.setColour(juce::Label::textColourId, currentTheme.textPrimary);
     addAndMakeVisible(arpSectionLabel);
 
     setupToggle(arpOnBtn, LadderMono::ParamIDs::arpOn);
@@ -267,31 +268,31 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
     arpModeLabel.setText("MODE", juce::dontSendNotification);
     arpModeLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-    arpModeLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9ea3b0));
+    arpModeLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     addAndMakeVisible(arpModeLabel);
     setupComboBox(arpModeBox, LadderMono::ParamIDs::arpMode, {"Up", "Down", "Up/Down", "Random", "Order"});
 
     arpOctaveLabel.setText("OCT", juce::dontSendNotification);
     arpOctaveLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-    arpOctaveLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9ea3b0));
+    arpOctaveLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     addAndMakeVisible(arpOctaveLabel);
     setupComboBox(arpOctaveBox, LadderMono::ParamIDs::arpOctaves, {"1 Oct", "2 Oct", "3 Oct", "4 Oct"});
 
     arpOctModeLabel.setText("OCT DIR", juce::dontSendNotification);
     arpOctModeLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-    arpOctModeLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9ea3b0));
+    arpOctModeLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     addAndMakeVisible(arpOctModeLabel);
     setupComboBox(arpOctModeBox, LadderMono::ParamIDs::arpOctMode, {"Ascend", "Alternate", "Spiral"});
 
     arpRateLabel.setText("RATE", juce::dontSendNotification);
     arpRateLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-    arpRateLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9ea3b0));
+    arpRateLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     addAndMakeVisible(arpRateLabel);
     setupComboBox(arpRateBox, LadderMono::ParamIDs::arpRateSync, {"1/4", "1/8", "1/8 T", "1/16", "1/16 T", "1/32"});
 
     arpPatternLabel.setText("PATTERN", juce::dontSendNotification);
     arpPatternLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-    arpPatternLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9ea3b0));
+    arpPatternLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     addAndMakeVisible(arpPatternLabel);
     setupComboBox(arpPatternBox, LadderMono::ParamIDs::arpPattern, {"Straight", "Dotted", "Syncopated", "Euclid 3/8", "Euclid 5/8"});
 
@@ -320,7 +321,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
     pitchWheelLabel.setText("PITCH", juce::dontSendNotification);
     pitchWheelLabel.setFont(juce::FontOptions(9.0f, juce::Font::bold));
-    pitchWheelLabel.setColour(juce::Label::textColourId, juce::Colour(0xffa8b0c0));
+    pitchWheelLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     pitchWheelLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(pitchWheelLabel);
 
@@ -339,7 +340,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
     modWheelLabel.setText("MOD", juce::dontSendNotification);
     modWheelLabel.setFont(juce::FontOptions(9.0f, juce::Font::bold));
-    modWheelLabel.setColour(juce::Label::textColourId, juce::Colour(0xffa8b0c0));
+    modWheelLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
     modWheelLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(modWheelLabel);
 
@@ -429,10 +430,7 @@ void LadderMonoAudioProcessorEditor::timerCallback()
     else if (cpu > 20.0f)
         cpuLabel.setColour(juce::Label::textColourId, juce::Colour(0xffffb84d));
     else
-        cpuLabel.setColour(juce::Label::textColourId,
-            lnf.getSkinMode() == LadderMono::MinimalistLookAndFeel::SkinMode::Noir3D
-                ? juce::Colour(0xff989ea8)
-                : juce::Colour(0xff6fc070));
+        cpuLabel.setColour(juce::Label::textColourId, currentTheme.textSecondary);
 
     // Repaint overload LED if mixer drive changed
     repaint(472, 46, 186, 388);
@@ -488,7 +486,7 @@ void LadderMonoAudioProcessorEditor::toggleABState()
         audioProcessor.getAPVTS().replaceState(stateB);
         isShowingA = false;
         abBtn.setButtonText("A/B: B");
-        abBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff884814));
+        abBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
     }
     else
     {
@@ -497,7 +495,7 @@ void LadderMonoAudioProcessorEditor::toggleABState()
         audioProcessor.getAPVTS().replaceState(stateA);
         isShowingA = true;
         abBtn.setButtonText("A/B: A");
-        abBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e2026));
+        abBtn.setColour(juce::TextButton::buttonColourId, currentTheme.comboBg);
     }
     updatePresetDisplay();
 }
@@ -1242,14 +1240,14 @@ void LadderMonoAudioProcessorEditor::setupKnob(Knobby& k, const juce::String& pa
     k.slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 58, 15);
     k.slider.setName(labelText);
     k.slider.setComponentID(paramId);
-    k.slider.setColour(juce::Slider::textBoxTextColourId, juce::Colour(0xffdcdfe8));
-    k.slider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colour(0xff18191d));
-    k.slider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colour(0xff34363d));
+    k.slider.setColour(juce::Slider::textBoxTextColourId, juce::Colour(0xffe0e0e0));
+    k.slider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colour(0xff121212));
+    k.slider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colour(0xff2a2a2a));
     addAndMakeVisible(k.slider);
 
     k.label.setText(labelText, juce::dontSendNotification);
     k.label.setFont(juce::FontOptions(10.5f, juce::Font::bold));
-    k.label.setColour(juce::Label::textColourId, juce::Colour(0xffd4d8e2)); // High-contrast label
+    k.label.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c)); // High-contrast label
     k.label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(k.label);
 
@@ -1360,9 +1358,9 @@ void LadderMonoAudioProcessorEditor::setupKnob(Knobby& k, const juce::String& pa
 void LadderMonoAudioProcessorEditor::setupComboBox(juce::ComboBox& box, const juce::String& paramId, const juce::StringArray& items)
 {
     box.addItemList(items, 1);
-    box.setColour(juce::ComboBox::backgroundColourId, juce::Colour(0xff1a1b1f));
-    box.setColour(juce::ComboBox::textColourId, juce::Colour(0xffe0e4eb));
-    box.setColour(juce::ComboBox::outlineColourId, juce::Colour(0xff444750));
+    box.setColour(juce::ComboBox::backgroundColourId, juce::Colour(0xff181818));
+    box.setColour(juce::ComboBox::textColourId, juce::Colour(0xffe0e0e0));
+    box.setColour(juce::ComboBox::outlineColourId, juce::Colour(0xff2a2a2a));
     addAndMakeVisible(box);
 
     comboAttachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
@@ -1561,7 +1559,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
 
     // OLED Standby Text
     g.setFont(juce::FontOptions(9.0f * currentTheme.fontScale, juce::Font::bold));
-    g.setColour(juce::Colour(0xff444854));
+    g.setColour(currentTheme.screenText);
     g.drawText(juce::CharPointer_UTF8("OLED DISPLAY \xe2\x80\xa2 STANDBY"), juce::Rectangle<float>(900.0f, 60.0f, 184.0f, 128.0f).toNearestInt(), juce::Justification::centred);
 
     // Master Output sub-header bar

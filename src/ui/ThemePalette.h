@@ -5,46 +5,46 @@ namespace LadderMono
 {
     struct ThemeColors
     {
-        // 1. Surfaces & Backgrounds
-        juce::Colour bgChassis       { 0xff08090a }; // Outer main chassis
-        juce::Colour panelBg         { 0xff141518 }; // Section faceplate panels
-        juce::Colour wellDark        { 0xff090a0d }; // Cutout recessed wells
-        juce::Colour panelLight      { 0xff1a1b20 }; // Auxiliary panel lighting
-        juce::Colour comboBg         { 0xff181a20 }; // Dropdown combo box & popup background
-        juce::Colour buttonBg        { 0xff1c1e24 }; // Button faceplates
+        // 1. Surfaces & Backgrounds (Pure Neutral Grays: R = G = B)
+        juce::Colour bgChassis       { 0xff0a0a0a }; // Outer main chassis
+        juce::Colour panelBg         { 0xff141414 }; // Section faceplate panels
+        juce::Colour wellDark        { 0xff0c0c0c }; // Cutout recessed wells
+        juce::Colour panelLight      { 0xff1c1c1c }; // Auxiliary panel lighting
+        juce::Colour comboBg         { 0xff181818 }; // Dropdown combo box & popup background
+        juce::Colour buttonBg        { 0xff202020 }; // Button faceplates
 
-        // 2. Lines & Borders (Normalized per user request)
-        juce::Colour lineBorder      { 0xff1e2026 }; // Outer frame rims & well borders
-        juce::Colour lineAccent      { 0xff2f333e }; // Section header plates & dividing accents
+        // 2. Lines & Borders (Pure Neutral Grays: R = G = B, zero color tint)
+        juce::Colour lineBorder      { 0xff282828 }; // Outer frame rims & well borders
+        juce::Colour lineAccent      { 0xff383838 }; // Section header plates & dividing accents (NO RED, NO BLUE)
 
-        // 3. Knobs & Controls
-        juce::Colour knobBody        { 0xff1f2127 }; // Matte cylinder rotor
-        juce::Colour knobCap         { 0xff141519 }; // Center recessed disc
-        juce::Colour knobRing        { 0xff2a2c34 }; // Cylinder perimeter ring
-        juce::Colour knobIndicator   { 0xffd8dce6 }; // Indicator dot / notch
+        // 3. Knobs & Controls (Pure Neutral Grays: R = G = B)
+        juce::Colour knobBody        { 0xff222222 }; // Matte cylinder rotor
+        juce::Colour knobCap         { 0xff161616 }; // Center recessed disc
+        juce::Colour knobRing        { 0xff2c2c2c }; // Cylinder perimeter ring
+        juce::Colour knobIndicator   { 0xffe0e0e0 }; // Indicator dot / notch
 
-        // 4. Switches & Performance Wheels
-        juce::Colour switchBody      { 0xff1c1d22 }; // Rocker switch & wheel body
-        juce::Colour switchActive    { 0xffeaedf4 }; // Active switch LED pip
-        juce::Colour switchInactive  { 0xff0e0f12 }; // Inactive dark socket
+        // 4. Switches & Performance Wheels (Pure Neutral Grays: R = G = B)
+        juce::Colour switchBody      { 0xff1e1e1e }; // Rocker switch & wheel body
+        juce::Colour switchActive    { 0xfff0f0f0 }; // Active switch LED pip
+        juce::Colour switchInactive  { 0xff101010 }; // Inactive dark socket
 
-        // 5. Typography & Geometry
-        juce::Colour textPrimary     { 0xffd4d8e2 }; // Main titles, active values, button labels
-        juce::Colour textSecondary   { 0xff989ea8 }; // Subtitles, section names, standard body
-        juce::Colour textDim         { 0xff555964 }; // Dim hints, inactive switch labels
+        // 5. Typography & Geometry (Pure Neutral Grays: R = G = B)
+        juce::Colour textPrimary     { 0xffe0e0e0 }; // Main titles, active values, button labels
+        juce::Colour textSecondary   { 0xff9c9c9c }; // Subtitles, section names, standard body
+        juce::Colour textDim         { 0xff585858 }; // Dim hints, inactive switch labels
         float fontScale              { 1.0f };       // Global font scaling (0.85 to 1.30)
         float cornerRadius           { 4.0f };       // Global rounded corner radius (1.0 to 12.0)
 
-        // 6. Screen (OLED)
+        // 6. Screen (OLED) (Pure Neutral Grays: R = G = B)
         juce::Colour screenBg        { 0xff000000 }; // Screen inner glass
-        juce::Colour screenBorder    { 0xff1e2026 }; // Screen bezel border
-        juce::Colour screenText      { 0xff555964 }; // Standby badge text
+        juce::Colour screenBorder    { 0xff282828 }; // Screen bezel border
+        juce::Colour screenText      { 0xff505050 }; // Standby badge text
 
-        // 7. Virtual Keyboard (Noir All-Black Stealth Style)
-        juce::Colour keyWhiteRest    { 0xff141519 }; // Matte black natural keys
-        juce::Colour keyWhiteDown    { 0xff2a2d36 }; // Pressed slate
-        juce::Colour keyBlackRest    { 0xff08080a }; // Glossy chiseled pitch black
-        juce::Colour keyBlackDown    { 0xff1c1e24 };
+        // 7. Virtual Keyboard (Noir All-Black Stealth Style: Pure Neutral Grays: R = G = B)
+        juce::Colour keyWhiteRest    { 0xff161616 }; // Matte natural keys
+        juce::Colour keyWhiteDown    { 0xff2c2c2c }; // Pressed natural keys
+        juce::Colour keyBlackRest    { 0xff0a0a0a }; // Matte accidental keys
+        juce::Colour keyBlackDown    { 0xff1e1e1e }; // Pressed accidental keys
 
         juce::String toJSONString() const
         {
