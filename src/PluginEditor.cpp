@@ -1354,5 +1354,5 @@ void LadderMonoAudioProcessorEditor::resized()
     if (aboutDialog != nullptr)
         aboutDialog->setBounds(getLocalBounds());
     if (themeEditorPanel != nullptr)
-        themeEditorPanel->setBounds(getWidth() - S(310), S(42), S(300), S(470));
+        themeEditorPanel->setBounds(S(130), S(46), S(860), S(244));
 }

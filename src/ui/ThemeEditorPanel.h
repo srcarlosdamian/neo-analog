@@ -6,6 +6,77 @@
 
 namespace LadderMono
 {
+    // Custom LookAndFeel for visual rainbow and gradient slider tracks
+    class SpectrumSliderLnf : public juce::LookAndFeel_V4
+    {
+    public:
+        float currentHue = 0.0f;
+
+        void drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height,
+                              float sliderPos, float /*minSliderPos*/, float /*maxSliderPos*/,
+                              juce::Slider::SliderStyle /*style*/, juce::Slider& slider) override
+        {
+            auto bounds = juce::Rectangle<float>(static_cast<float>(x), static_cast<float>(y),
+                                                 static_cast<float>(width), static_cast<float>(height))
+                              .reduced(2.0f, height * 0.22f);
+            float r = 4.0f;
+
+            if (slider.getName() == "HUE")
+            {
+                // Full rainbow spectrum from left to right
+                juce::ColourGradient rainbow(juce::Colour::fromHSV(0.0f, 1.0f, 1.0f, 1.0f), bounds.getX(), bounds.getY(),
+                                             juce::Colour::fromHSV(1.0f, 1.0f, 1.0f, 1.0f), bounds.getRight(), bounds.getY(), false);
+                rainbow.addColour(0.166f, juce::Colour::fromHSV(0.166f, 1.0f, 1.0f, 1.0f));
+                rainbow.addColour(0.333f, juce::Colour::fromHSV(0.333f, 1.0f, 1.0f, 1.0f));
+                rainbow.addColour(0.500f, juce::Colour::fromHSV(0.500f, 1.0f, 1.0f, 1.0f));
+                rainbow.addColour(0.666f, juce::Colour::fromHSV(0.666f, 1.0f, 1.0f, 1.0f));
+                rainbow.addColour(0.833f, juce::Colour::fromHSV(0.833f, 1.0f, 1.0f, 1.0f));
+                g.setGradientFill(rainbow);
+                g.fillRoundedRectangle(bounds, r);
+            }
+            else if (slider.getName() == "LIGHT")
+            {
+                // Lightness gradient: Black -> Current Hue -> White
+                juce::Colour midCol = juce::Colour::fromHSV(currentHue, 0.8f, 0.5f, 1.0f);
+                juce::ColourGradient lightGrad(juce::Colours::black, bounds.getX(), bounds.getY(),
+                                               juce::Colours::white, bounds.getRight(), bounds.getY(), false);
+                lightGrad.addColour(0.5, midCol);
+                g.setGradientFill(lightGrad);
+                g.fillRoundedRectangle(bounds, r);
+            }
+            else if (slider.getName() == "SAT")
+            {
+                // Saturation gradient: Muted Gray -> Saturated Hue
+                juce::Colour satCol = juce::Colour::fromHSV(currentHue, 1.0f, 0.8f, 1.0f);
+                juce::ColourGradient satGrad(juce::Colour(0xff555a66), bounds.getX(), bounds.getY(),
+                                             satCol, bounds.getRight(), bounds.getY(), false);
+                g.setGradientFill(satGrad);
+                g.fillRoundedRectangle(bounds, r);
+            }
+            else
+            {
+                g.setColour(juce::Colour(0xff181a22));
+                g.fillRoundedRectangle(bounds, r);
+            }
+
+            g.setColour(juce::Colour(0x66ffffff));
+            g.drawRoundedRectangle(bounds, r, 0.9f);
+
+            // Thumb cursor (sleek white vector indicator)
+            float thumbX = sliderPos;
+            float thumbH = bounds.getHeight() + 6.0f;
+            float thumbW = 6.0f;
+            juce::Rectangle<float> thumb(thumbX - thumbW * 0.5f, bounds.getCentreY() - thumbH * 0.5f, thumbW, thumbH);
+
+            g.setColour(juce::Colour(0x99000000));
+            g.fillRoundedRectangle(thumb.expanded(1.0f), 2.5f);
+            g.setColour(juce::Colours::white);
+            g.fillRoundedRectangle(thumb, 2.0f);
+            g.setColour(juce::Colours::black);
+            g.drawRoundedRectangle(thumb, 2.0f, 0.8f);
+        }
+    };
+
     class ThemeEditorPanel : public juce::Component
     {
     public:
@@ -74,14 +145,14 @@ namespace LadderMono
             addAndMakeVisible(targetBox);
 
             // Hex Code Input
-            hexLabel.setText("HEX", juce::dontSendNotification);
-            hexLabel.setFont(juce::FontOptions(10.5f, juce::Font::bold));
+            hexLabel.setText("HEX CODE", juce::dontSendNotification);
+            hexLabel.setFont(juce::FontOptions(10.0f, juce::Font::bold));
             hexLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
             addAndMakeVisible(hexLabel);
 
             hexInput.setMultiLine(false);
             hexInput.setReturnKeyStartsNewLine(false);
-            hexInput.setFont(juce::FontOptions(12.0f, juce::Font::bold));
+            hexInput.setFont(juce::FontOptions(13.0f, juce::Font::bold));
             hexInput.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0xff14161c));
             hexInput.setColour(juce::TextEditor::textColourId, juce::Colour(0xffe2e6f0));
             hexInput.setColour(juce::TextEditor::outlineColourId, juce::Colour(0xff2f333e));
@@ -90,28 +161,59 @@ namespace LadderMono
             hexInput.onTextChange = [this] { onHexInputChanged(); };
             addAndMakeVisible(hexInput);
 
-            // Sliders for H, S, B
-            auto setupSlider = [this](juce::Slider& s, juce::Label& lbl, const juce::String& name, double min, double max, double init) {
+            // Visual Spectrum Sliders with custom rainbow look
+            auto setupColorSlider = [this](juce::Slider& s, juce::Label& lbl, const juce::String& name, double min, double max, double init) {
+                s.setName(name);
+                s.setLookAndFeel(&spectrumLnf);
                 s.setSliderStyle(juce::Slider::LinearHorizontal);
-                s.setTextBoxStyle(juce::Slider::TextBoxRight, false, 42, 16);
+                s.setTextBoxStyle(juce::Slider::TextBoxRight, false, 38, 16);
                 s.setRange(min, max, 0.01);
                 s.setValue(init, juce::dontSendNotification);
-                s.onValueChange = [this] { onSliderChanged(); };
+                s.onValueChange = [this] { onColorSliderChanged(); };
                 addAndMakeVisible(s);
 
                 lbl.setText(name, juce::dontSendNotification);
-                lbl.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+                lbl.setFont(juce::FontOptions(9.5f, juce::Font::bold));
                 lbl.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
                 addAndMakeVisible(lbl);
             };
 
-            setupSlider(hueSlider, hueLabel, "HUE", 0.0, 1.0, 0.0);
-            setupSlider(satSlider, satLabel, "SAT", 0.0, 1.0, 0.0);
-            setupSlider(briSlider, briLabel, "LIGHT", 0.0, 1.0, 0.5);
+            setupColorSlider(hueSlider, hueLabel, "HUE", 0.0, 1.0, 0.0);
+            setupColorSlider(satSlider, satLabel, "SAT", 0.0, 1.0, 0.0);
+            setupColorSlider(briSlider, briLabel, "LIGHT", 0.0, 1.0, 0.5);
+
+            // 8 Instant Color Chips (One-click colors!)
+            struct ChipDef { const char* name; juce::Colour col; };
+            std::vector<ChipDef> chips = {
+                { "Black",   juce::Colour(0xff08090a) },
+                { "Dark",    juce::Colour(0xff181a20) },
+                { "Slate",   juce::Colour(0xff444750) },
+                { "Amber",   juce::Colour(0xffe08b3c) },
+                { "Cyan",    juce::Colour(0xff00ffe1) },
+                { "Blue",    juce::Colour(0xff3b82f6) },
+                { "Crimson", juce::Colour(0xffe11d48) },
+                { "White",   juce::Colour(0xffffffff) }
+            };
+
+            for (const auto& chip : chips)
+            {
+                auto btn = std::make_unique<juce::TextButton>();
+                btn->setButtonText("");
+                btn->setTooltip(chip.name);
+                btn->setColour(juce::TextButton::buttonColourId, chip.col);
+                btn->setColour(juce::TextButton::buttonOnColourId, chip.col.brighter(0.2f));
+                juce::Colour chipCol = chip.col;
+                btn->onClick = [this, chipCol] {
+                    setCurrentTargetColor(chipCol);
+                    notifyThemeChanged();
+                };
+                addAndMakeVisible(*btn);
+                colorChips.push_back(std::move(btn));
+            }
 
             // Geometry & Font controls
-            fontScaleLabel.setText("FONT", juce::dontSendNotification);
-            fontScaleLabel.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+            fontScaleLabel.setText("FONT SIZE", juce::dontSendNotification);
+            fontScaleLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
             fontScaleLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
             addAndMakeVisible(fontScaleLabel);
 
@@ -129,8 +231,8 @@ namespace LadderMono
             };
             addAndMakeVisible(fontScaleSlider);
 
-            cornerRadiusLabel.setText("ROUND", juce::dontSendNotification);
-            cornerRadiusLabel.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+            cornerRadiusLabel.setText("ROUNDING", juce::dontSendNotification);
+            cornerRadiusLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
             cornerRadiusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff989ea8));
             addAndMakeVisible(cornerRadiusLabel);
 
@@ -161,6 +263,13 @@ namespace LadderMono
             updateSlidersFromCurrentTarget();
         }
 
+        ~ThemeEditorPanel() override
+        {
+            hueSlider.setLookAndFeel(nullptr);
+            satSlider.setLookAndFeel(nullptr);
+            briSlider.setLookAndFeel(nullptr);
+        }
+
         std::function<void(const ThemeColors&)> onThemeChanged;
 
         void setTheme(const ThemeColors& t)
@@ -175,95 +284,125 @@ namespace LadderMono
         void paint(juce::Graphics& g) override
         {
             auto bounds = getLocalBounds().toFloat();
+            float r = activeTheme.cornerRadius;
 
-            // Floating drawer card with deep shadow & fine border
-            g.setColour(juce::Colour(0xbb000000));
-            g.fillRoundedRectangle(bounds, activeTheme.cornerRadius + 2.0f);
+            // Deep floating studio chassis
+            g.setColour(juce::Colour(0xd0000000));
+            g.fillRoundedRectangle(bounds, r + 2.0f);
 
             g.setColour(activeTheme.panelBg);
-            g.fillRoundedRectangle(bounds.reduced(1.0f), activeTheme.cornerRadius);
+            g.fillRoundedRectangle(bounds.reduced(1.0f), r);
 
             g.setColour(activeTheme.lineBorder);
-            g.drawRoundedRectangle(bounds.reduced(1.0f), activeTheme.cornerRadius, 1.2f);
+            g.drawRoundedRectangle(bounds.reduced(1.0f), r, 1.2f);
 
-            // Title Banner
+            // Header Banner
+            juce::Rectangle<float> headerBar(1.0f, 1.0f, bounds.getWidth() - 2.0f, 28.0f);
             g.setColour(activeTheme.panelLight);
-            g.fillRect(1.0f, 1.0f, bounds.getWidth() - 2.0f, 32.0f);
+            g.fillRoundedRectangle(headerBar, r);
             g.setColour(activeTheme.lineBorder);
-            g.drawHorizontalLine(33, 1.0f, bounds.getWidth() - 1.0f);
+            g.drawHorizontalLine(29, 1.0f, bounds.getWidth() - 1.0f);
 
-            g.setFont(juce::FontOptions(11.5f * activeTheme.fontScale, juce::Font::bold));
+            g.setFont(juce::FontOptions(11.0f * activeTheme.fontScale, juce::Font::bold));
             g.setColour(activeTheme.textPrimary);
-            g.drawText("THEME & COLOR STUDIO", 14, 0, static_cast<int>(bounds.getWidth() - 48.0f), 32, juce::Justification::centredLeft);
+            g.drawText("COLOR THEME STUDIO | HORIZONTAL PALETTE EDITOR",
+                       14, 0, static_cast<int>(bounds.getWidth() - 50.0f), 28, juce::Justification::centredLeft);
 
-            // Section 1: Presets
+            // Vertical Dividers separating the 4 horizontal columns (de izquierda a derecha)
+            g.setColour(activeTheme.lineBorder);
+            g.drawVerticalLine(174, 34.0f, bounds.getHeight() - 10.0f);
+            g.drawVerticalLine(388, 34.0f, bounds.getHeight() - 10.0f);
+            g.drawVerticalLine(668, 34.0f, bounds.getHeight() - 10.0f);
+
+            // Column Headers (Left to Right)
             g.setFont(juce::FontOptions(9.5f * activeTheme.fontScale, juce::Font::bold));
             g.setColour(activeTheme.textSecondary);
-            g.drawText("FACTORY PALETTES", 14, 38, static_cast<int>(bounds.getWidth() - 28.0f), 16, juce::Justification::centredLeft);
+            g.drawText("1. PALETTES", 14, 34, 150, 16, juce::Justification::centredLeft);
+            g.drawText("2. COMPONENT & HEX", 184, 34, 194, 16, juce::Justification::centredLeft);
+            g.drawText("3. COLOR SPECTRUM", 398, 34, 260, 16, juce::Justification::centredLeft);
+            g.drawText("4. STYLE & RESET", 678, 34, 170, 16, juce::Justification::centredLeft);
 
-            // Section 2: Custom Adjuster
-            g.drawText("CUSTOMIZE COMPONENT", 14, 142, static_cast<int>(bounds.getWidth() - 28.0f), 16, juce::Justification::centredLeft);
-
-            // Active Color Swatch Preview
-            auto swatch = juce::Rectangle<float>(bounds.getWidth() - 44.0f, 162.0f, 30.0f, 22.0f);
+            // Large Live Swatch Preview in Column 2
+            auto swatch = juce::Rectangle<float>(184.0f, 116.0f, 44.0f, 44.0f);
             g.setColour(getCurrentTargetColor());
-            g.fillRoundedRectangle(swatch, activeTheme.cornerRadius * 0.7f);
+            g.fillRoundedRectangle(swatch, juce::jmin(r, 4.0f));
             g.setColour(activeTheme.lineBorder);
-            g.drawRoundedRectangle(swatch, activeTheme.cornerRadius * 0.7f, 1.0f);
+            g.drawRoundedRectangle(swatch, juce::jmin(r, 4.0f), 1.2f);
 
-            // Section 3: Global Styling
-            g.drawText("TYPOGRAPHY & ROUNDING", 14, 314, static_cast<int>(bounds.getWidth() - 28.0f), 16, juce::Justification::centredLeft);
+            // Quick Chips Label in Column 3
+            g.setFont(juce::FontOptions(8.5f * activeTheme.fontScale, juce::Font::bold));
+            g.setColour(activeTheme.textDim);
+            g.drawText("QUICK COLOR CHIPS", 398, 164, 250, 14, juce::Justification::centredLeft);
         }
 
         void resized() override
         {
             auto bounds = getLocalBounds();
-            closeBtn.setBounds(bounds.getWidth() - 28, 4, 24, 24);
+            closeBtn.setBounds(bounds.getWidth() - 26, 3, 22, 22);
 
-            int btnW = (bounds.getWidth() - 34) / 2;
-            noirPresetBtn.setBounds(14, 56, btnW, 22);
-            cyanPresetBtn.setBounds(20 + btnW, 56, btnW, 22);
+            // ================================================================
+            // Column 1: FACTORY PALETTES (x: 14, w: 150)
+            // ================================================================
+            int py = 54;
+            int btnH = 24;
+            int gap = 6;
+            noirPresetBtn.setBounds(14, py, 150, btnH);
+            cyanPresetBtn.setBounds(14, py + (btnH + gap), 150, btnH);
+            amberPresetBtn.setBounds(14, py + (btnH + gap) * 2, 150, btnH);
+            bluePresetBtn.setBounds(14, py + (btnH + gap) * 3, 150, btnH);
+            crimsonPresetBtn.setBounds(14, py + (btnH + gap) * 4, 150, btnH);
 
-            amberPresetBtn.setBounds(14, 82, btnW, 22);
-            bluePresetBtn.setBounds(20 + btnW, 82, btnW, 22);
+            // ================================================================
+            // Column 2: TARGET & HEX (x: 184, w: 194)
+            // ================================================================
+            targetBox.setBounds(184, 54, 194, 24);
 
-            crimsonPresetBtn.setBounds(14, 108, bounds.getWidth() - 28, 22);
+            hexLabel.setBounds(236, 112, 140, 16);
+            hexInput.setBounds(236, 128, 142, 28);
 
-            // Target selector dropdown
-            targetBox.setBounds(14, 162, bounds.getWidth() - 64, 22);
+            // ================================================================
+            // Column 3: VISUAL COLOR PICKER (x: 398, w: 260)
+            // Full left-to-right visual rainbow spectrum
+            // ================================================================
+            int sy = 54;
+            hueLabel.setBounds(398, sy, 46, 20);
+            hueSlider.setBounds(448, sy, 210, 20);
 
-            // Hex input row
-            hexLabel.setBounds(14, 192, 44, 20);
-            hexInput.setBounds(62, 192, bounds.getWidth() - 76, 20);
+            sy += 28;
+            satLabel.setBounds(398, sy, 46, 20);
+            satSlider.setBounds(448, sy, 210, 20);
 
-            // HSL Sliders
-            int sy = 218;
-            hueLabel.setBounds(14, sy, 44, 18);
-            hueSlider.setBounds(62, sy, bounds.getWidth() - 76, 18);
+            sy += 28;
+            briLabel.setBounds(398, sy, 46, 20);
+            briSlider.setBounds(448, sy, 210, 20);
 
-            sy += 24;
-            satLabel.setBounds(14, sy, 44, 18);
-            satSlider.setBounds(62, sy, bounds.getWidth() - 76, 18);
+            // 8 Quick Color Chips (Horizontal Row)
+            int chipX = 398;
+            int chipY = 180;
+            int chipSize = 25;
+            for (size_t i = 0; i < colorChips.size(); ++i)
+            {
+                colorChips[i]->setBounds(chipX + static_cast<int>(i) * 32, chipY, chipSize, chipSize);
+            }
 
-            sy += 24;
-            briLabel.setBounds(14, sy, 44, 18);
-            briSlider.setBounds(62, sy, bounds.getWidth() - 76, 18);
+            // ================================================================
+            // Column 4: STYLE & RESET (x: 678, w: 170)
+            // ================================================================
+            int gy = 54;
+            fontScaleLabel.setBounds(678, gy, 170, 16);
+            fontScaleSlider.setBounds(678, gy + 18, 170, 22);
 
-            // Font & Corner radius
-            sy = 334;
-            fontScaleLabel.setBounds(14, sy, 44, 18);
-            fontScaleSlider.setBounds(62, sy, bounds.getWidth() - 76, 18);
+            gy += 48;
+            cornerRadiusLabel.setBounds(678, gy, 170, 16);
+            cornerRadiusSlider.setBounds(678, gy + 18, 170, 22);
 
-            sy += 24;
-            cornerRadiusLabel.setBounds(14, sy, 44, 18);
-            cornerRadiusSlider.setBounds(62, sy, bounds.getWidth() - 76, 18);
-
-            resetBtn.setBounds(14, bounds.getHeight() - 32, bounds.getWidth() - 28, 24);
+            resetBtn.setBounds(678, bounds.getHeight() - 36, 170, 26);
         }
 
     private:
         ThemeColors activeTheme;
         bool isUpdatingSliders = false;
+        SpectrumSliderLnf spectrumLnf;
 
         juce::TextButton closeBtn;
         juce::TextButton noirPresetBtn;
@@ -278,6 +417,7 @@ namespace LadderMono
 
         juce::Label hueLabel, satLabel, briLabel;
         juce::Slider hueSlider, satSlider, briSlider;
+        std::vector<std::unique_ptr<juce::TextButton>> colorChips;
 
         juce::Label fontScaleLabel, cornerRadiusLabel;
         juce::Slider fontScaleSlider, cornerRadiusSlider;
@@ -346,6 +486,8 @@ namespace LadderMono
             briSlider.setValue(c.getBrightness(), juce::dontSendNotification);
             fontScaleSlider.setValue(activeTheme.fontScale, juce::dontSendNotification);
             cornerRadiusSlider.setValue(activeTheme.cornerRadius, juce::dontSendNotification);
+
+            spectrumLnf.currentHue = c.getHue();
             isUpdatingSliders = false;
             repaint();
         }
@@ -367,6 +509,7 @@ namespace LadderMono
                     hueSlider.setValue(newCol.getHue(), juce::dontSendNotification);
                     satSlider.setValue(newCol.getSaturation(), juce::dontSendNotification);
                     briSlider.setValue(newCol.getBrightness(), juce::dontSendNotification);
+                    spectrumLnf.currentHue = newCol.getHue();
                     isUpdatingSliders = false;
 
                     if (onThemeChanged) onThemeChanged(activeTheme);
@@ -376,14 +519,25 @@ namespace LadderMono
             }
         }
 
-        void onSliderChanged()
+        void onColorSliderChanged()
         {
             if (isUpdatingSliders) return;
             float h = static_cast<float>(hueSlider.getValue());
             float s = static_cast<float>(satSlider.getValue());
             float b = static_cast<float>(briSlider.getValue());
+
+            // If user moved hue while color was pitch black (sat=0 & b=0), auto-revive brightness
+            if (b < 0.05f && s < 0.05f)
+            {
+                s = 0.85f;
+                b = 0.60f;
+                satSlider.setValue(s, juce::dontSendNotification);
+                briSlider.setValue(b, juce::dontSendNotification);
+            }
+
             juce::Colour newColor = juce::Colour::fromHSV(h, s, b, 1.0f);
             setCurrentTargetColor(newColor);
+            spectrumLnf.currentHue = h;
 
             isUpdatingSliders = true;
             hexInput.setText(colorToHex(newColor), juce::dontSendNotification);
