@@ -181,15 +181,6 @@ namespace LadderMono
                         g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), 1.0f);
                     }
 
-                    // Computer keyboard key label
-                    auto keyLabel = getComputerKeyLabel(note);
-                    if (keyLabel.isNotEmpty())
-                    {
-                        g.setColour(isDown ? juce::Colour(0xffffffff) : (isNoirKeyboard ? theme.textDim.brighter(0.2f) : theme.textDim));
-                        g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
-                        g.drawText(keyLabel, juce::Rectangle<float>(currentX, bounds.getBottom() - 20.0f, whiteKeyWidth, 16.0f).toNearestInt(), juce::Justification::centred);
-                    }
-
                     currentX += whiteKeyWidth;
                 }
             }
@@ -293,14 +284,6 @@ namespace LadderMono
                             }
                             g.setColour(theme.lineBorder);
                             g.drawRect(blackRect, 1.0f);
-                        }
-
-                        auto keyLabel = getComputerKeyLabel(bNote);
-                        if (keyLabel.isNotEmpty())
-                        {
-                            g.setColour(isDown ? juce::Colour(0xffffffff) : (isNoirKeyboard ? juce::Colour(0xffe0e4eb) : theme.textSecondary));
-                            g.setFont(juce::FontOptions(9.5f, juce::Font::bold));
-                            g.drawText(keyLabel, juce::Rectangle<float>(blackX, blackRect.getBottom() - 18.0f, blackKeyWidth, 14.0f).toNearestInt(), juce::Justification::centred);
                         }
                     }
                     currentX += whiteKeyWidth;
