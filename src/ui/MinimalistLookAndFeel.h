@@ -180,7 +180,7 @@ namespace LadderMono
         }
 
         // ====================================================================
-        // Rotary Slider Drawing (Pure Normalized Flat Matte OP-XY Dial)
+        // Rotary Slider Drawing (Pure Normalized Flat Matte Minimalist Dial)
         // ====================================================================
         void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height,
                               float sliderPosProportional, float rotaryStartAngle,
@@ -228,7 +228,7 @@ namespace LadderMono
         }
 
         // ====================================================================
-        // Toggle Button (Pure Normalized Flat Matte OP-XY Switch)
+        // Toggle Button (Pure Normalized Flat Matte Minimalist Switch)
         // ====================================================================
         void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
                               bool /*shouldDrawButtonAsHighlighted*/, bool /*shouldDrawButtonAsDown*/) override

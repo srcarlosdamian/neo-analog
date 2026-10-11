@@ -89,8 +89,8 @@ namespace LadderMono
             closeBtn.onClick = [this] { setVisible(false); };
             addAndMakeVisible(closeBtn);
 
-            // Preset Buttons
-            auto setupPresetBtn = [this](juce::TextButton& btn, const juce::String& text, std::function<void()> onClick) {
+            // Column 1: Theme & Clipboard Action Buttons
+            auto setupActionBtn = [this](juce::TextButton& btn, const juce::String& text, std::function<void()> onClick) {
                 btn.setButtonText(text);
                 btn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff181a20));
                 btn.setColour(juce::TextButton::buttonOnColourId, juce::Colour(0xff262a34));
@@ -99,30 +99,52 @@ namespace LadderMono
                 addAndMakeVisible(btn);
             };
 
-            setupPresetBtn(noirPresetBtn, "OP-XY Noir", [this] {
+            setupActionBtn(noirPresetBtn, "Noir", [this] {
                 activeTheme = ThemeColors::getDefaultNoir();
                 notifyThemeChanged();
+                clipStatusLabel.setText("Noir theme loaded", juce::dontSendNotification);
             });
 
-            setupPresetBtn(cyanPresetBtn, "Cyber Cyan", [this] {
-                activeTheme = ThemeColors::getCyberCyan();
-                notifyThemeChanged();
+            setupActionBtn(copyThemeBtn, "Copy Preset", [this] {
+                juce::SystemClipboard::copyTextToClipboard(activeTheme.toJSONString());
+                copyThemeBtn.setButtonText("Copied!");
+                clipStatusLabel.setText("Copied to clipboard!", juce::dontSendNotification);
+                juce::Timer::callAfterDelay(1600, [safe = juce::Component::SafePointer<juce::TextButton>(&copyThemeBtn),
+                                                   safeLbl = juce::Component::SafePointer<juce::Label>(&clipStatusLabel)] {
+                    if (safe != nullptr) safe->setButtonText("Copy Preset");
+                    if (safeLbl != nullptr) safeLbl->setText("", juce::dontSendNotification);
+                });
             });
 
-            setupPresetBtn(amberPresetBtn, "Amber Matrix", [this] {
-                activeTheme = ThemeColors::getAmberMatrix();
-                notifyThemeChanged();
+            setupActionBtn(pasteThemeBtn, "Paste Preset", [this] {
+                auto clip = juce::SystemClipboard::getTextFromClipboard().trim();
+                if (clip.isNotEmpty() && activeTheme.fromJSONString(clip))
+                {
+                    notifyThemeChanged();
+                    pasteThemeBtn.setButtonText("Applied!");
+                    clipStatusLabel.setText("Theme applied!", juce::dontSendNotification);
+                    juce::Timer::callAfterDelay(1600, [safe = juce::Component::SafePointer<juce::TextButton>(&pasteThemeBtn),
+                                                       safeLbl = juce::Component::SafePointer<juce::Label>(&clipStatusLabel)] {
+                        if (safe != nullptr) safe->setButtonText("Paste Preset");
+                        if (safeLbl != nullptr) safeLbl->setText("", juce::dontSendNotification);
+                    });
+                }
+                else
+                {
+                    pasteThemeBtn.setButtonText("Invalid JSON");
+                    clipStatusLabel.setText("Clipboard is not a theme", juce::dontSendNotification);
+                    juce::Timer::callAfterDelay(2000, [safe = juce::Component::SafePointer<juce::TextButton>(&pasteThemeBtn),
+                                                       safeLbl = juce::Component::SafePointer<juce::Label>(&clipStatusLabel)] {
+                        if (safe != nullptr) safe->setButtonText("Paste Preset");
+                        if (safeLbl != nullptr) safeLbl->setText("", juce::dontSendNotification);
+                    });
+                }
             });
 
-            setupPresetBtn(bluePresetBtn, "Midnight Blue", [this] {
-                activeTheme = ThemeColors::getMidnightBlue();
-                notifyThemeChanged();
-            });
-
-            setupPresetBtn(crimsonPresetBtn, "Crimson Stealth", [this] {
-                activeTheme = ThemeColors::getCrimsonStealth();
-                notifyThemeChanged();
-            });
+            clipStatusLabel.setFont(juce::FontOptions(9.0f, juce::Font::plain));
+            clipStatusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff00d0bc));
+            clipStatusLabel.setJustificationType(juce::Justification::centred);
+            addAndMakeVisible(clipStatusLabel);
 
             // Target Property Selector
             targetBox.addItem("Lines & Borders", 1);
@@ -317,7 +339,7 @@ namespace LadderMono
             // Column Headers (Left to Right)
             g.setFont(juce::FontOptions(9.5f * activeTheme.fontScale, juce::Font::bold));
             g.setColour(activeTheme.textSecondary);
-            g.drawText("1. PALETTES", 14, 34, 150, 16, juce::Justification::centredLeft);
+            g.drawText("1. THEME & CLIPBOARD", 14, 34, 150, 16, juce::Justification::centredLeft);
             g.drawText("2. COMPONENT & HEX", 184, 34, 194, 16, juce::Justification::centredLeft);
             g.drawText("3. COLOR SPECTRUM", 398, 34, 260, 16, juce::Justification::centredLeft);
             g.drawText("4. STYLE & RESET", 678, 34, 170, 16, juce::Justification::centredLeft);
@@ -341,16 +363,15 @@ namespace LadderMono
             closeBtn.setBounds(bounds.getWidth() - 26, 3, 22, 22);
 
             // ================================================================
-            // Column 1: FACTORY PALETTES (x: 14, w: 150)
+            // Column 1: THEME & CLIPBOARD (x: 14, w: 150)
             // ================================================================
             int py = 54;
-            int btnH = 24;
-            int gap = 6;
+            int btnH = 26;
+            int gap = 8;
             noirPresetBtn.setBounds(14, py, 150, btnH);
-            cyanPresetBtn.setBounds(14, py + (btnH + gap), 150, btnH);
-            amberPresetBtn.setBounds(14, py + (btnH + gap) * 2, 150, btnH);
-            bluePresetBtn.setBounds(14, py + (btnH + gap) * 3, 150, btnH);
-            crimsonPresetBtn.setBounds(14, py + (btnH + gap) * 4, 150, btnH);
+            copyThemeBtn.setBounds(14, py + (btnH + gap), 150, btnH);
+            pasteThemeBtn.setBounds(14, py + (btnH + gap) * 2, 150, btnH);
+            clipStatusLabel.setBounds(14, py + (btnH + gap) * 3 + 4, 150, 18);
 
             // ================================================================
             // Column 2: TARGET & HEX (x: 184, w: 194)
@@ -406,10 +427,9 @@ namespace LadderMono
 
         juce::TextButton closeBtn;
         juce::TextButton noirPresetBtn;
-        juce::TextButton cyanPresetBtn;
-        juce::TextButton amberPresetBtn;
-        juce::TextButton bluePresetBtn;
-        juce::TextButton crimsonPresetBtn;
+        juce::TextButton copyThemeBtn;
+        juce::TextButton pasteThemeBtn;
+        juce::Label clipStatusLabel;
 
         juce::ComboBox targetBox;
         juce::Label hexLabel;

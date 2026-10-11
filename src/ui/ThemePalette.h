@@ -46,7 +46,7 @@ namespace LadderMono
         juce::Colour keyBlackRest    { 0xff08080a }; // Glossy chiseled pitch black
         juce::Colour keyBlackDown    { 0xff1c1e24 };
 
-        void saveToFile(const juce::File& file) const
+        juce::String toJSONString() const
         {
             auto obj = std::make_unique<juce::DynamicObject>();
             obj->setProperty("bgChassis", bgChassis.toDisplayString(true));
@@ -78,13 +78,12 @@ namespace LadderMono
             obj->setProperty("keyBlackDown", keyBlackDown.toDisplayString(true));
 
             juce::var data(obj.release());
-            file.replaceWithText(juce::JSON::toString(data, true));
+            return juce::JSON::toString(data, false);
         }
 
-        bool loadFromFile(const juce::File& file)
+        bool fromJSONString(const juce::String& jsonText)
         {
-            if (!file.existsAsFile()) return false;
-            auto parsed = juce::JSON::parse(file);
+            auto parsed = juce::JSON::parse(jsonText);
             auto* obj = parsed.getDynamicObject();
             if (obj == nullptr) return false;
 
@@ -124,6 +123,17 @@ namespace LadderMono
             keyBlackRest  = getCol("keyBlackRest", keyBlackRest);
             keyBlackDown  = getCol("keyBlackDown", keyBlackDown);
             return true;
+        }
+
+        void saveToFile(const juce::File& file) const
+        {
+            file.replaceWithText(toJSONString());
+        }
+
+        bool loadFromFile(const juce::File& file)
+        {
+            if (!file.existsAsFile()) return false;
+            return fromJSONString(file.loadFileAsString());
         }
 
         static ThemeColors getDefaultNoir()

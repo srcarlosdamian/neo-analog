@@ -256,7 +256,7 @@ namespace LadderMono
             float skinY = card.getBottom() - 84.0f;
             g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
             g.setColour(juce::Colour(0xff989ea8));
-            g.drawText("THEME ARCHITECTURE: OP-XY NOIR & LIVE THEME STUDIO (CLICK ✎ IN TOP BAR)",
+            g.drawText("THEME ARCHITECTURE: NOIR & LIVE THEME STUDIO (CLICK THEME IN TOP BAR)",
                        juce::Rectangle<float>(card.getX() + 26.0f, skinY, card.getWidth() - 52.0f, 24.0f).toNearestInt(),
                        juce::Justification::centredLeft);
 
