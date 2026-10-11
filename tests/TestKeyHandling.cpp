@@ -252,16 +252,34 @@ int main()
         if (editor != nullptr)
         {
             editor->setBounds(0, 0, 1120, 680);
-            editor->toggleThemeEditor();
 
-            auto image = editor->createComponentSnapshot(editor->getLocalBounds());
-            juce::File outFile("/Users/damian/.gemini/antigravity/brain/7f4023eb-b183-4e4e-af5b-7ebf776f3c1c/vst_theme_studio_drawer_open.png");
-            juce::FileOutputStream stream(outFile);
-            if (stream.openedOk())
+            // Snapshot 1: Main VST UI
             {
-                juce::PNGImageFormat png;
-                png.writeImageToStream(image, stream);
-                std::cout << "  Snapshot saved to " << outFile.getFullPathName() << std::endl;
+                auto imageMain = editor->createComponentSnapshot(editor->getLocalBounds());
+                juce::File outFileMain("/Users/damian/.gemini/antigravity/brain/7f4023eb-b183-4e4e-af5b-7ebf776f3c1c/vst_main_view.png");
+                outFileMain.deleteFile();
+                juce::FileOutputStream stream(outFileMain);
+                if (stream.openedOk())
+                {
+                    juce::PNGImageFormat png;
+                    png.writeImageToStream(imageMain, stream);
+                    std::cout << "  Snapshot saved to " << outFileMain.getFullPathName() << std::endl;
+                }
+            }
+
+            // Snapshot 2: Horizontal Theme Studio open
+            editor->toggleThemeEditor();
+            {
+                auto imageTheme = editor->createComponentSnapshot(editor->getLocalBounds());
+                juce::File outFileTheme("/Users/damian/.gemini/antigravity/brain/7f4023eb-b183-4e4e-af5b-7ebf776f3c1c/vst_theme_studio_drawer_open.png");
+                outFileTheme.deleteFile();
+                juce::FileOutputStream stream(outFileTheme);
+                if (stream.openedOk())
+                {
+                    juce::PNGImageFormat png;
+                    png.writeImageToStream(imageTheme, stream);
+                    std::cout << "  Snapshot saved to " << outFileTheme.getFullPathName() << std::endl;
+                }
             }
             std::cout << "  PASS Test 8" << std::endl;
             editor.reset();
