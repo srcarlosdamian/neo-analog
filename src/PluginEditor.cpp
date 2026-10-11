@@ -296,13 +296,13 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     setupComboBox(arpPatternBox, LadderMono::ParamIDs::arpPattern, {"Straight", "Dotted", "Syncopated", "Euclid 3/8", "Euclid 5/8"});
 
     setupKnob(arpGateKnob, LadderMono::ParamIDs::arpGate, "GATE");
-    arpGateKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 36, 18);
+    arpGateKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 44, 18);
 
     setupKnob(arpSwingKnob, LadderMono::ParamIDs::arpSwing, "SWING");
-    arpSwingKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 36, 18);
+    arpSwingKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 48, 18);
 
     setupKnob(arpMutateKnob, LadderMono::ParamIDs::arpMutate, "MUTATE");
-    arpMutateKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 36, 18);
+    arpMutateKnob.slider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 44, 18);
 
     // Performance Wheels
     pitchWheel.setSliderStyle(juce::Slider::LinearVertical);
@@ -1401,6 +1401,9 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.lineBorder);
     g.drawHorizontalLine(440, 0.0f, totalArea.getWidth());
     g.drawHorizontalLine(482, 0.0f, totalArea.getWidth());
+    g.setColour(currentTheme.lineBorder.withAlpha(0.5f));
+    g.drawVerticalLine(268, 444.0f, 478.0f);
+    g.drawVerticalLine(782, 444.0f, 478.0f);
 
     // Bottom border
     g.setColour(currentTheme.bgChassis);
@@ -1736,35 +1739,36 @@ void LadderMonoAudioProcessorEditor::resized()
     bypassBtn.setBounds(Srect(1030, 240, 56, 30));
 
     // ====================================================================
-    // Middle Crossbar: ARPEGGIATOR & PERFORMANCE BAR (y: 440..482)
+    // Middle Crossbar: ARPEGGIATOR & PERFORMANCE BAR (y: 440..482, x: 28..1092)
+    // Distributed evenly across the full available panel span
     // ====================================================================
-    arpSectionLabel.setBounds(Srect(28, 444, 86, 34));
-    arpOnBtn.setBounds(Srect(118, 447, 54, 28));
-    arpLatchBtn.setBounds(Srect(176, 447, 58, 28));
+    arpSectionLabel.setBounds(Srect(28, 444, 96, 34));
+    arpOnBtn.setBounds(Srect(128, 447, 64, 28));
+    arpLatchBtn.setBounds(Srect(196, 447, 64, 28));
 
-    arpModeLabel.setBounds(Srect(240, 442, 64, 13));
-    arpModeBox.setBounds(Srect(240, 456, 64, 22));
+    arpModeLabel.setBounds(Srect(276, 442, 94, 13));
+    arpModeBox.setBounds(Srect(276, 456, 94, 22));
 
-    arpOctaveLabel.setBounds(Srect(310, 442, 54, 13));
-    arpOctaveBox.setBounds(Srect(310, 456, 54, 22));
+    arpOctaveLabel.setBounds(Srect(380, 442, 84, 13));
+    arpOctaveBox.setBounds(Srect(380, 456, 84, 22));
 
-    arpOctModeLabel.setBounds(Srect(370, 442, 68, 13));
-    arpOctModeBox.setBounds(Srect(370, 456, 68, 22));
+    arpOctModeLabel.setBounds(Srect(474, 442, 90, 13));
+    arpOctModeBox.setBounds(Srect(474, 456, 90, 22));
 
-    arpRateLabel.setBounds(Srect(444, 442, 58, 13));
-    arpRateBox.setBounds(Srect(444, 456, 58, 22));
+    arpRateLabel.setBounds(Srect(574, 442, 86, 13));
+    arpRateBox.setBounds(Srect(574, 456, 86, 22));
 
-    arpPatternLabel.setBounds(Srect(508, 442, 78, 13));
-    arpPatternBox.setBounds(Srect(508, 456, 78, 22));
+    arpPatternLabel.setBounds(Srect(670, 442, 104, 13));
+    arpPatternBox.setBounds(Srect(670, 456, 104, 22));
 
-    arpGateKnob.label.setBounds(Srect(592, 442, 58, 13));
-    arpGateKnob.slider.setBounds(Srect(592, 454, 58, 24));
+    arpGateKnob.label.setBounds(Srect(790, 442, 94, 13));
+    arpGateKnob.slider.setBounds(Srect(790, 454, 94, 24));
 
-    arpSwingKnob.label.setBounds(Srect(656, 442, 58, 13));
-    arpSwingKnob.slider.setBounds(Srect(656, 454, 58, 24));
+    arpSwingKnob.label.setBounds(Srect(894, 442, 94, 13));
+    arpSwingKnob.slider.setBounds(Srect(894, 454, 94, 24));
 
-    arpMutateKnob.label.setBounds(Srect(720, 442, 58, 13));
-    arpMutateKnob.slider.setBounds(Srect(720, 454, 58, 24));
+    arpMutateKnob.label.setBounds(Srect(998, 442, 94, 13));
+    arpMutateKnob.slider.setBounds(Srect(998, 454, 94, 24));
 
     // ====================================================================
     // Lower Performance Section (y: 482..672)
