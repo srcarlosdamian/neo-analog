@@ -1354,5 +1354,18 @@ void LadderMonoAudioProcessorEditor::resized()
     if (aboutDialog != nullptr)
         aboutDialog->setBounds(getLocalBounds());
     if (themeEditorPanel != nullptr)
-        themeEditorPanel->setBounds(S(130), S(46), S(860), S(244));
+    {
+        if (!themeEditorPanel->hasBeenMoved)
+        {
+            themeEditorPanel->setBounds(S(130), S(46), S(860), S(244));
+        }
+        else
+        {
+            themeEditorPanel->setSize(S(860), S(244));
+            int maxX = juce::jmax(0, getWidth() - themeEditorPanel->getWidth());
+            int maxY = juce::jmax(0, getHeight() - themeEditorPanel->getHeight());
+            themeEditorPanel->setTopLeftPosition(juce::jlimit(0, maxX, themeEditorPanel->getX()),
+                                                 juce::jlimit(0, maxY, themeEditorPanel->getY()));
+        }
+    }
 }

@@ -303,6 +303,50 @@ namespace LadderMono
 
         const ThemeColors& getTheme() const noexcept { return activeTheme; }
 
+        bool hasBeenMoved = false;
+
+        void mouseDown(const juce::MouseEvent& e) override
+        {
+            dragger.startDraggingComponent(this, e);
+            toFront(true);
+        }
+
+        void mouseDrag(const juce::MouseEvent& e) override
+        {
+            dragger.dragComponent(this, e, nullptr);
+            hasBeenMoved = true;
+            if (auto* parent = getParentComponent())
+            {
+                int minVisible = 48;
+                int clampedX = juce::jlimit(-getWidth() + minVisible, parent->getWidth() - minVisible, getX());
+                int clampedY = juce::jlimit(0, parent->getHeight() - 32, getY());
+                if (clampedX != getX() || clampedY != getY())
+                    setTopLeftPosition(clampedX, clampedY);
+            }
+        }
+
+        void mouseMove(const juce::MouseEvent& e) override
+        {
+            if (e.y <= 30)
+                setMouseCursor(juce::MouseCursor::DraggingHandCursor);
+            else
+                setMouseCursor(juce::MouseCursor::NormalCursor);
+        }
+
+        void mouseDoubleClick(const juce::MouseEvent& e) override
+        {
+            if (e.y <= 30)
+            {
+                hasBeenMoved = false;
+                if (auto* parent = getParentComponent())
+                {
+                    int defaultX = (parent->getWidth() - getWidth()) / 2;
+                    int defaultY = 46;
+                    setTopLeftPosition(defaultX, defaultY);
+                }
+            }
+        }
+
         void paint(juce::Graphics& g) override
         {
             auto bounds = getLocalBounds().toFloat();
@@ -318,7 +362,7 @@ namespace LadderMono
             g.setColour(activeTheme.lineBorder);
             g.drawRoundedRectangle(bounds.reduced(1.0f), r, 1.2f);
 
-            // Header Banner
+            // Header Banner (Draggable handle)
             juce::Rectangle<float> headerBar(1.0f, 1.0f, bounds.getWidth() - 2.0f, 28.0f);
             g.setColour(activeTheme.panelLight);
             g.fillRoundedRectangle(headerBar, r);
@@ -327,8 +371,19 @@ namespace LadderMono
 
             g.setFont(juce::FontOptions(11.0f * activeTheme.fontScale, juce::Font::bold));
             g.setColour(activeTheme.textPrimary);
-            g.drawText("COLOR THEME STUDIO | HORIZONTAL PALETTE EDITOR",
-                       14, 0, static_cast<int>(bounds.getWidth() - 50.0f), 28, juce::Justification::centredLeft);
+            g.drawText("COLOR THEME STUDIO | DRAG HEADER TO MOVE",
+                       14, 0, static_cast<int>(bounds.getWidth() - 80.0f), 28, juce::Justification::centredLeft);
+
+            // Subtle drag handle grip dots icon
+            g.setColour(activeTheme.textDim.withAlpha(0.6f));
+            float gripX = bounds.getWidth() - 60.0f;
+            for (int row = 0; row < 2; ++row)
+            {
+                for (int col = 0; col < 4; ++col)
+                {
+                    g.fillEllipse(gripX + col * 5.0f, 10.0f + row * 5.0f, 2.5f, 2.5f);
+                }
+            }
 
             // Vertical Dividers separating the 4 horizontal columns (de izquierda a derecha)
             g.setColour(activeTheme.lineBorder);
@@ -423,6 +478,7 @@ namespace LadderMono
     private:
         ThemeColors activeTheme;
         bool isUpdatingSliders = false;
+        juce::ComponentDragger dragger;
         SpectrumSliderLnf spectrumLnf;
 
         juce::TextButton closeBtn;
