@@ -377,6 +377,14 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     resizer->setTheme(loadedTheme);
     addAndMakeVisible(*resizer);
 
+    // Bottom Parameter Help Bar
+    helpBar = std::make_unique<LadderMono::ParameterHelpBar>();
+    helpBar->setTheme(loadedTheme);
+    addAndMakeVisible(*helpBar);
+
+    // Universal mouse listener for parameter inspector hover hints
+    addMouseListener(this, true);
+
     // Capture initial State A
     stateA = audioProcessor.getAPVTS().copyState();
 
@@ -391,6 +399,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
 LadderMonoAudioProcessorEditor::~LadderMonoAudioProcessorEditor()
 {
+    removeMouseListener(this);
     stopTimer();
     sliderAttachments.clear();
     comboAttachments.clear();
@@ -560,6 +569,8 @@ void LadderMonoAudioProcessorEditor::applyTheme(const LadderMono::ThemeColors& t
     bypassBtn.setTheme(t);
     if (resizer != nullptr)
         resizer->setTheme(t);
+    if (helpBar != nullptr)
+        helpBar->setTheme(t);
 
     arpSectionLabel.setColour(juce::Label::textColourId, t.textPrimary);
     arpModeLabel.setColour(juce::Label::textColourId, t.textSecondary);
@@ -585,6 +596,426 @@ void LadderMonoAudioProcessorEditor::toggleThemeEditor()
         themeEditorPanel->toFront(true);
     }
     themeEditorPanel->setVisible(willBeVisible);
+}
+
+void LadderMonoAudioProcessorEditor::simulateHoverTune()
+{
+    updateHelpBarForComponent(&tuneKnob.slider);
+}
+
+void LadderMonoAudioProcessorEditor::mouseMove(const juce::MouseEvent& e)
+{
+    updateHelpBarForComponent(e.eventComponent);
+}
+
+void LadderMonoAudioProcessorEditor::mouseEnter(const juce::MouseEvent& e)
+{
+    updateHelpBarForComponent(e.eventComponent);
+}
+
+void LadderMonoAudioProcessorEditor::mouseExit(const juce::MouseEvent& e)
+{
+    if (e.eventComponent == this && helpBar != nullptr)
+        helpBar->setHelpText("Hover over any parameter for instant functional guide & DSP signal flow notes.", "");
+}
+
+void LadderMonoAudioProcessorEditor::updateHelpBarForComponent(juce::Component* comp)
+{
+    if (helpBar == nullptr) return;
+    if (comp == nullptr)
+    {
+        helpBar->setHelpText("Hover over any parameter for instant functional guide & DSP signal flow notes.", "");
+        return;
+    }
+
+    juce::Component* c = comp;
+    while (c != nullptr && c != this)
+    {
+        // Controllers Section
+        if (c == &tuneKnob.slider || c == &tuneKnob.label)
+        {
+            helpBar->setHelpText("Master pitch fine tune offset (+/-100 ct) across all 3 oscillators without altering harmonic intervals.", "Tune");
+            return;
+        }
+        if (c == &glideKnob.slider || c == &glideKnob.label)
+        {
+            helpBar->setHelpText("Portamento glide transition speed (0 to 5000 ms) between consecutive notes.", "Glide Time");
+            return;
+        }
+        if (c == &glideOnBtn)
+        {
+            helpBar->setHelpText("Toggles portamento pitch glide between played notes on and off.", "Glide Enable");
+            return;
+        }
+        if (c == &glideModeBox)
+        {
+            helpBar->setHelpText("Selects glide triggering: Always glides on every note, or Legato glides only when overlapping keys are held.", "Glide Mode");
+            return;
+        }
+        if (c == &modMixKnob.slider || c == &modMixKnob.label)
+        {
+            helpBar->setHelpText("Modulation source blend: counter-clockwise feeds pure LFO / Osc 3, clockwise blends Pink/White Noise.", "Mod Mix");
+            return;
+        }
+        if (c == &modSourceBox)
+        {
+            helpBar->setHelpText("Selects primary modulation source: Low-Frequency Oscillator or Oscillator 3 signal.", "Mod Source");
+            return;
+        }
+        if (c == &oscModBtn)
+        {
+            helpBar->setHelpText("Routes master modulation mix to modulate Oscillator 1 & 2 pitch for vibrato or FM textures.", "Osc Mod Switch");
+            return;
+        }
+        if (c == &filterModBtn)
+        {
+            helpBar->setHelpText("Routes master modulation mix to modulate ladder filter cutoff frequency for wah/sweep effects.", "Filter Mod Switch");
+            return;
+        }
+        if (c == &lfoRateKnob.slider || c == &lfoRateKnob.label)
+        {
+            helpBar->setHelpText("Speed of modulation LFO (0.05 Hz to 30.0 Hz) for vibrato, tremolo, and periodic filter sweeps.", "LFO Rate");
+            return;
+        }
+        if (c == &lfoShapeBox)
+        {
+            helpBar->setHelpText("Selects LFO modulation waveform (Triangle for smooth vibrato, Square for trills/step modulation).", "LFO Shape");
+            return;
+        }
+        if (c == &bendRangeBox)
+        {
+            helpBar->setHelpText("Maximum pitch bend wheel interval range (1 to 12 semitones / full octave).", "Bend Range");
+            return;
+        }
+        if (c == &notePriorityBox)
+        {
+            helpBar->setHelpText("Monophonic note priority handling (Lowest, Highest, or Last note played takes precedence).", "Note Priority");
+            return;
+        }
+
+        // Oscillator Bank
+        if (c == &osc1RangeBox)
+        {
+            helpBar->setHelpText("Oscillator 1 pitch octave footage (32' sub-bass, 16' bass, 8' tenor, 4' alto, 2' soprano).", "Osc 1 Octave");
+            return;
+        }
+        if (c == &osc1WaveBox)
+        {
+            helpBar->setHelpText("Oscillator 1 waveform shape: Triangle, Triangle-Saw, Sawtooth, Square, Wide Pulse, Narrow Pulse.", "Osc 1 Waveform");
+            return;
+        }
+        if (c == &osc2RangeBox)
+        {
+            helpBar->setHelpText("Oscillator 2 pitch octave footage (32' sub-bass up to 2' high lead).", "Osc 2 Octave");
+            return;
+        }
+        if (c == &osc2WaveBox)
+        {
+            helpBar->setHelpText("Oscillator 2 waveform shape: Triangle, Triangle-Saw, Sawtooth, Square, Wide Pulse, Narrow Pulse.", "Osc 2 Waveform");
+            return;
+        }
+        if (c == &osc2FineKnob.slider || c == &osc2FineKnob.label)
+        {
+            helpBar->setHelpText("Oscillator 2 fine detune (+/-7 semitones) for rich analog chorusing, phasing beats, or fifth intervals.", "Osc 2 Fine");
+            return;
+        }
+        if (c == &osc3RangeBox)
+        {
+            helpBar->setHelpText("Oscillator 3 pitch octave footage: can act as audio tone or subsonic low-frequency modulation source.", "Osc 3 Octave");
+            return;
+        }
+        if (c == &osc3WaveBox)
+        {
+            helpBar->setHelpText("Oscillator 3 waveform shape feeding both the mixer and internal modulation circuits.", "Osc 3 Waveform");
+            return;
+        }
+        if (c == &osc3FineKnob.slider || c == &osc3FineKnob.label)
+        {
+            helpBar->setHelpText("Oscillator 3 fine detune (+/-7 semitones) for 3-oscillator unison detuning or interval harmonies.", "Osc 3 Fine");
+            return;
+        }
+        if (c == &osc3KbdBtn)
+        {
+            helpBar->setHelpText("Toggles keyboard pitch tracking for Oscillator 3; disable to use Osc 3 as fixed-pitch drone or LFO.", "Osc 3 Kbd Track");
+            return;
+        }
+        if (c == &analogKnob.slider || c == &analogKnob.label)
+        {
+            helpBar->setHelpText("Analog component drift amount; injects subtle thermal pitch fluctuations and organic vintage warmth.", "Analog Drift");
+            return;
+        }
+
+        // Mixer
+        if (c == &mix1Knob.slider || c == &mix1Knob.label)
+        {
+            helpBar->setHelpText("Oscillator 1 volume entering mixer (push above 5.0 to overdrive ladder filter core).", "Osc 1 Volume");
+            return;
+        }
+        if (c == &mix1Btn)
+        {
+            helpBar->setHelpText("Mute/unmute switch for Oscillator 1 in the audio mixer summing bus.", "Osc 1 Switch");
+            return;
+        }
+        if (c == &mix2Knob.slider || c == &mix2Knob.label)
+        {
+            helpBar->setHelpText("Oscillator 2 volume entering mixer (push above 5.0 to overdrive ladder filter core).", "Osc 2 Volume");
+            return;
+        }
+        if (c == &mix2Btn)
+        {
+            helpBar->setHelpText("Mute/unmute switch for Oscillator 2 in the audio mixer summing bus.", "Osc 2 Switch");
+            return;
+        }
+        if (c == &mix3Knob.slider || c == &mix3Knob.label)
+        {
+            helpBar->setHelpText("Oscillator 3 volume entering mixer; disable if using Osc 3 purely as modulation source.", "Osc 3 Volume");
+            return;
+        }
+        if (c == &mix3Btn)
+        {
+            helpBar->setHelpText("Mute/unmute switch for Oscillator 3 in the audio mixer summing bus.", "Osc 3 Switch");
+            return;
+        }
+        if (c == &mixNoiseKnob.slider || c == &mixNoiseKnob.label)
+        {
+            helpBar->setHelpText("Noise generator volume entering mixer for breath, percussion, wind effects, or noise modulation.", "Noise Volume");
+            return;
+        }
+        if (c == &mixNoiseBtn)
+        {
+            helpBar->setHelpText("Mute/unmute switch for noise generator in the audio mixer.", "Noise Switch");
+            return;
+        }
+        if (c == &noiseColorBox)
+        {
+            helpBar->setHelpText("Selects noise spectrum: White (flat frequency distribution) or Pink (-3 dB/oct, warm natural roar).", "Noise Spectrum");
+            return;
+        }
+        if (c == &mixExtKnob.slider || c == &mixExtKnob.label)
+        {
+            helpBar->setHelpText("External audio input level or internal headphone feedback loop volume entering mixer.", "Ext / Feedback Level");
+            return;
+        }
+        if (c == &mixExtBtn)
+        {
+            helpBar->setHelpText("Engages internal output-to-input feedback loop for aggressive thickening and rich bass distortion.", "Feedback Loop");
+            return;
+        }
+        if (c == &driveKnob.slider || c == &driveKnob.label)
+        {
+            helpBar->setHelpText("Harmonic drive saturation; adds progressive asymmetric tube/transistor clipping to the mix.", "Mixer Drive");
+            return;
+        }
+
+        // Modifiers (Filter & Envelopes)
+        if (c == &cutoffKnob.slider || c == &cutoffKnob.label)
+        {
+            helpBar->setHelpText("24 dB/oct 4-pole ladder low-pass filter corner frequency; attenuates harmonics above cutoff point.", "Cutoff Frequency");
+            return;
+        }
+        if (c == &emphasisKnob.slider || c == &emphasisKnob.label)
+        {
+            helpBar->setHelpText("Filter resonance emphasis; creates resonant feedback ringing up into clean self-oscillation sine wave.", "Emphasis Resonance");
+            return;
+        }
+        if (c == &contourKnob.slider || c == &contourKnob.label)
+        {
+            helpBar->setHelpText("Filter envelope modulation depth; controls how much the filter contour opens the cutoff upon key press.", "Contour Amount");
+            return;
+        }
+        if (c == &bassCompKnob.slider || c == &bassCompKnob.label)
+        {
+            helpBar->setHelpText("Bass resonance compensation; counteracts the classic analog low-end drop when resonance is raised.", "Bass Compensation");
+            return;
+        }
+        if (c == &spatialKnob.slider || c == &spatialKnob.label)
+        {
+            helpBar->setHelpText("Spatial ambient diffusion filter; widens the acoustic stereo image with analog micro phase-delays.", "Spatial Filter");
+            return;
+        }
+        if (c == &kbd1Btn)
+        {
+            helpBar->setHelpText("Engages 1/3 keyboard tracking for filter cutoff (filter opens moderately on higher notes).", "Keyboard Track 1");
+            return;
+        }
+        if (c == &kbd2Btn)
+        {
+            helpBar->setHelpText("Engages 2/3 keyboard tracking for filter cutoff (together with Track 1 provides exact 1:1 pitch tracking).", "Keyboard Track 2");
+            return;
+        }
+        if (c == &fAttackKnob.slider || c == &fAttackKnob.label)
+        {
+            helpBar->setHelpText("Filter envelope attack time (1 ms to 10 s); time taken for filter to open to peak cutoff.", "Filter Attack");
+            return;
+        }
+        if (c == &fDecayKnob.slider || c == &fDecayKnob.label)
+        {
+            helpBar->setHelpText("Filter envelope decay time; time taken for cutoff to drop from peak to sustain level.", "Filter Decay");
+            return;
+        }
+        if (c == &fSustainKnob.slider || c == &fSustainKnob.label)
+        {
+            helpBar->setHelpText("Filter envelope sustain level (0% to 100%); held cutoff position while note is sustained.", "Filter Sustain");
+            return;
+        }
+        if (c == &aAttackKnob.slider || c == &aAttackKnob.label)
+        {
+            helpBar->setHelpText("Loudness envelope attack time (1 ms to 10 s); controls initial fade-in ramp of voice volume.", "Amplifier Attack");
+            return;
+        }
+        if (c == &aDecayKnob.slider || c == &aDecayKnob.label)
+        {
+            helpBar->setHelpText("Loudness envelope decay time; duration to fall from full peak volume to the sustain level.", "Amplifier Decay");
+            return;
+        }
+        if (c == &aSustainKnob.slider || c == &aSustainKnob.label)
+        {
+            helpBar->setHelpText("Loudness envelope sustain volume (0% to 100%); held sound level while key is pressed down.", "Amplifier Sustain");
+            return;
+        }
+        if (c == &decaySwitchBtn)
+        {
+            helpBar->setHelpText("Toggles release phase on note-off: when enabled, decay time also governs release fade-out upon note release.", "Decay / Release Mode");
+            return;
+        }
+
+        // Output Controls
+        if (c == &masterVolKnob.slider || c == &masterVolKnob.label)
+        {
+            helpBar->setHelpText("Master output volume attenuation before final stereo plugin bus output.", "Master Volume");
+            return;
+        }
+        if (c == &voicesBox)
+        {
+            helpBar->setHelpText("Polyphony voice allocation: Mono (pure classic), Legato retrigger, or 2 to 8 Polyphonic voices.", "Polyphony Voices");
+            return;
+        }
+        if (c == &bypassBtn)
+        {
+            helpBar->setHelpText("Master DSP bypass switch; smoothly mutes analog engine processing without pops or clicks.", "Master Bypass");
+            return;
+        }
+
+        // Arpeggiator
+        if (c == &arpOnBtn)
+        {
+            helpBar->setHelpText("Enables internal arpeggiator to sequence held chords into rhythmic tempo-synced patterns.", "Arp On/Off");
+            return;
+        }
+        if (c == &arpLatchBtn)
+        {
+            helpBar->setHelpText("Arpeggiator latch hold; keeps playing the arpeggiated sequence after releasing your hands from keys.", "Arp Latch");
+            return;
+        }
+        if (c == &arpModeBox)
+        {
+            helpBar->setHelpText("Arpeggio direction: Up, Down, Up/Down, Down/Up, Converge, Diverge, Random, or Played Order.", "Arp Direction");
+            return;
+        }
+        if (c == &arpOctaveBox)
+        {
+            helpBar->setHelpText("Octave span range: repeats arpeggio sequence across 1, 2, 3, or 4 consecutive octaves.", "Arp Octave Range");
+            return;
+        }
+        if (c == &arpOctModeBox)
+        {
+            helpBar->setHelpText("Direction of octave shifts: Ascending, Descending, Alternate, or Cyclic.", "Arp Octave Movement");
+            return;
+        }
+        if (c == &arpRateBox)
+        {
+            helpBar->setHelpText("Tempo division rate: 1/1 whole notes down to 1/32 triplet subdivisions synced to host tempo.", "Arp Clock Rate");
+            return;
+        }
+        if (c == &arpPatternBox)
+        {
+            helpBar->setHelpText("Rhythmic gate pattern mask: Straight 16ths, Dotted syncopation, Euclidean groove, Swing accents.", "Arp Rhythm Pattern");
+            return;
+        }
+        if (c == &arpGateKnob.slider || c == &arpGateKnob.label)
+        {
+            helpBar->setHelpText("Note gate duration (1% to 100% / Tie); controls how short or legato each arpeggiated note plays.", "Arp Gate Length");
+            return;
+        }
+        if (c == &arpSwingKnob.slider || c == &arpSwingKnob.label)
+        {
+            helpBar->setHelpText("Groove swing shuffle percentage (50% straight to 75% heavy swing) delaying even 16th notes.", "Arp Swing Groove");
+            return;
+        }
+        if (c == &arpMutateKnob.slider || c == &arpMutateKnob.label)
+        {
+            helpBar->setHelpText("Pattern mutation probability; introduces generative semi-random pitch and rhythm evolutions over time.", "Arp Mutate / Chaos");
+            return;
+        }
+
+        // Performance
+        if (c == &pitchWheel)
+        {
+            helpBar->setHelpText("Pitch Bend wheel; springs back to center on release to bend master pitch up or down.", "Pitch Wheel");
+            return;
+        }
+        if (c == &modWheel)
+        {
+            helpBar->setHelpText("Modulation wheel; scales the depth of modulation routed to pitch or filter cutoff.", "Modulation Wheel");
+            return;
+        }
+        if (c == &keyboard)
+        {
+            helpBar->setHelpText("Interactive virtual keyboard; supports mouse clicks and computer keyboard typing (A-L keys).", "Virtual Keyboard");
+            return;
+        }
+
+        // Header Tools
+        if (c == &presetButton)
+        {
+            helpBar->setHelpText("Currently active factory or user preset; click to quick-jump or browse categories.", "Current Preset");
+            return;
+        }
+        if (c == &prevPresetBtn || c == &nextPresetBtn)
+        {
+            helpBar->setHelpText("Step to previous or next preset in current bank.", "Preset Navigation");
+            return;
+        }
+        if (c == &browseBtn)
+        {
+            helpBar->setHelpText("Opens the preset browser library with categorised patches, search filter, and instant auditioning.", "Browse Presets");
+            return;
+        }
+        if (c == &saveBtn)
+        {
+            helpBar->setHelpText("Saves current sound parameters as a custom user preset to disk.", "Save Preset");
+            return;
+        }
+        if (c == &initBtn)
+        {
+            helpBar->setHelpText("Resets all synth parameters to standard default initialization patch.", "Init Preset");
+            return;
+        }
+        if (c == &abBtn)
+        {
+            helpBar->setHelpText("A/B state comparator; toggles between two independent sound configurations for direct comparison.", "A/B Compare");
+            return;
+        }
+        if (c == &hqBtn)
+        {
+            helpBar->setHelpText("High-Quality oversampling mode (4x oversampled ladder filter DSP core for ultra-clean anti-aliased highs).", "HQ Oversampling");
+            return;
+        }
+        if (c == &editThemeBtn)
+        {
+            helpBar->setHelpText("Opens Color Theme Studio to customize interface colors, rainbow palette, fonts, and corner rounding.", "Theme Studio");
+            return;
+        }
+        if (c == &aboutBtn)
+        {
+            helpBar->setHelpText("Displays plugin version, technical specs, DSP architecture credits, and license notes.", "About & Credits");
+            return;
+        }
+
+        c = c->getParentComponent();
+    }
+
+    helpBar->setHelpText("Hover over any parameter for instant functional guide & DSP signal flow notes.", "");
 }
 
 void LadderMonoAudioProcessorEditor::showAboutDialog()
@@ -1338,9 +1769,15 @@ void LadderMonoAudioProcessorEditor::resized()
     // ====================================================================
     // Lower Performance Section (y: 482..672)
     // ====================================================================
-    pitchWheel.setBounds(Srect(28, 492, 44, 160));
-    modWheel.setBounds(Srect(78, 492, 44, 160));
-    keyboard.setBounds(S(136), S(482), getWidth() - S(156), getHeight() - S(486));
+    pitchWheel.setBounds(Srect(28, 486, 44, 164));
+    modWheel.setBounds(Srect(78, 486, 44, 164));
+    keyboard.setBounds(S(136), S(482), getWidth() - S(156), getHeight() - S(506));
+
+    if (helpBar != nullptr)
+    {
+        int barW = juce::jmin(S(800), getWidth() - S(60));
+        helpBar->setBounds(S(28), getHeight() - S(22), barW, S(18));
+    }
 
     // Resizer handle in bottom-right corner (always on top)
     if (resizer != nullptr)

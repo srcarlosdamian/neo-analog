@@ -8,6 +8,7 @@
 #include "ui/ThemeEditorPanel.h"
 #include "ui/MasterBypassButton.h"
 #include "ui/CornerResizer.h"
+#include "ui/ParameterHelpBar.h"
 
 class LadderMonoAudioProcessorEditor : public juce::AudioProcessorEditor, private juce::Timer
 {
@@ -34,6 +35,12 @@ public:
     void pushUndoSnapshot();
     void applyTheme(const LadderMono::ThemeColors& theme);
     void toggleThemeEditor();
+    void updateHelpBarForComponent(juce::Component* comp);
+    void simulateHoverTune();
+
+    void mouseMove(const juce::MouseEvent& e) override;
+    void mouseEnter(const juce::MouseEvent& e) override;
+    void mouseExit(const juce::MouseEvent& e) override;
 
 private:
     void timerCallback() override;
@@ -74,6 +81,7 @@ private:
     // Window Resizer
     juce::ComponentBoundsConstrainer constrainer;
     std::unique_ptr<LadderMono::CornerResizer> resizer;
+    std::unique_ptr<LadderMono::ParameterHelpBar> helpBar;
 
     // Helpers to create sliders and combos with APVTS attachments
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> sliderAttachments;

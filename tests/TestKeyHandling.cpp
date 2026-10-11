@@ -281,6 +281,22 @@ int main()
                     std::cout << "  Snapshot saved to " << outFileTheme.getFullPathName() << std::endl;
                 }
             }
+
+            // Snapshot 3: Hovering over Tune parameter
+            editor->toggleThemeEditor(); // close theme editor
+            editor->simulateHoverTune();
+            {
+                auto imageHover = editor->createComponentSnapshot(editor->getLocalBounds());
+                juce::File outFileHover("/Users/damian/.gemini/antigravity/brain/7f4023eb-b183-4e4e-af5b-7ebf776f3c1c/vst_help_hover_tune.png");
+                outFileHover.deleteFile();
+                juce::FileOutputStream stream(outFileHover);
+                if (stream.openedOk())
+                {
+                    juce::PNGImageFormat png;
+                    png.writeImageToStream(imageHover, stream);
+                    std::cout << "  Snapshot saved to " << outFileHover.getFullPathName() << std::endl;
+                }
+            }
             std::cout << "  PASS Test 8" << std::endl;
             editor.reset();
         }
