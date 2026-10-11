@@ -318,6 +318,12 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     };
     addAndMakeVisible(pitchWheel);
 
+    pitchWheelLabel.setText("PITCH", juce::dontSendNotification);
+    pitchWheelLabel.setFont(juce::FontOptions(9.0f, juce::Font::bold));
+    pitchWheelLabel.setColour(juce::Label::textColourId, juce::Colour(0xffa8b0c0));
+    pitchWheelLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(pitchWheelLabel);
+
     modWheel.setSliderStyle(juce::Slider::LinearVertical);
     modWheel.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     modWheel.setRange(0.0, 1.0, 0.01);
@@ -327,8 +333,15 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
         audioProcessor.setModWheelAmount(mw);
         for (auto& v : audioProcessor.getVoices())
             v.setModWheel(mw);
+        updateHelpBarForComponent(&modWheel);
     };
     addAndMakeVisible(modWheel);
+
+    modWheelLabel.setText("MOD", juce::dontSendNotification);
+    modWheelLabel.setFont(juce::FontOptions(9.0f, juce::Font::bold));
+    modWheelLabel.setColour(juce::Label::textColourId, juce::Colour(0xffa8b0c0));
+    modWheelLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(modWheelLabel);
 
     // Virtual Keyboard
     keyboard.setBaseOctaveNote(baseOctaveNote);
@@ -578,6 +591,11 @@ void LadderMonoAudioProcessorEditor::applyTheme(const LadderMono::ThemeColors& t
     arpOctModeLabel.setColour(juce::Label::textColourId, t.textSecondary);
     arpRateLabel.setColour(juce::Label::textColourId, t.textSecondary);
     arpPatternLabel.setColour(juce::Label::textColourId, t.textSecondary);
+
+    pitchWheelLabel.setFont(juce::FontOptions(9.0f * t.fontScale, juce::Font::bold));
+    pitchWheelLabel.setColour(juce::Label::textColourId, t.textSecondary);
+    modWheelLabel.setFont(juce::FontOptions(9.0f * t.fontScale, juce::Font::bold));
+    modWheelLabel.setColour(juce::Label::textColourId, t.textSecondary);
 
     auto settingsDir = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getChildFile("NeoAnalog");
     settingsDir.createDirectory();
@@ -949,14 +967,19 @@ void LadderMonoAudioProcessorEditor::updateHelpBarForComponent(juce::Component* 
         }
 
         // Performance
-        if (c == &pitchWheel)
+        if (c == &pitchWheel || c == &pitchWheelLabel)
         {
-            helpBar->setHelpText("Pitch Bend wheel; springs back to center on release to bend master pitch up or down.", "Pitch Wheel");
+            helpBar->setHelpText("Pitch Bend Wheel: Temporarily bends master pitch up or down; springs back to center on release.", "Pitch Wheel");
             return;
         }
-        if (c == &modWheel)
+        if (c == &modWheel || c == &modWheelLabel)
         {
-            helpBar->setHelpText("Modulation wheel; scales the depth of modulation routed to pitch or filter cutoff.", "Modulation Wheel");
+            bool oscMod = oscModBtn.getToggleState();
+            bool filtMod = filterModBtn.getToggleState();
+            if (!oscMod && !filtMod)
+                helpBar->setHelpText("Modulation Wheel (inactive): Turn ON 'OSC MOD' or 'FILT MOD' in CONTROLLERS to hear vibrato or filter sweep.", "Modulation Wheel");
+            else
+                helpBar->setHelpText("Modulation Wheel: Scales modulation depth from LFO/Noise bus to pitch (vibrato) or filter cutoff.", "Modulation Wheel");
             return;
         }
         if (c == &keyboard)
@@ -1760,8 +1783,10 @@ void LadderMonoAudioProcessorEditor::resized()
     // ====================================================================
     // Lower Performance Section (y: 482..672)
     // ====================================================================
-    pitchWheel.setBounds(Srect(28, 486, 44, 164));
-    modWheel.setBounds(Srect(78, 486, 44, 164));
+    pitchWheel.setBounds(Srect(28, 484, 44, 156));
+    pitchWheelLabel.setBounds(Srect(28, 642, 44, 14));
+    modWheel.setBounds(Srect(78, 484, 44, 156));
+    modWheelLabel.setBounds(Srect(78, 642, 44, 14));
     keyboard.setBounds(S(136), S(482), getWidth() - S(156), getHeight() - S(506));
 
     if (helpBar != nullptr)

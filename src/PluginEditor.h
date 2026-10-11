@@ -149,6 +149,7 @@ private:
     // Performance Wheels & Keyboard
     juce::Slider pitchWheel;
     juce::Slider modWheel;
+    juce::Label pitchWheelLabel{"PITCH"}, modWheelLabel{"MOD"};
     LadderMono::VirtualKeyboard keyboard;
 
     // Computer Keyboard musical typing state
