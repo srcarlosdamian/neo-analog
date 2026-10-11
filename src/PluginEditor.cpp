@@ -1557,19 +1557,6 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.drawText("VOICES", 956, 226, 68, 14, juce::Justification::centred);
     g.drawText("BYPASS", 1030, 226, 56, 14, juce::Justification::centred);
 
-    // Bottom Output Plate (Technical specifications plate)
-    juce::Rectangle<float> specPlate(896.0f, 324.0f, 192.0f, 98.0f);
-    g.setColour(currentTheme.wellDark);
-    g.fillRoundedRectangle(specPlate, currentTheme.cornerRadius);
-    g.setColour(currentTheme.lineBorder);
-    g.drawRoundedRectangle(specPlate, currentTheme.cornerRadius, 0.8f);
-
-    g.setFont(juce::FontOptions(8.5f * currentTheme.fontScale, juce::Font::bold));
-    g.setColour(currentTheme.textDim);
-    g.drawText("STEREO BALANCED BUS", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 10.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
-    g.drawText("SPATIAL DIFFUSION CORE", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 30.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
-    g.drawText(juce::CharPointer_UTF8("44.1 - 192 kHz \xe2\x80\xa2 64-BIT DSP"), static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 50.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
-    g.drawText("CALIBRATED ANALOG ENGINE", static_cast<int>(specPlate.getX()), static_cast<int>(specPlate.getY() + 70.0f), static_cast<int>(specPlate.getWidth()), 14, juce::Justification::centred);
 }
 
 void LadderMonoAudioProcessorEditor::resized()
