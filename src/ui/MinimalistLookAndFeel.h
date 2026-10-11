@@ -161,22 +161,52 @@ namespace LadderMono
         }
 
         void drawButtonText(juce::Graphics& g, juce::TextButton& button,
-                            bool /*shouldDrawButtonAsHighlighted*/,
-                            bool /*shouldDrawButtonAsDown*/) override
+                            bool shouldDrawButtonAsHighlighted,
+                            bool shouldDrawButtonAsDown) override
         {
-            auto font = getTextButtonFont(button, button.getHeight());
-            g.setFont(font);
-
             juce::Colour textCol = button.getToggleState()
                 ? button.findColour(juce::TextButton::textColourOnId, true)
                 : button.findColour(juce::TextButton::textColourOffId, true);
 
             if (textCol.isTransparent()) textCol = theme.textPrimary;
             if (!button.isEnabled()) textCol = theme.textDim;
+            else if (shouldDrawButtonAsDown) textCol = textCol.darker(0.2f);
+            else if (shouldDrawButtonAsHighlighted) textCol = textCol.brighter(0.25f);
+
+            auto text = button.getButtonText();
+            if (text == "<" || text == ">")
+            {
+                auto b = button.getLocalBounds().toFloat();
+                float cx = b.getCentreX();
+                float cy = b.getCentreY();
+                float halfH = juce::jlimit(3.5f, 6.0f, b.getHeight() * 0.18f);
+                float halfW = halfH * 0.55f;
+
+                juce::Path chevron;
+                if (text == "<")
+                {
+                    chevron.startNewSubPath(cx + halfW * 0.5f, cy - halfH);
+                    chevron.lineTo(cx - halfW * 0.5f, cy);
+                    chevron.lineTo(cx + halfW * 0.5f, cy + halfH);
+                }
+                else
+                {
+                    chevron.startNewSubPath(cx - halfW * 0.5f, cy - halfH);
+                    chevron.lineTo(cx + halfW * 0.5f, cy);
+                    chevron.lineTo(cx - halfW * 0.5f, cy + halfH);
+                }
+
+                g.setColour(textCol);
+                g.strokePath(chevron, juce::PathStrokeType(1.65f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+                return;
+            }
+
+            auto font = getTextButtonFont(button, button.getHeight());
+            g.setFont(font);
 
             g.setColour(textCol);
             auto textBounds = button.getLocalBounds().reduced(4, 1);
-            g.drawFittedText(button.getButtonText(), textBounds, juce::Justification::centred, 1);
+            g.drawFittedText(text, textBounds, juce::Justification::centred, 1);
         }
 
         // ====================================================================
