@@ -48,16 +48,16 @@ namespace LadderMono
         }
         else // SaturatedZDF (default) & Huovilainen
         {
-            // Nonlinear TPT / ZDF with tanh saturation
-            // Early-stage and feedback saturation (DAFx-04 / DAFx-26 Oyama)
+            // Nonlinear TPT / ZDF with tanh saturation across all 4 transistor stages
+            // (Huovilainen 2004 / DAFx-04 / DAFx-26 Oyama)
             float S = G * (G * (G * s[0] + s[1]) + s[2]) + s[3];
             float G4 = G * G * G * G;
 
-            // Estimate feedback
+            // Estimate feedback with soft differential pair curve
             float feedbackEst = fastTanh(s[3]);
             float u0 = fastTanh(drivenInput - k * feedbackEst);
 
-            // Predictor-corrector step for tight nonlinear feedback loop
+            // Two-step predictor-corrector for rock-solid nonlinear feedback loop convergence
             float y4_est = (G4 * u0 + S) / (1.0f + k * G4);
             u0 = fastTanh(drivenInput - k * fastTanh(y4_est));
 
@@ -68,11 +68,9 @@ namespace LadderMono
                 float y = v + s[i];
                 s[i] = y + v;
 
-                // Saturate stages 0 and 1 (DAFx-26: early stage saturation captures ~90% harmonic realism)
-                if (i <= 1)
-                    u = fastTanh(y);
-                else
-                    u = y;
+                // Authentic differential pair soft saturation across all ladder stages:
+                // Smoothly compresses resonant peaks, generating rich analog harmonics without digital harshness
+                u = fastTanh(y);
             }
             u_out = u;
         }
@@ -111,9 +109,17 @@ namespace LadderMono
         float k = (resonance / 10.0f) * 4.08f;
         k = std::clamp(k, 0.0f, 4.25f);
 
+        // Minimoog Model D Circuit Modeling — AC coupling & low-frequency resonance sag:
+        // In the hardware Model D, AC coupling capacitors in the feedback loop cause
+        // effective resonance loop gain to gently roll off below ~160 Hz.
+        // As a result, when playing bass or sweeping cutoff low, resonance does NOT screech
+        // or hollow out the fundamental bass frequency. The bass notes stay massive, tight, and punchy!
+        float bassResonanceShelf = std::clamp(clampedCutoff / 160.0f, 0.50f, 1.0f);
+        float effectiveK = k * bassResonanceShelf;
+
         // Process 2 sub-samples (2x oversampling)
-        float y0 = processInner(input, g, k, drive, bassCompensation);
-        float y1 = processInner(input, g, k, drive, bassCompensation);
+        float y0 = processInner(input, g, effectiveK, drive, bassCompensation);
+        float y1 = processInner(input, g, effectiveK, drive, bassCompensation);
 
         // Simple 2-point averaging / half-band filter for anti-aliasing downsampling
         float out = 0.5f * (y0 + y1);

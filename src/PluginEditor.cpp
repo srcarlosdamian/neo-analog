@@ -310,12 +310,17 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     pitchWheel.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     pitchWheel.setRange(-1.0, 1.0, 0.01);
     pitchWheel.setValue(0.0);
+    pitchWheel.setDoubleClickReturnValue(true, 0.0);
     pitchWheel.onValueChange = [this]() {
         float normVal = static_cast<float>(pitchWheel.getValue());
         int bendRange = static_cast<int>(audioProcessor.getAPVTS().getRawParameterValue(LadderMono::ParamIDs::bendRange)->load());
         float semitones = normVal * bendRange;
         for (auto& v : audioProcessor.getVoices())
             v.setPitchBend(semitones);
+    };
+    // Physical spring-loaded return to center (0.0) upon mouse release
+    pitchWheel.onDragEnd = [this]() {
+        pitchWheel.setValue(0.0, juce::sendNotificationSync);
     };
     addAndMakeVisible(pitchWheel);
 
@@ -329,6 +334,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     modWheel.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     modWheel.setRange(0.0, 1.0, 0.01);
     modWheel.setValue(0.0);
+    modWheel.setDoubleClickReturnValue(true, 0.0);
     modWheel.onValueChange = [this]() {
         float mw = static_cast<float>(modWheel.getValue());
         audioProcessor.setModWheelAmount(mw);

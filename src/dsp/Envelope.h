@@ -51,8 +51,8 @@ namespace LadderMono
         // Sustain: 0 to 10 (0.0 to 1.0)
         void setParameters(float aParam, float dParam, float sParam) noexcept
         {
-            attackTimeSec = paramToSeconds(aParam);
-            decayTimeSec  = paramToSeconds(dParam);
+            attackTimeSec = attackParamToSeconds(aParam);
+            decayTimeSec  = decayParamToSeconds(dParam);
             sustainLevel  = std::clamp(sParam / 10.0f, 0.0f, 1.0f);
         }
 
@@ -128,12 +128,22 @@ namespace LadderMono
         float sustainLevel = 1.0f;
         bool useDecayRelease = false;
 
-        static inline float paramToSeconds(float param) noexcept
+        static inline float attackParamToSeconds(float param) noexcept
         {
-            // Musical calibration:
-            // 0 -> 5 ms, 2 -> 60 ms, 5 -> 700 ms, 8 -> 3.0 s, 10 -> 6.0 s
+            // Model D specification: Attack time 1 ms to 10 s
+            // 0 -> 1.5 ms (lightning fast analog bite and punch without digital click)
+            // 2 -> 60 ms, 5 -> 700 ms, 8 -> 3.0 s, 10 -> 6.0 s
             float norm = std::clamp(param / 10.0f, 0.0f, 1.0f);
-            return 0.005f + 5.995f * std::pow(norm, 2.4f);
+            return 0.0015f + 5.9985f * std::pow(norm, 2.4f);
+        }
+
+        static inline float decayParamToSeconds(float param) noexcept
+        {
+            // Model D specification: Decay / Release time 10 ms to 10 s
+            // 0 -> 10 ms (punchy tight analog snap without abrupt cutoff)
+            // 2 -> 70 ms, 5 -> 750 ms, 8 -> 3.2 s, 10 -> 6.0 s
+            float norm = std::clamp(param / 10.0f, 0.0f, 1.0f);
+            return 0.010f + 5.990f * std::pow(norm, 2.4f);
         }
     };
 }

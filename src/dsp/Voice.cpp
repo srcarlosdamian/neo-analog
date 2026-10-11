@@ -53,6 +53,11 @@ namespace LadderMono
 
         filterCutoffToleranceRatio = kVoiceCutoffRatio[safeIdx];
         vcaGainTolerance = kVoiceVcaRatio[safeIdx];
+
+        // Free-running VCO phase distribution (prevents static phase lock across voices)
+        oscs[0].setInitialPhase(0.13 * (safeIdx + 1));
+        oscs[1].setInitialPhase(0.47 * (safeIdx + 1));
+        oscs[2].setInitialPhase(0.79 * (safeIdx + 1));
     }
 
     void Voice::reset() noexcept
@@ -201,10 +206,10 @@ namespace LadderMono
 
     void Voice::setCutoffParam(float paramMinus5To5) noexcept
     {
-        // -5 to +5 maps exponentially from ~20 Hz to 20 kHz
-        // 0.0 maps to roughly 1000 Hz
+        // -5 to +5 maps exponentially from ~20 Hz to 24 kHz
+        // Extended top end lets the filter open completely above 20 kHz without feeling choked
         float normalized = (paramMinus5To5 + 5.0f) / 10.0f; // 0.0 to 1.0
-        baseCutoffHz = 20.0f * std::pow(1000.0f, normalized);
+        baseCutoffHz = 20.0f * std::pow(1200.0f, normalized);
     }
 
     void Voice::setKeyTracking(bool kbd1, bool kbd2) noexcept
@@ -251,12 +256,14 @@ namespace LadderMono
         // 2. Analog Drift Simulation (slow filtered random walk per oscillator)
         if (analogAmount > 0.001f)
         {
+            // Individual thermal drift coefficients per oscillator (simulates thermal gradients on analog circuit board)
+            static const float kDriftCoeffs[3] = { 0.9992f, 0.9988f, 0.9995f };
             for (size_t i = 0; i < 3; ++i)
             {
                 float white = noiseGen.process(NoiseColor::White);
                 // Very slow one-pole lowpass filter (~0.1 Hz)
-                driftNoiseState[i] = 0.9997f * driftNoiseState[i] + 0.0003f * white;
-                oscDriftCents[i] = driftNoiseState[i] * (analogAmount * 150.0f); // Natural analog wandering up to +/- 4.5 cents
+                driftNoiseState[i] = kDriftCoeffs[i] * driftNoiseState[i] + (1.0f - kDriftCoeffs[i]) * white;
+                oscDriftCents[i] = driftNoiseState[i] * (analogAmount * 220.0f); // Natural analog wandering up to +/- 6 cents
             }
         }
         else
@@ -310,13 +317,35 @@ namespace LadderMono
         lastOsc3Sample = o3;
         float o3Mix = osc3On ? o3 : 0.0f;
 
-        // 6. Mixer Summation & Overdrive
-        float extInput = extOn ? (lastOutputSample + externalInputSample) : 0.0f;
-        float mixerSum = (o1 * osc1Level) + (o2 * osc2Level) + (o3Mix * osc3Level)
-                       + (noiseOn ? (noiseSample * noiseLevel) : 0.0f)
-                       + (extInput * extLevel);
+        // 6. Mixer Summation with Passive Resistor Loading & Inter-Oscillator Interaction
+        // In the Minimoog Model D, the passive 47k resistor summing network causes
+        // subtle mutual loading (slight node sag) and inter-oscillator cross-coupling when driven.
+        float o1_sig = osc1On ? (o1 * osc1Level) : 0.0f;
+        float o2_sig = osc2On ? (o2 * osc2Level) : 0.0f;
+        float o3_sig = osc3On ? (o3Mix * osc3Level) : 0.0f;
 
-        // Mixer Overload soft saturation with mild asymmetric second harmonic
+        // Inter-oscillator passive cross-talk when multiple oscillators are on
+        if (osc1On && osc2On && osc1Level > 0.1f && osc2Level > 0.1f)
+        {
+            float coupling = 0.005f * (o1 - o2);
+            o1_sig -= coupling * osc2Level;
+            o2_sig += coupling * osc1Level;
+        }
+
+        float totalActiveLevels = (osc1On ? osc1Level : 0.0f) +
+                                  (osc2On ? osc2Level : 0.0f) +
+                                  (osc3On ? osc3Level : 0.0f);
+
+        // Passive resistive network node sag: when multiple oscillators are driven,
+        // the summing bus slightly compresses/glues dynamics together.
+        float passiveLoadSag = 1.0f / (1.0f + 0.05f * std::max(0.0f, totalActiveLevels - 0.7f));
+
+        float extInput = extOn ? (lastOutputSample + externalInputSample) : 0.0f;
+        float mixerSum = (o1_sig + o2_sig + o3_sig
+                       + (noiseOn ? (noiseSample * noiseLevel) : 0.0f)
+                       + (extInput * extLevel)) * passiveLoadSag;
+
+        // Mixer Overload soft saturation with mild odd harmonic warmth
         float saturatedMixer = Saturation::processMixerOverload(mixerSum, mixerDriveGain);
 
         // 7. Envelopes
@@ -354,9 +383,10 @@ namespace LadderMono
         // Process Ladder Filter
         float filterOut = filter.processSample(saturatedMixer, modulatedCutoffHz, emphasis, 1.0f, bassComp);
 
-        // 9. VCA & Amp Envelope (calibrated analog stage with clean headroom and voice tolerance)
-        // Solid low-end output gain ensuring bass presets hit with full commercial power and punch
-        float output = (filterOut * aEnvLevel) * (1.40f * vcaGainTolerance);
+        // 9. VCA & Amp Envelope (CA3080 OTA transconductance saturation and voice tolerance)
+        // Multi-stage analog drive: the OTA saturates softly when driven, avoiding harsh digital edges
+        float vcaInput = filterOut * aEnvLevel;
+        float output = Saturation::processVCASaturation(vcaInput * 1.35f) * (1.40f * vcaGainTolerance);
 
         // Gentle voice headroom limiter (cushions extreme peaks above 1.0)
         output = Saturation::processVoiceClip(output);

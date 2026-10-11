@@ -39,12 +39,12 @@ namespace LadderMono
     void Oscillator::prepare(double sr) noexcept
     {
         sampleRate = std::max(sr, 1000.0);
-        phase = 0.0;
     }
 
     void Oscillator::reset() noexcept
     {
-        phase = 0.0;
+        if (phaseResetOnNote)
+            phase = 0.0;
     }
 
     void Oscillator::triggerNote() noexcept

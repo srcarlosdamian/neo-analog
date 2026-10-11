@@ -43,6 +43,7 @@ namespace LadderMono
         void setRange(Range range) noexcept { currentRange = range; }
         void setFineTuneSemitones(float st) noexcept { fineTuneSt = st; }
         void setPhaseReset(bool reset) noexcept { phaseResetOnNote = reset; }
+        void setInitialPhase(double initPhase) noexcept { phase = std::fmod(std::abs(initPhase), 1.0); }
         void triggerNote() noexcept;
 
         void setKeyboardTracking(bool track) noexcept { kbdTrack = track; }

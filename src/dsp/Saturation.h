@@ -34,6 +34,17 @@ namespace LadderMono
         }
 
         /**
+         * CA3080 Operational Transconductance Amplifier (OTA) VCA saturation.
+         * Authentic Minimoog discrete VCA transconductance modeling: hyperbolic tangent curve.
+         * Softly warms voice peaks when driven, gluing dynamics together musically.
+         */
+        inline float processVCASaturation(float input) noexcept
+        {
+            constexpr float drive = 0.85f;
+            return fastTanh(input * drive) / drive;
+        }
+
+        /**
          * Voice stage headroom clipper.
          * Linear and completely uncompressed below 1.0f.
          * Gently cushions extreme voice peaks above 1.0f without harsh distortion.

@@ -111,7 +111,7 @@ namespace LadderMono
     {
         for (size_t i = 0; i < presets.size(); ++i)
         {
-            if (presets[i].name == "Init Patch")
+            if (presets[i].name == "Default Init" || presets[i].name == "Init Patch")
             {
                 loadPreset(static_cast<int>(i));
                 return;

@@ -302,6 +302,36 @@ int main()
         }
     }
 
+    // Test 9: Pitch Wheel spring return validation
+    {
+        std::cout << "  Test 9: Pitch Wheel spring return validation..." << std::endl;
+        std::unique_ptr<LadderMonoAudioProcessorEditor> editor(
+            dynamic_cast<LadderMonoAudioProcessorEditor*>(processor.createEditor()));
+
+        if (editor != nullptr)
+        {
+            bool verified = false;
+            for (int i = 0; i < editor->getNumChildComponents(); ++i)
+            {
+                auto* s = dynamic_cast<juce::Slider*>(editor->getChildComponent(i));
+                if (s != nullptr && s->getMinimum() < -0.9 && s->getMaximum() > 0.9)
+                {
+                    s->setValue(0.85, juce::sendNotificationSync);
+                    if (s->onDragEnd)
+                    {
+                        s->onDragEnd();
+                        assert(std::abs(s->getValue() - 0.0) < 0.001);
+                        verified = true;
+                    }
+                    break;
+                }
+            }
+            assert(verified);
+            std::cout << "  PASS Test 9: Pitch Wheel springs back to center (0.0)" << std::endl;
+            editor.reset();
+        }
+    }
+
     std::cout << "All Key Handling & Feature tests passed successfully!" << std::endl;
     return 0;
 }
