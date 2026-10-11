@@ -1791,7 +1791,7 @@ void LadderMonoAudioProcessorEditor::resized()
     if (helpBar != nullptr)
     {
         int barW = juce::jmin(S(800), getWidth() - S(60));
-        helpBar->setBounds(S(28), getHeight() - S(22), barW, S(18));
+        helpBar->setBounds(S(28), getHeight() - S(23), barW, S(20));
     }
 
     // Resizer handle in bottom-right corner (always on top)

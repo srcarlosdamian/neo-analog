@@ -37,22 +37,23 @@ namespace LadderMono
             g.setColour(theme.wellDark.withAlpha(0.95f));
             g.fillRoundedRectangle(bounds, r);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, r, 0.9f);
+            g.drawRoundedRectangle(bounds, r, theme.borderWidth * 0.9f);
 
-            // Help Icon Badge (Left side)
-            float badgeSize = bounds.getHeight() - 6.0f;
-            auto iconCircle = juce::Rectangle<float>(bounds.getX() + 4.0f, bounds.getY() + 3.0f, badgeSize, badgeSize);
+            // Help Icon Badge (Left side) - perfectly centered vertically
+            float badgeSize = juce::jmax(11.0f, bounds.getHeight() - 5.0f);
+            float badgeY = (bounds.getHeight() - badgeSize) * 0.5f;
+            auto iconCircle = juce::Rectangle<float>(bounds.getX() + 4.0f, badgeY, badgeSize, badgeSize);
             g.setColour(theme.buttonBg);
             g.fillEllipse(iconCircle);
             g.setColour(theme.lineBorder);
-            g.drawEllipse(iconCircle, 0.8f);
+            g.drawEllipse(iconCircle, theme.borderWidth * 0.8f);
 
             // '?' Icon Mark
-            g.setFont(juce::FontOptions(badgeSize * 0.72f, juce::Font::bold));
+            g.setFont(juce::FontOptions(badgeSize * 0.70f, juce::Font::bold));
             g.setColour(theme.textPrimary);
             g.drawText("?", iconCircle, juce::Justification::centred);
 
-            // Help Text Area (1 single line, very small text)
+            // Help Text Area (1 single line, centered vertically)
             float textX = iconCircle.getRight() + 7.0f;
             float textW = bounds.getRight() - textX - 8.0f;
             auto textBounds = juce::Rectangle<float>(textX, 0.0f, textW, bounds.getHeight());
@@ -60,18 +61,19 @@ namespace LadderMono
             if (currentParam.isNotEmpty())
             {
                 juce::AttributedString str;
+                str.setJustification(juce::Justification::centredLeft);
                 str.append(currentParam.toUpperCase() + "  \xe2\x80\xa2  ",
-                           juce::FontOptions(9.5f * theme.fontScale, juce::Font::bold),
+                           juce::FontOptions(11.0f * theme.fontScale, juce::Font::bold),
                            theme.textPrimary);
                 str.append(currentText,
-                           juce::FontOptions(9.0f * theme.fontScale, juce::Font::plain),
+                           juce::FontOptions(10.5f * theme.fontScale, juce::Font::plain),
                            theme.textSecondary);
                 str.setWordWrap(juce::AttributedString::WordWrap::none);
                 str.draw(g, textBounds);
             }
             else
             {
-                g.setFont(juce::FontOptions(9.0f * theme.fontScale, juce::Font::plain));
+                g.setFont(juce::FontOptions(10.5f * theme.fontScale, juce::Font::plain));
                 g.setColour(theme.textDim);
                 g.drawText(currentText, textBounds.toNearestInt(), juce::Justification::centredLeft, true);
             }
