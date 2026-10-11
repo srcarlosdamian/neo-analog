@@ -297,6 +297,25 @@ namespace LadderMono
             };
             addAndMakeVisible(cornerRadiusSlider);
 
+            borderWidthLabel.setText("LINE THICKNESS", juce::dontSendNotification);
+            borderWidthLabel.setFont(juce::FontOptions(9.5f, juce::Font::bold));
+            borderWidthLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
+            addAndMakeVisible(borderWidthLabel);
+
+            borderWidthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+            borderWidthSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 42, 16);
+            borderWidthSlider.setRange(0.5, 4.0, 0.25);
+            borderWidthSlider.setValue(activeTheme.borderWidth, juce::dontSendNotification);
+            borderWidthSlider.textFromValueFunction = [](double v) {
+                return juce::String(v, 2) + "px";
+            };
+            borderWidthSlider.onValueChange = [this] {
+                if (isUpdatingSliders) return;
+                activeTheme.borderWidth = static_cast<float>(borderWidthSlider.getValue());
+                if (onThemeChanged) onThemeChanged(activeTheme);
+            };
+            addAndMakeVisible(borderWidthSlider);
+
             // Reset Button
             resetBtn.setButtonText("Reset to Default");
             resetBtn.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff222222));
@@ -504,13 +523,17 @@ namespace LadderMono
             // ================================================================
             // Column 4: STYLE & RESET (x: 678, w: 170)
             // ================================================================
-            int gy = 54;
-            fontScaleLabel.setBounds(678, gy, 170, 16);
-            fontScaleSlider.setBounds(678, gy + 18, 170, 22);
+            int gy = 46;
+            fontScaleLabel.setBounds(678, gy, 170, 15);
+            fontScaleSlider.setBounds(678, gy + 15, 170, 20);
 
-            gy += 48;
-            cornerRadiusLabel.setBounds(678, gy, 170, 16);
-            cornerRadiusSlider.setBounds(678, gy + 18, 170, 22);
+            gy += 38;
+            cornerRadiusLabel.setBounds(678, gy, 170, 15);
+            cornerRadiusSlider.setBounds(678, gy + 15, 170, 20);
+
+            gy += 38;
+            borderWidthLabel.setBounds(678, gy, 170, 15);
+            borderWidthSlider.setBounds(678, gy + 15, 170, 20);
 
             resetBtn.setBounds(678, bounds.getHeight() - 36, 170, 26);
         }
@@ -535,8 +558,8 @@ namespace LadderMono
         juce::Slider hueSlider, satSlider, briSlider, alphaSlider;
         std::vector<std::unique_ptr<juce::TextButton>> colorChips;
 
-        juce::Label fontScaleLabel, cornerRadiusLabel;
-        juce::Slider fontScaleSlider, cornerRadiusSlider;
+        juce::Label fontScaleLabel, cornerRadiusLabel, borderWidthLabel;
+        juce::Slider fontScaleSlider, cornerRadiusSlider, borderWidthSlider;
 
         juce::TextButton resetBtn;
 
@@ -610,6 +633,7 @@ namespace LadderMono
             alphaSlider.setValue(c.getFloatAlpha(), juce::dontSendNotification);
             fontScaleSlider.setValue(activeTheme.fontScale, juce::dontSendNotification);
             cornerRadiusSlider.setValue(activeTheme.cornerRadius, juce::dontSendNotification);
+            borderWidthSlider.setValue(activeTheme.borderWidth, juce::dontSendNotification);
 
             spectrumLnf.currentHue = c.getHue();
             spectrumLnf.currentSat = c.getSaturation();

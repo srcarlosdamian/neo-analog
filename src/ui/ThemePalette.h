@@ -34,6 +34,7 @@ namespace LadderMono
         juce::Colour textDim         { 0xff585858 }; // Dim hints, inactive switch labels
         float fontScale              { 1.0f };       // Global font scaling (0.85 to 1.30)
         float cornerRadius           { 4.0f };       // Global rounded corner radius (1.0 to 12.0)
+        float borderWidth            { 1.0f };       // Global line / border thickness (0.5 to 4.0 px)
 
         // 6. Screen (OLED) (Pure Neutral Grays: R = G = B)
         juce::Colour screenBg        { 0xff000000 }; // Screen inner glass
@@ -69,6 +70,7 @@ namespace LadderMono
             obj->setProperty("textDim", textDim.toDisplayString(true));
             obj->setProperty("fontScale", static_cast<double>(fontScale));
             obj->setProperty("cornerRadius", static_cast<double>(cornerRadius));
+            obj->setProperty("borderWidth", static_cast<double>(borderWidth));
             obj->setProperty("screenBg", screenBg.toDisplayString(true));
             obj->setProperty("screenBorder", screenBorder.toDisplayString(true));
             obj->setProperty("screenText", screenText.toDisplayString(true));
@@ -115,6 +117,8 @@ namespace LadderMono
                 fontScale = std::clamp(static_cast<float>(obj->getProperty("fontScale")), 0.80f, 1.35f);
             if (obj->hasProperty("cornerRadius"))
                 cornerRadius = std::clamp(static_cast<float>(obj->getProperty("cornerRadius")), 0.0f, 14.0f);
+            if (obj->hasProperty("borderWidth"))
+                borderWidth = std::clamp(static_cast<float>(obj->getProperty("borderWidth")), 0.5f, 4.0f);
             screenBg      = getCol("screenBg", screenBg);
             screenBorder  = getCol("screenBorder", screenBorder);
             screenText    = getCol("screenText", screenText);

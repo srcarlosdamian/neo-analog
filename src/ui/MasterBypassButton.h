@@ -43,7 +43,7 @@ namespace LadderMono
             g.setColour(theme.wellDark);
             g.fillRoundedRectangle(bounds, 4.0f);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, 4.0f, 1.0f);
+            g.drawRoundedRectangle(bounds, 4.0f, theme.borderWidth);
 
             // 2. Interactive Button Plate
             auto plate = bounds.reduced(2.0f);
@@ -59,7 +59,7 @@ namespace LadderMono
 
                 // Glowing warning red border
                 g.setColour(shouldDrawButtonAsHighlighted ? juce::Colour(0xffff5544) : juce::Colour(0xffd93829));
-                g.drawRoundedRectangle(plate, 3.0f, 1.4f);
+                g.drawRoundedRectangle(plate, 3.0f, theme.borderWidth * 1.4f);
             }
             else
             {
@@ -72,12 +72,12 @@ namespace LadderMono
                 if (shouldDrawButtonAsHighlighted)
                 {
                     g.setColour(theme.lineAccent);
-                    g.drawRoundedRectangle(plate, 3.0f, 1.4f);
+                    g.drawRoundedRectangle(plate, 3.0f, theme.borderWidth * 1.4f);
                 }
                 else
                 {
                     g.setColour(theme.lineBorder.brighter(0.18f));
-                    g.drawRoundedRectangle(plate, 3.0f, 1.0f);
+                    g.drawRoundedRectangle(plate, 3.0f, theme.borderWidth);
                 }
             }
 

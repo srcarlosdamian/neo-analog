@@ -1398,7 +1398,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.panelBg);
     g.fillRect(topBarRect);
     g.setColour(currentTheme.lineBorder);
-    g.drawHorizontalLine(42, 0.0f, totalArea.getWidth());
+    g.drawLine(0.0f, 42.0f, totalArea.getWidth(), 42.0f, currentTheme.borderWidth);
 
     // Side Chassis Bezels
     juce::Rectangle<float> leftBezel(0.0f, 42.0f, 20.0f, 398.0f);
@@ -1411,8 +1411,8 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.lineBorder);
     for (float ty = 46.0f; ty < 436.0f; ty += 18.0f)
     {
-        g.drawHorizontalLine(static_cast<int>(ty), 5.0f, 15.0f);
-        g.drawHorizontalLine(static_cast<int>(ty), totalArea.getWidth() - 15.0f, totalArea.getWidth() - 5.0f);
+        g.drawLine(5.0f, ty, 15.0f, ty, currentTheme.borderWidth * 0.8f);
+        g.drawLine(totalArea.getWidth() - 15.0f, ty, totalArea.getWidth() - 5.0f, ty, currentTheme.borderWidth * 0.8f);
     }
 
     // Mid Arpeggiator Strip Perimeter (Recessed tray)
@@ -1420,11 +1420,11 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.panelBg);
     g.fillRect(arpBarRect);
     g.setColour(currentTheme.lineBorder);
-    g.drawHorizontalLine(440, 0.0f, totalArea.getWidth());
-    g.drawHorizontalLine(482, 0.0f, totalArea.getWidth());
+    g.drawLine(0.0f, 440.0f, totalArea.getWidth(), 440.0f, currentTheme.borderWidth);
+    g.drawLine(0.0f, 482.0f, totalArea.getWidth(), 482.0f, currentTheme.borderWidth);
     g.setColour(currentTheme.lineBorder.withAlpha(0.5f));
-    g.drawVerticalLine(268, 444.0f, 478.0f);
-    g.drawVerticalLine(782, 444.0f, 478.0f);
+    g.drawLine(268.0f, 444.0f, 268.0f, 478.0f, currentTheme.borderWidth * 0.8f);
+    g.drawLine(782.0f, 444.0f, 782.0f, 478.0f, currentTheme.borderWidth * 0.8f);
 
     // Bottom border
     g.setColour(currentTheme.bgChassis);
@@ -1446,14 +1446,14 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
 
         // Normalized Bevel & Border line
         g.setColour(currentTheme.lineBorder);
-        g.drawRoundedRectangle(frame, r, 1.2f);
+        g.drawRoundedRectangle(frame, r, 1.2f * currentTheme.borderWidth);
 
         // Section Header Plate
         juce::Rectangle<float> headerPlate(x + 10.0f, y - 9.0f, w - 20.0f, 18.0f);
         g.setColour(currentTheme.panelBg);
         g.fillRoundedRectangle(headerPlate, juce::jmin(r, 3.0f));
         g.setColour(currentTheme.lineAccent);
-        g.drawRoundedRectangle(headerPlate, juce::jmin(r, 3.0f), 1.0f);
+        g.drawRoundedRectangle(headerPlate, juce::jmin(r, 3.0f), 1.0f * currentTheme.borderWidth);
 
         g.setFont(juce::FontOptions(11.0f * currentTheme.fontScale, juce::Font::bold));
         g.setColour(currentTheme.textPrimary);
@@ -1480,7 +1480,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
         g.setColour(currentTheme.panelLight);
         g.fillRoundedRectangle(bar, r);
         g.setColour(currentTheme.lineBorder);
-        g.drawRoundedRectangle(bar, r, 0.8f);
+        g.drawRoundedRectangle(bar, r, 0.8f * currentTheme.borderWidth);
 
         g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
         g.setColour(currentTheme.textSecondary);
@@ -1534,7 +1534,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
         g.setColour(currentTheme.wellDark);
         g.fillEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f);
         g.setColour(currentTheme.lineBorder);
-        g.drawEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f, 0.8f);
+        g.drawEllipse(ovlX - ledR, ovlY - ledR, ledR * 2.0f, ledR * 2.0f, 0.8f * currentTheme.borderWidth);
     }
 
     // ================================================================
@@ -1544,14 +1544,14 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.wellDark);
     g.fillRoundedRectangle(screenBezel, currentTheme.cornerRadius);
     g.setColour(currentTheme.lineBorder);
-    g.drawRoundedRectangle(screenBezel, currentTheme.cornerRadius, 1.0f);
+    g.drawRoundedRectangle(screenBezel, currentTheme.cornerRadius, 1.0f * currentTheme.borderWidth);
 
     // Inner Pitch Black Glass - "por ahora para identificarla pon la negra"
     juce::Rectangle<float> screenGlass(900.0f, 60.0f, 184.0f, 128.0f);
     g.setColour(juce::Colour(0xff000000));
     g.fillRoundedRectangle(screenGlass, juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f));
     g.setColour(juce::Colour(0x22ffffff));
-    g.drawRoundedRectangle(screenGlass, juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f), 0.8f);
+    g.drawRoundedRectangle(screenGlass, juce::jmax(1.0f, currentTheme.cornerRadius - 1.0f), 0.8f * currentTheme.borderWidth);
 
     // Subtle glass horizon reflection line
     g.setColour(juce::Colour(0x0cffffff));
@@ -1567,7 +1567,7 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.panelLight);
     g.fillRoundedRectangle(outBar, currentTheme.cornerRadius * 0.5f);
     g.setColour(currentTheme.lineBorder);
-    g.drawRoundedRectangle(outBar, currentTheme.cornerRadius * 0.5f, 0.8f);
+    g.drawRoundedRectangle(outBar, currentTheme.cornerRadius * 0.5f, 0.8f * currentTheme.borderWidth);
     g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
     g.setColour(currentTheme.textSecondary);
     g.drawText("OUTPUT CONTROLS", outBar.toNearestInt(), juce::Justification::centred);

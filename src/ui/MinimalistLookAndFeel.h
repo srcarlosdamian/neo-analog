@@ -157,7 +157,7 @@ namespace LadderMono
             g.fillRoundedRectangle(bounds, r);
 
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, r, 1.0f);
+            g.drawRoundedRectangle(bounds, r, theme.borderWidth);
         }
 
         void drawButtonText(juce::Graphics& g, juce::TextButton& button,
@@ -225,21 +225,21 @@ namespace LadderMono
             g.setColour(theme.wellDark);
             g.fillEllipse(centre.x - radius, centre.y - radius, radius * 2.0f, radius * 2.0f);
             g.setColour(theme.lineBorder);
-            g.drawEllipse(centre.x - radius, centre.y - radius, radius * 2.0f, radius * 2.0f, 1.0f);
+            g.drawEllipse(centre.x - radius, centre.y - radius, radius * 2.0f, radius * 2.0f, theme.borderWidth);
 
             // 2. Solid flat matte cylinder rotor
             float knobRadius = radius * 0.84f;
             g.setColour(theme.knobBody);
             g.fillEllipse(centre.x - knobRadius, centre.y - knobRadius, knobRadius * 2.0f, knobRadius * 2.0f);
             g.setColour(theme.knobRing);
-            g.drawEllipse(centre.x - knobRadius, centre.y - knobRadius, knobRadius * 2.0f, knobRadius * 2.0f, 1.0f);
+            g.drawEllipse(centre.x - knobRadius, centre.y - knobRadius, knobRadius * 2.0f, knobRadius * 2.0f, theme.borderWidth);
 
             // 3. Subtle center cap
             float capRadius = knobRadius * 0.44f;
             g.setColour(theme.knobCap);
             g.fillEllipse(centre.x - capRadius, centre.y - capRadius, capRadius * 2.0f, capRadius * 2.0f);
             g.setColour(theme.lineBorder);
-            g.drawEllipse(centre.x - capRadius, centre.y - capRadius, capRadius * 2.0f, capRadius * 2.0f, 0.8f);
+            g.drawEllipse(centre.x - capRadius, centre.y - capRadius, capRadius * 2.0f, capRadius * 2.0f, theme.borderWidth * 0.8f);
 
             // 4. Indicator dot
             float dotDistance = knobRadius * 0.72f;
@@ -277,7 +277,7 @@ namespace LadderMono
             g.setColour(theme.wellDark);
             g.fillRoundedRectangle(switchBox, r);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(switchBox, r, 1.0f);
+            g.drawRoundedRectangle(switchBox, r, theme.borderWidth);
 
             // 2. Flat matte switch body
             auto paddle = switchBox.reduced(2.0f);
@@ -323,7 +323,7 @@ namespace LadderMono
             g.setColour(theme.wellDark);
             g.fillRoundedRectangle(bounds, r);
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, r, 1.0f);
+            g.drawRoundedRectangle(bounds, r, theme.borderWidth);
 
             auto wheelBounds = bounds.reduced(3.0f, 3.0f);
             g.setColour(theme.knobBody);
@@ -363,7 +363,7 @@ namespace LadderMono
             g.fillRoundedRectangle(bounds, r);
 
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, r, 1.0f);
+            g.drawRoundedRectangle(bounds, r, theme.borderWidth);
 
             float arrowX = width - 15.0f;
             float arrowY = height * 0.5f - 2.0f;
@@ -387,7 +387,7 @@ namespace LadderMono
             g.fillRoundedRectangle(bounds, r);
 
             g.setColour(theme.lineBorder);
-            g.drawRoundedRectangle(bounds, r, 1.2f);
+            g.drawRoundedRectangle(bounds, r, theme.borderWidth * 1.2f);
         }
 
         void drawPopupMenuItem(juce::Graphics& g, const juce::Rectangle<int>& area,

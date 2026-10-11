@@ -95,7 +95,7 @@ namespace LadderMono
             g.setColour(theme.wellDark);
             g.fillRect(feltRect);
             g.setColour(theme.lineBorder);
-            g.drawHorizontalLine(static_cast<int>(feltRect.getBottom()), feltRect.getX(), feltRect.getRight());
+            g.drawLine(feltRect.getX(), feltRect.getBottom(), feltRect.getRight(), feltRect.getBottom(), theme.borderWidth);
 
             // Count white keys
             int whiteKeyCount = 0;
@@ -149,7 +149,7 @@ namespace LadderMono
 
                         // Key separation groove (deep pitch black recess between keys)
                         g.setColour(theme.bgChassis);
-                        g.drawRoundedRectangle(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), theme.cornerRadius, 1.0f);
+                        g.drawRoundedRectangle(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), theme.cornerRadius, theme.borderWidth);
                     }
                     else
                     {
@@ -178,7 +178,7 @@ namespace LadderMono
 
                         // Key separation groove
                         g.setColour(theme.lineBorder);
-                        g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), 1.0f);
+                        g.drawRect(juce::Rectangle<float>(currentX, bounds.getY(), whiteKeyWidth, bounds.getHeight()), theme.borderWidth);
                     }
 
                     currentX += whiteKeyWidth;
@@ -217,7 +217,7 @@ namespace LadderMono
 
                             // 4. Subtle crisp matte perimeter border
                             g.setColour(theme.lineBorder.brighter(0.05f));
-                            g.drawRoundedRectangle(blackRect.withHeight(blackKeyHeight), r, 1.0f);
+                            g.drawRoundedRectangle(blackRect.withHeight(blackKeyHeight), r, theme.borderWidth);
                         }
                         else
                         {
@@ -236,7 +236,7 @@ namespace LadderMono
                                 g.fillRect(blackRect);
                             }
                             g.setColour(theme.lineBorder);
-                            g.drawRect(blackRect, 1.0f);
+                            g.drawRect(blackRect, theme.borderWidth);
                         }
                     }
                     currentX += whiteKeyWidth;
