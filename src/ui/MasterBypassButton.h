@@ -108,7 +108,7 @@ namespace LadderMono
                 // Text: BYPASSED
                 g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
                 g.setColour(juce::Colour(0xffffdddd));
-                auto textBounds = plate.withTrimmedLeft(26.0f).withTrimmedRight(4.0f);
+                auto textBounds = plate.withTrimmedLeft(30.0f).withTrimmedRight(14.0f);
                 g.drawText("BYPASSED", textBounds.toNearestInt(), juce::Justification::centred);
             }
             else
@@ -131,9 +131,9 @@ namespace LadderMono
                 g.drawLine(iconX, iconY - iconR - 1.5f, iconX, iconY - 0.5f, 1.6f);
 
                 // Text: BYPASS: OFF
-                g.setFont(juce::FontOptions(10.0f, juce::Font::bold));
+                g.setFont(juce::FontOptions(10.5f, juce::Font::bold));
                 g.setColour(shouldDrawButtonAsHighlighted ? juce::Colour(0xffffffff) : theme.textPrimary);
-                auto textBounds = plate.withTrimmedLeft(25.0f).withTrimmedRight(4.0f);
+                auto textBounds = plate.withTrimmedLeft(30.0f).withTrimmedRight(14.0f);
                 g.drawText("BYPASS: OFF", textBounds.toNearestInt(), juce::Justification::centred);
             }
         }

@@ -1572,11 +1572,11 @@ void LadderMonoAudioProcessorEditor::paint(juce::Graphics& g)
     g.setColour(currentTheme.textSecondary);
     g.drawText("OUTPUT CONTROLS", outBar.toNearestInt(), juce::Justification::centred);
 
-    // Labels above horizontal controls
+    // Labels in Output Controls section
     g.setFont(juce::FontOptions(9.5f * currentTheme.fontScale, juce::Font::bold));
     g.setColour(currentTheme.textSecondary);
-    g.drawText("VOICES", 956, 226, 68, 14, juce::Justification::centred);
-    g.drawText("BYPASS", 1030, 226, 56, 14, juce::Justification::centred);
+    g.drawText("VOICES", 912, 320, 160, 14, juce::Justification::centred);
+    g.drawText("BYPASS", 912, 372, 160, 14, juce::Justification::centred);
 
 }
 
@@ -1738,13 +1738,14 @@ void LadderMonoAudioProcessorEditor::resized()
 
     // ====================================================================
     // Section 5: OUTPUT (x: 888..1096, w: 208)
-    // Horizontal row below screen: Volume, Voices (Mono/Poly), Bypass
+    // Vertically distributed layout utilizing full available space:
+    // Volume (centered prominent knob) -> Voices selector -> Bypass button
     // ====================================================================
-    masterVolKnob.slider.setBounds(Srect(894, 228, 56, 56));
-    masterVolKnob.label.setBounds(Srect(890, 288, 64, 14));
+    masterVolKnob.slider.setBounds(Srect(959, 226, 66, 66));
+    masterVolKnob.label.setBounds(Srect(950, 294, 84, 14));
 
-    voicesBox.setBounds(Srect(956, 242, 68, 26));
-    bypassBtn.setBounds(Srect(1030, 240, 56, 30));
+    voicesBox.setBounds(Srect(912, 336, 160, 26));
+    bypassBtn.setBounds(Srect(912, 388, 160, 32));
 
     // ====================================================================
     // Middle Crossbar: ARPEGGIATOR & PERFORMANCE BAR (y: 440..482, x: 28..1092)
