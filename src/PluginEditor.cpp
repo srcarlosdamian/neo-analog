@@ -114,12 +114,59 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
 
     initBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
     initBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
+    initBtn.setTooltip("Reset All Parameters to Standard Init Template");
     initBtn.onClick = [this]() {
         releaseAllHeldComputerKeys();
+        pushUndoSnapshot();
         audioProcessor.getPresetManager().initPatch();
         updatePresetDisplay();
     };
     addAndMakeVisible(initBtn);
+
+    resetSecBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
+    resetSecBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
+    resetSecBtn.setTooltip("Reset Section — Click to reset selected/active section, or right-click to choose section");
+    resetSecBtn.onClick = [this]() {
+        releaseAllHeldComputerKeys();
+        juce::PopupMenu menu;
+        menu.addSectionHeader("Reset Section to Default");
+        menu.addItem(1, "Controllers (Tune, Glide, LFO, Pitch)", true, lastActiveSection == SynthSection::Controllers);
+        menu.addItem(2, "Oscillator Bank (Ranges, Waves, Fine, Drift)", true, lastActiveSection == SynthSection::Oscillators);
+        menu.addItem(3, "Mixer (Osc Levels, Noise, Feedback, Drive)", true, lastActiveSection == SynthSection::Mixer);
+        menu.addItem(4, "Modifiers (Filter, Cutoff, Resonance, Envelopes)", true, lastActiveSection == SynthSection::Modifiers);
+        menu.addItem(5, "Output (Master Volume, Voices)", true, lastActiveSection == SynthSection::Output);
+        menu.addItem(6, "Arpeggiator (Mode, Rate, Pattern, Gate)", true, lastActiveSection == SynthSection::Arpeggiator);
+        menu.addSeparator();
+        menu.addItem(100, "Reset Active Section (" + [this]() -> juce::String {
+            switch (lastActiveSection)
+            {
+                case SynthSection::Controllers: return "Controllers";
+                case SynthSection::Oscillators: return "Oscillator Bank";
+                case SynthSection::Mixer: return "Mixer";
+                case SynthSection::Modifiers: return "Modifiers";
+                case SynthSection::Output: return "Output";
+                case SynthSection::Arpeggiator: return "Arpeggiator";
+                case SynthSection::None:
+                default: return "Modifiers";
+            }
+        }() + ")", true);
+
+        menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&resetSecBtn),
+                           [this](int result) {
+            if (result == 0) return;
+            SynthSection target = lastActiveSection;
+            if (result == 1) target = SynthSection::Controllers;
+            else if (result == 2) target = SynthSection::Oscillators;
+            else if (result == 3) target = SynthSection::Mixer;
+            else if (result == 4) target = SynthSection::Modifiers;
+            else if (result == 5) target = SynthSection::Output;
+            else if (result == 6) target = SynthSection::Arpeggiator;
+            else if (result == 100) target = (lastActiveSection != SynthSection::None ? lastActiveSection : SynthSection::Modifiers);
+
+            resetSection(target);
+        });
+    };
+    addAndMakeVisible(resetSecBtn);
 
     // A/B Comparison Toggle
     abBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
@@ -570,6 +617,8 @@ void LadderMonoAudioProcessorEditor::applyTheme(const LadderMono::ThemeColors& t
     saveBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
     initBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     initBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
+    resetSecBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
+    resetSecBtn.setColour(juce::TextButton::textColourOffId, t.textSecondary);
 
     abBtn.setColour(juce::TextButton::buttonColourId, t.buttonBg);
     abBtn.setColour(juce::TextButton::textColourOffId, t.textPrimary);
@@ -628,12 +677,224 @@ void LadderMonoAudioProcessorEditor::simulateHoverTune()
 
 void LadderMonoAudioProcessorEditor::mouseMove(const juce::MouseEvent& e)
 {
+    auto sec = getSectionForComponent(e.eventComponent);
+    if (sec != SynthSection::None)
+        lastActiveSection = sec;
     updateHelpBarForComponent(e.eventComponent);
 }
 
 void LadderMonoAudioProcessorEditor::mouseEnter(const juce::MouseEvent& e)
 {
+    auto sec = getSectionForComponent(e.eventComponent);
+    if (sec != SynthSection::None)
+        lastActiveSection = sec;
     updateHelpBarForComponent(e.eventComponent);
+}
+
+LadderMonoAudioProcessorEditor::SynthSection LadderMonoAudioProcessorEditor::getSectionForComponent(juce::Component* comp) const
+{
+    if (comp == nullptr) return SynthSection::None;
+    juce::Component* c = comp;
+    while (c != nullptr && c != this)
+    {
+        // Controllers
+        if (c == &tuneKnob.slider || c == &tuneKnob.label ||
+            c == &glideKnob.slider || c == &glideKnob.label ||
+            c == &glideOnBtn || c == &glideModeBox ||
+            c == &modMixKnob.slider || c == &modMixKnob.label ||
+            c == &lfoRateKnob.slider || c == &lfoRateKnob.label ||
+            c == &modSourceBox || c == &lfoShapeBox ||
+            c == &oscModBtn || c == &filterModBtn ||
+            c == &bendRangeBox || c == &notePriorityBox)
+            return SynthSection::Controllers;
+
+        // Oscillators
+        if (c == &osc1RangeBox || c == &osc1WaveBox ||
+            c == &osc2RangeBox || c == &osc2WaveBox || c == &osc2FineKnob.slider || c == &osc2FineKnob.label ||
+            c == &osc3RangeBox || c == &osc3WaveBox || c == &osc3FineKnob.slider || c == &osc3FineKnob.label ||
+            c == &osc3KbdBtn || c == &analogKnob.slider || c == &analogKnob.label)
+            return SynthSection::Oscillators;
+
+        // Mixer
+        if (c == &mix1Knob.slider || c == &mix1Knob.label || c == &mix1Btn ||
+            c == &mix2Knob.slider || c == &mix2Knob.label || c == &mix2Btn ||
+            c == &mix3Knob.slider || c == &mix3Knob.label || c == &mix3Btn ||
+            c == &mixNoiseKnob.slider || c == &mixNoiseKnob.label || c == &mixNoiseBtn || c == &noiseColorBox ||
+            c == &mixExtKnob.slider || c == &mixExtKnob.label || c == &mixExtBtn ||
+            c == &driveKnob.slider || c == &driveKnob.label)
+            return SynthSection::Mixer;
+
+        // Modifiers
+        if (c == &cutoffKnob.slider || c == &cutoffKnob.label ||
+            c == &emphasisKnob.slider || c == &emphasisKnob.label ||
+            c == &contourKnob.slider || c == &contourKnob.label ||
+            c == &kbd1Btn || c == &kbd2Btn || c == &filterModelBox ||
+            c == &bassCompKnob.slider || c == &bassCompKnob.label ||
+            c == &spatialKnob.slider || c == &spatialKnob.label ||
+            c == &fAttackKnob.slider || c == &fAttackKnob.label ||
+            c == &fDecayKnob.slider || c == &fDecayKnob.label ||
+            c == &fSustainKnob.slider || c == &fSustainKnob.label ||
+            c == &aAttackKnob.slider || c == &aAttackKnob.label ||
+            c == &aDecayKnob.slider || c == &aDecayKnob.label ||
+            c == &aSustainKnob.slider || c == &aSustainKnob.label ||
+            c == &decaySwitchBtn)
+            return SynthSection::Modifiers;
+
+        // Output
+        if (c == &masterVolKnob.slider || c == &masterVolKnob.label ||
+            c == &voicesBox || c == &bypassBtn)
+            return SynthSection::Output;
+
+        // Arpeggiator
+        if (c == &arpSectionLabel || c == &arpOnBtn || c == &arpLatchBtn ||
+            c == &arpModeBox || c == &arpModeLabel ||
+            c == &arpOctaveBox || c == &arpOctaveLabel ||
+            c == &arpOctModeBox || c == &arpOctModeLabel ||
+            c == &arpRateBox || c == &arpRateLabel ||
+            c == &arpPatternBox || c == &arpPatternLabel ||
+            c == &arpGateKnob.slider || c == &arpGateKnob.label ||
+            c == &arpSwingKnob.slider || c == &arpSwingKnob.label ||
+            c == &arpMutateKnob.slider || c == &arpMutateKnob.label)
+            return SynthSection::Arpeggiator;
+
+        c = c->getParentComponent();
+    }
+
+    return SynthSection::None;
+}
+
+void LadderMonoAudioProcessorEditor::resetSection(SynthSection section)
+{
+    if (section == SynthSection::None) return;
+
+    releaseAllHeldComputerKeys();
+    pushUndoSnapshot();
+
+    std::map<juce::String, float> sectionDefaults;
+
+    switch (section)
+    {
+        case SynthSection::Controllers:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::tune, 0.0f },
+                { LadderMono::ParamIDs::glideOn, 0.0f },
+                { LadderMono::ParamIDs::glideTime, 0.0f },
+                { LadderMono::ParamIDs::glideMode, 0.0f },
+                { LadderMono::ParamIDs::modMix, 0.0f },
+                { LadderMono::ParamIDs::lfoRate, 5.0f },
+                { LadderMono::ParamIDs::modSource, 1.0f },
+                { LadderMono::ParamIDs::lfoShape, 0.0f },
+                { LadderMono::ParamIDs::oscModOn, 0.0f },
+                { LadderMono::ParamIDs::filterModOn, 0.0f },
+                { LadderMono::ParamIDs::bendRange, 2.0f },
+                { LadderMono::ParamIDs::notePriority, 1.0f }
+            };
+            break;
+
+        case SynthSection::Oscillators:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::osc1Range, 3.0f },
+                { LadderMono::ParamIDs::osc1Wave, 2.0f },
+                { LadderMono::ParamIDs::osc2Range, 3.0f },
+                { LadderMono::ParamIDs::osc2Wave, 2.0f },
+                { LadderMono::ParamIDs::osc2Fine, 0.0f },
+                { LadderMono::ParamIDs::osc3Range, 3.0f },
+                { LadderMono::ParamIDs::osc3Wave, 0.0f },
+                { LadderMono::ParamIDs::osc3Fine, 0.0f },
+                { LadderMono::ParamIDs::osc3KbdOn, 1.0f },
+                { LadderMono::ParamIDs::analogAmount, 0.2f }
+            };
+            break;
+
+        case SynthSection::Mixer:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::mixOsc1, 8.0f },
+                { LadderMono::ParamIDs::mixOsc1On, 1.0f },
+                { LadderMono::ParamIDs::mixOsc2, 0.0f },
+                { LadderMono::ParamIDs::mixOsc2On, 0.0f },
+                { LadderMono::ParamIDs::mixOsc3, 0.0f },
+                { LadderMono::ParamIDs::mixOsc3On, 0.0f },
+                { LadderMono::ParamIDs::mixNoise, 0.0f },
+                { LadderMono::ParamIDs::mixNoiseOn, 0.0f },
+                { LadderMono::ParamIDs::noiseColor, 0.0f },
+                { LadderMono::ParamIDs::mixExt, 0.0f },
+                { LadderMono::ParamIDs::mixExtOn, 0.0f },
+                { LadderMono::ParamIDs::mixerDrive, 0.0f }
+            };
+            break;
+
+        case SynthSection::Modifiers:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::cutoff, 4.5f },
+                { LadderMono::ParamIDs::emphasis, 0.0f },
+                { LadderMono::ParamIDs::contourAmount, 0.0f },
+                { LadderMono::ParamIDs::kbd1, 0.0f },
+                { LadderMono::ParamIDs::kbd2, 0.0f },
+                { LadderMono::ParamIDs::bassComp, 0.35f },
+                { LadderMono::ParamIDs::filterModel, 0.0f },
+                { LadderMono::ParamIDs::spatialFilter, 0.0f },
+                { LadderMono::ParamIDs::fAttack, 0.0f },
+                { LadderMono::ParamIDs::fDecay, 2.0f },
+                { LadderMono::ParamIDs::fSustain, 10.0f },
+                { LadderMono::ParamIDs::aAttack, 0.0f },
+                { LadderMono::ParamIDs::aDecay, 2.0f },
+                { LadderMono::ParamIDs::aSustain, 10.0f },
+                { LadderMono::ParamIDs::decaySwitchOn, 0.0f }
+            };
+            break;
+
+        case SynthSection::Output:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::masterVol, 0.0f },
+                { LadderMono::ParamIDs::voices, 0.0f }
+            };
+            break;
+
+        case SynthSection::Arpeggiator:
+            sectionDefaults = {
+                { LadderMono::ParamIDs::arpOn, 0.0f },
+                { LadderMono::ParamIDs::arpMode, 0.0f },
+                { LadderMono::ParamIDs::arpOctaves, 1.0f },
+                { LadderMono::ParamIDs::arpRateSync, 3.0f },
+                { LadderMono::ParamIDs::arpSync, 1.0f },
+                { LadderMono::ParamIDs::arpFreeRate, 8.0f },
+                { LadderMono::ParamIDs::arpGate, 0.85f },
+                { LadderMono::ParamIDs::arpLatch, 0.0f },
+                { LadderMono::ParamIDs::arpSwing, 50.0f },
+                { LadderMono::ParamIDs::arpPattern, 0.0f },
+                { LadderMono::ParamIDs::arpOctMode, 0.0f },
+                { LadderMono::ParamIDs::arpMutate, 0.0f }
+            };
+            break;
+
+        case SynthSection::None:
+            break;
+    }
+
+    for (const auto& [paramId, val] : sectionDefaults)
+    {
+        if (auto* param = audioProcessor.getAPVTS().getParameter(paramId))
+        {
+            if (auto* ranged = dynamic_cast<juce::RangedAudioParameter*>(param))
+            {
+                float normVal = ranged->convertTo0to1(val);
+                ranged->setValueNotifyingHost(normVal);
+            }
+        }
+    }
+
+    if (helpBar != nullptr)
+    {
+        juce::String secName = "Section";
+        if (section == SynthSection::Controllers) secName = "Controllers";
+        else if (section == SynthSection::Oscillators) secName = "Oscillator Bank";
+        else if (section == SynthSection::Mixer) secName = "Mixer";
+        else if (section == SynthSection::Modifiers) secName = "Modifiers";
+        else if (section == SynthSection::Output) secName = "Output";
+        else if (section == SynthSection::Arpeggiator) secName = "Arpeggiator";
+
+        helpBar->setHelpText("Reset " + secName + " parameters back to standard factory default initialization.", "Section Reset");
+    }
 }
 
 void LadderMonoAudioProcessorEditor::mouseExit(const juce::MouseEvent& e)
@@ -1021,7 +1282,12 @@ void LadderMonoAudioProcessorEditor::updateHelpBarForComponent(juce::Component* 
         }
         if (c == &initBtn)
         {
-            helpBar->setHelpText("Resets all synth parameters to standard default initialization patch.", "Init Preset");
+            helpBar->setHelpText("Reset All: Resets every synth parameter back to standard default initialization patch.", "Reset All");
+            return;
+        }
+        if (c == &resetSecBtn)
+        {
+            helpBar->setHelpText("Reset Section: Resets only the active or hovered section back to default (or click to pick from list).", "Reset Section");
             return;
         }
         if (c == &abBtn)
@@ -1240,6 +1506,58 @@ void LadderMonoAudioProcessorEditor::releaseAllHeldComputerKeys()
 void LadderMonoAudioProcessorEditor::mouseDown(const juce::MouseEvent& e)
 {
     grabKeyboardFocus();
+
+    // Check if clicked inside a synth section frame
+    float scale = static_cast<float>(getWidth()) / 1120.0f;
+    float mx = static_cast<float>(e.x) / scale;
+    float my = static_cast<float>(e.y) / scale;
+
+    SynthSection clickedSec = SynthSection::None;
+    if (my >= 46.0f && my <= 434.0f)
+    {
+        if (mx >= 24.0f && mx <= 196.0f) clickedSec = SynthSection::Controllers;
+        else if (mx >= 202.0f && mx <= 438.0f) clickedSec = SynthSection::Oscillators;
+        else if (mx >= 444.0f && mx <= 620.0f) clickedSec = SynthSection::Mixer;
+        else if (mx >= 626.0f && mx <= 882.0f) clickedSec = SynthSection::Modifiers;
+        else if (mx >= 888.0f && mx <= 1096.0f) clickedSec = SynthSection::Output;
+    }
+    else if (my >= 440.0f && my <= 482.0f)
+    {
+        clickedSec = SynthSection::Arpeggiator;
+    }
+
+    if (clickedSec != SynthSection::None)
+        lastActiveSection = clickedSec;
+
+    // Right-click directly on faceplate or section frame offers quick reset
+    if (e.mods.isPopupMenu() && clickedSec != SynthSection::None)
+    {
+        juce::String secName = "Section";
+        if (clickedSec == SynthSection::Controllers) secName = "Controllers";
+        else if (clickedSec == SynthSection::Oscillators) secName = "Oscillator Bank";
+        else if (clickedSec == SynthSection::Mixer) secName = "Mixer";
+        else if (clickedSec == SynthSection::Modifiers) secName = "Modifiers";
+        else if (clickedSec == SynthSection::Output) secName = "Output";
+        else if (clickedSec == SynthSection::Arpeggiator) secName = "Arpeggiator";
+
+        juce::PopupMenu menu;
+        menu.addItem(1, "Reset " + secName + " to Default", true);
+        menu.addSeparator();
+        menu.addItem(2, "Reset All Parameters (Init)", true);
+
+        menu.showMenuAsync(juce::PopupMenu::Options().withTargetScreenArea(juce::Rectangle<int>(e.getScreenX(), e.getScreenY(), 1, 1)),
+                           [this, clickedSec](int result) {
+            if (result == 1) resetSection(clickedSec);
+            else if (result == 2)
+            {
+                pushUndoSnapshot();
+                audioProcessor.getPresetManager().initPatch();
+                updatePresetDisplay();
+            }
+        });
+        return;
+    }
+
     juce::AudioProcessorEditor::mouseDown(e);
 }
 
@@ -1609,15 +1927,16 @@ void LadderMonoAudioProcessorEditor::resized()
     titleLabel.setBounds(Srect(62, 8, 135, 26));
     versionBtn.setBounds(Srect(200, 9, 44, 24));
 
-    presetButton.setBounds(Srect(255, 8, 175, 26));
-    prevPresetBtn.setBounds(Srect(433, 8, 28, 26));
-    nextPresetBtn.setBounds(Srect(463, 8, 28, 26));
-    browseBtn.setBounds(Srect(495, 8, 58, 26));
-    saveBtn.setBounds(Srect(556, 8, 48, 26));
-    initBtn.setBounds(Srect(607, 8, 42, 26));
+    presetButton.setBounds(Srect(248, 8, 168, 26));
+    prevPresetBtn.setBounds(Srect(420, 8, 26, 26));
+    nextPresetBtn.setBounds(Srect(448, 8, 26, 26));
+    browseBtn.setBounds(Srect(478, 8, 56, 26));
+    saveBtn.setBounds(Srect(536, 8, 44, 26));
+    initBtn.setBounds(Srect(582, 8, 62, 26));
+    resetSecBtn.setBounds(Srect(646, 8, 66, 26));
 
-    abBtn.setBounds(Srect(658, 8, 54, 26));
-    hqBtn.setBounds(Srect(716, 8, 40, 26));
+    abBtn.setBounds(Srect(714, 8, 52, 26));
+    hqBtn.setBounds(Srect(768, 8, 38, 26));
     cpuLabel.setBounds(getWidth() - S(222), S(8), S(68), S(26));
     editThemeBtn.setBounds(getWidth() - S(146), S(8), S(64), S(26));
     aboutBtn.setBounds(getWidth() - S(76), S(8), S(62), S(26));

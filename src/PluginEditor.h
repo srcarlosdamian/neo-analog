@@ -42,6 +42,20 @@ public:
     void mouseEnter(const juce::MouseEvent& e) override;
     void mouseExit(const juce::MouseEvent& e) override;
 
+    enum class SynthSection
+    {
+        None,
+        Controllers,
+        Oscillators,
+        Mixer,
+        Modifiers,
+        Output,
+        Arpeggiator
+    };
+
+    void resetSection(SynthSection section);
+    SynthSection getSectionForComponent(juce::Component* comp) const;
+
 private:
     void timerCallback() override;
 
@@ -62,12 +76,15 @@ private:
     juce::TextButton nextPresetBtn{">"};
     juce::TextButton browseBtn{"Browse"};
     juce::TextButton saveBtn{"Save"};
-    juce::TextButton initBtn{"Init"};
+    juce::TextButton initBtn{"Reset All"};
+    juce::TextButton resetSecBtn{"Reset Sec"};
     juce::TextButton abBtn{"A/B: A"};
     juce::TextButton hqBtn{"HQ"};
     juce::Label cpuLabel;
     juce::TextButton editThemeBtn;
     juce::TextButton aboutBtn{"Credits"};
+
+    SynthSection lastActiveSection = SynthSection::Modifiers;
 
     // A/B Comparison States
     juce::ValueTree stateA;
