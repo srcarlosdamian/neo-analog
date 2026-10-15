@@ -76,8 +76,18 @@ namespace LadderMono
             }
             else
             {
+                // Generic style sliders (Font Size, Rounding, Border Width)
                 g.setColour(juce::Colour(0xff181a22));
                 g.fillRoundedRectangle(bounds, r);
+
+                // Sleek left-to-right filled value bar
+                float fillW = juce::jlimit(0.0f, bounds.getWidth(), sliderPos - bounds.getX());
+                if (fillW > 0.0f)
+                {
+                    auto fillBounds = bounds.withWidth(fillW);
+                    g.setColour(juce::Colour(0xff4a5266));
+                    g.fillRoundedRectangle(fillBounds, r);
+                }
             }
 
             g.setColour(juce::Colour(0x66ffffff));
@@ -264,6 +274,7 @@ namespace LadderMono
             fontScaleLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(fontScaleLabel);
 
+            fontScaleSlider.setLookAndFeel(&spectrumLnf);
             fontScaleSlider.setSliderStyle(juce::Slider::LinearHorizontal);
             fontScaleSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 42, 16);
             fontScaleSlider.setRange(0.85, 1.30, 0.05);
@@ -283,6 +294,7 @@ namespace LadderMono
             cornerRadiusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(cornerRadiusLabel);
 
+            cornerRadiusSlider.setLookAndFeel(&spectrumLnf);
             cornerRadiusSlider.setSliderStyle(juce::Slider::LinearHorizontal);
             cornerRadiusSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 42, 16);
             cornerRadiusSlider.setRange(0.0, 12.0, 0.5);
@@ -302,6 +314,7 @@ namespace LadderMono
             borderWidthLabel.setColour(juce::Label::textColourId, juce::Colour(0xff9c9c9c));
             addAndMakeVisible(borderWidthLabel);
 
+            borderWidthSlider.setLookAndFeel(&spectrumLnf);
             borderWidthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
             borderWidthSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 42, 16);
             borderWidthSlider.setRange(0.5, 4.0, 0.25);
@@ -335,6 +348,9 @@ namespace LadderMono
             satSlider.setLookAndFeel(nullptr);
             briSlider.setLookAndFeel(nullptr);
             alphaSlider.setLookAndFeel(nullptr);
+            fontScaleSlider.setLookAndFeel(nullptr);
+            cornerRadiusSlider.setLookAndFeel(nullptr);
+            borderWidthSlider.setLookAndFeel(nullptr);
         }
 
         std::function<void(const ThemeColors&)> onThemeChanged;
