@@ -18,7 +18,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     versionBtn.setColour(juce::TextButton::buttonColourId, currentTheme.buttonBg);
     versionBtn.setColour(juce::TextButton::buttonOnColourId, currentTheme.lineAccent);
     versionBtn.setColour(juce::TextButton::textColourOffId, currentTheme.textSecondary);
-    versionBtn.setTooltip("Neo Analog v1.0 \xe2\x80\x94 Click for Credits & Roadmap");
+    versionBtn.setTooltip("Neo Analog v1.1 \xe2\x80\x94 Click for Credits & DSP Info");
     versionBtn.onClick = [this] { showAboutDialog(); };
     addAndMakeVisible(versionBtn);
 
@@ -229,6 +229,7 @@ LadderMonoAudioProcessorEditor::LadderMonoAudioProcessorEditor(LadderMonoAudioPr
     setupKnob(spatialKnob, LadderMono::ParamIDs::spatialFilter, "SPATIAL");
     setupToggle(kbd1Btn, LadderMono::ParamIDs::kbd1);
     setupToggle(kbd2Btn, LadderMono::ParamIDs::kbd2);
+    setupComboBox(filterModelBox, LadderMono::ParamIDs::filterModel, {"Saturated ZDF", "Clean ZDF", "Huovilainen", "Model 72 Drive"});
 
     // Filter Contour
     setupKnob(fAttackKnob, LadderMono::ParamIDs::fAttack, "ATTACK");
@@ -656,317 +657,322 @@ void LadderMonoAudioProcessorEditor::updateHelpBarForComponent(juce::Component* 
         // Controllers Section
         if (c == &tuneKnob.slider || c == &tuneKnob.label)
         {
-            helpBar->setHelpText("Master pitch fine tune offset (+/-100 ct) across all 3 oscillators without altering harmonic intervals.", "Tune");
+            helpBar->setHelpText("Afinación general: Sube o baja el tono de todo el sintetizador para afinar con otros instrumentos.", "Tune");
             return;
         }
         if (c == &glideKnob.slider || c == &glideKnob.label)
         {
-            helpBar->setHelpText("Portamento glide transition speed (0 to 5000 ms) between consecutive notes.", "Glide Time");
+            helpBar->setHelpText("Velocidad de resbalón (Glide): Qué tan lento o rápido resbala el tono al cambiar de una nota a otra.", "Glide Time");
             return;
         }
         if (c == &glideOnBtn)
         {
-            helpBar->setHelpText("Toggles portamento pitch glide between played notes on and off.", "Glide Enable");
+            helpBar->setHelpText("Activa o desactiva el resbalón suave entre notas (estilo silbido o bajo continuo).", "Glide Enable");
             return;
         }
         if (c == &glideModeBox)
         {
-            helpBar->setHelpText("Selects glide triggering: Always glides on every note, or Legato glides only when overlapping keys are held.", "Glide Mode");
+            helpBar->setHelpText("Modo Glide: 'Always' resbala siempre; 'Legato' solo resbala si tocas una tecla sin soltar la anterior.", "Glide Mode");
             return;
         }
         if (c == &modMixKnob.slider || c == &modMixKnob.label)
         {
-            helpBar->setHelpText("Modulation source blend: counter-clockwise feeds pure LFO / Osc 3, clockwise blends Pink/White Noise.", "Mod Mix");
+            helpBar->setHelpText("Mezcla de modulación: Hacia la izquierda modula con un pulso u onda suave; a la derecha agrega viento o textura ruidosa.", "Mod Mix");
             return;
         }
         if (c == &modSourceBox)
         {
-            helpBar->setHelpText("Selects primary modulation source: Low-Frequency Oscillator or Oscillator 3 signal.", "Mod Source");
+            helpBar->setHelpText("Origen del efecto: Elige si la modulación la genera el LFO suave o el Oscilador 3 para efectos más agresivos.", "Mod Source");
             return;
         }
         if (c == &oscModBtn)
         {
-            helpBar->setHelpText("Routes master modulation mix to modulate Oscillator 1 & 2 pitch for vibrato or FM textures.", "Osc Mod Switch");
+            helpBar->setHelpText("Modula el tono: Hace vibrar el tono (vibrato estilo violín/guitarra) al mover la rueda de Modulación.", "Osc Mod Switch");
             return;
         }
         if (c == &filterModBtn)
         {
-            helpBar->setHelpText("Routes master modulation mix to modulate ladder filter cutoff frequency for wah/sweep effects.", "Filter Mod Switch");
+            helpBar->setHelpText("Modula el brillo: Hace que el filtro se abra y cierre rítmicamente (efecto 'wah-wah') al subir la rueda de Modulación.", "Filter Mod Switch");
             return;
         }
         if (c == &lfoRateKnob.slider || c == &lfoRateKnob.label)
         {
-            helpBar->setHelpText("Speed of modulation LFO (0.05 Hz to 30.0 Hz) for vibrato, tremolo, and periodic filter sweeps.", "LFO Rate");
+            helpBar->setHelpText("Velocidad del efecto (LFO): Qué tan rápido late o vibra el sonido (de ondas lentas a un zumbido rápido).", "LFO Rate");
             return;
         }
         if (c == &lfoShapeBox)
         {
-            helpBar->setHelpText("Selects LFO modulation waveform (Triangle for smooth vibrato, Square for trills/step modulation).", "LFO Shape");
+            helpBar->setHelpText("Forma de vibración: 'Triangle' para un vaivén suave y ondulado; 'Square' para un salto seco de dos notas estilo sirena.", "LFO Shape");
             return;
         }
         if (c == &bendRangeBox)
         {
-            helpBar->setHelpText("Maximum pitch bend wheel interval range (1 to 12 semitones / full octave).", "Bend Range");
+            helpBar->setHelpText("Límite de la palanca de pitch: Cuántas notas hacia arriba o abajo puede estirar el tono la rueda de Pitch.", "Bend Range");
             return;
         }
         if (c == &notePriorityBox)
         {
-            helpBar->setHelpText("Monophonic note priority handling (Lowest, Highest, or Last note played takes precedence).", "Note Priority");
+            helpBar->setHelpText("Prioridad de tecla: Decide qué nota suena si tocas varias a la vez (la más grave, la más aguda o la última tocada).", "Note Priority");
             return;
         }
 
         // Oscillator Bank
         if (c == &osc1RangeBox)
         {
-            helpBar->setHelpText("Oscillator 1 pitch octave footage (32' sub-bass, 16' bass, 8' tenor, 4' alto, 2' soprano).", "Osc 1 Octave");
+            helpBar->setHelpText("Octava del Osc 1: 32' y 16' para bajos profundos y oscuros; 8' tono natural; 4' y 2' para notas agudas.", "Osc 1 Octave");
             return;
         }
         if (c == &osc1WaveBox)
         {
-            helpBar->setHelpText("Oscillator 1 waveform shape: Triangle, Triangle-Saw, Sawtooth, Square, Wide Pulse, Narrow Pulse.", "Osc 1 Waveform");
+            helpBar->setHelpText("Timbre del Osc 1: Triángulo (flauta suave), Sierra (rasposo y brillante), Cuadrada (hueco estilo clarinete o chiptune).", "Osc 1 Waveform");
             return;
         }
         if (c == &osc2RangeBox)
         {
-            helpBar->setHelpText("Oscillator 2 pitch octave footage (32' sub-bass up to 2' high lead).", "Osc 2 Octave");
+            helpBar->setHelpText("Octava del Osc 2: Combínalo en otra octava con el Osc 1 para un sonido el doble de robusto y lleno.", "Osc 2 Octave");
             return;
         }
         if (c == &osc2WaveBox)
         {
-            helpBar->setHelpText("Oscillator 2 waveform shape: Triangle, Triangle-Saw, Sawtooth, Square, Wide Pulse, Narrow Pulse.", "Osc 2 Waveform");
+            helpBar->setHelpText("Timbre del Osc 2: Dale otra textura (sierra, cuadrada o pulso fino) para mezclar colores sonoros.", "Osc 2 Waveform");
             return;
         }
         if (c == &osc2FineKnob.slider || c == &osc2FineKnob.label)
         {
-            helpBar->setHelpText("Oscillator 2 fine detune (+/-7 semitones) for rich analog chorusing, phasing beats, or fifth intervals.", "Osc 2 Fine");
+            helpBar->setHelpText("Desafinación fina Osc 2: Desafínalo un poquito para engordar el sonido y darle un efecto 'Chorus' vivo y ancho.", "Osc 2 Fine");
             return;
         }
         if (c == &osc3RangeBox)
         {
-            helpBar->setHelpText("Oscillator 3 pitch octave footage: can act as audio tone or subsonic low-frequency modulation source.", "Osc 3 Octave");
+            helpBar->setHelpText("Octava del Osc 3: Úsalo como un tercer sonido musical, o ponlo en 'LO' para usarlo como generador de efectos lentos.", "Osc 3 Octave");
             return;
         }
         if (c == &osc3WaveBox)
         {
-            helpBar->setHelpText("Oscillator 3 waveform shape feeding both the mixer and internal modulation circuits.", "Osc 3 Waveform");
+            helpBar->setHelpText("Timbre del Osc 3: Selecciona la forma de onda que aportará al sonido o a la modulación interna.", "Osc 3 Waveform");
             return;
         }
         if (c == &osc3FineKnob.slider || c == &osc3FineKnob.label)
         {
-            helpBar->setHelpText("Oscillator 3 fine detune (+/-7 semitones) for 3-oscillator unison detuning or interval harmonies.", "Osc 3 Fine");
+            helpBar->setHelpText("Desafinación fina Osc 3: Desafínalo respecto al Osc 1 y 2 para lograr el legendario sonido trifónico denso de Moog.", "Osc 3 Fine");
             return;
         }
         if (c == &osc3KbdBtn)
         {
-            helpBar->setHelpText("Toggles keyboard pitch tracking for Oscillator 3; disable to use Osc 3 as fixed-pitch drone or LFO.", "Osc 3 Kbd Track");
+            helpBar->setHelpText("Seguimiento de teclado Osc 3: Si lo apagas, el Osc 3 mantendrá siempre el mismo tono sin importar qué tecla toques.", "Osc 3 Kbd Track");
             return;
         }
         if (c == &analogKnob.slider || c == &analogKnob.label)
         {
-            helpBar->setHelpText("Analog component drift amount; injects subtle thermal pitch fluctuations and organic vintage warmth.", "Analog Drift");
+            helpBar->setHelpText("Inestabilidad analógica (Drift): Imita los circuitos antiguos con microdesafinaciones que hacen que el sonido no suene rígido ni digital.", "Analog Drift");
             return;
         }
 
         // Mixer
         if (c == &mix1Knob.slider || c == &mix1Knob.label)
         {
-            helpBar->setHelpText("Oscillator 1 volume entering mixer (push above 5.0 to overdrive ladder filter core).", "Osc 1 Volume");
+            helpBar->setHelpText("Volumen Osc 1: Súbelo de 5.0 para saturar el circuito analógico con calor y armónicos ricos.", "Osc 1 Volume");
             return;
         }
         if (c == &mix1Btn)
         {
-            helpBar->setHelpText("Mute/unmute switch for Oscillator 1 in the audio mixer summing bus.", "Osc 1 Switch");
+            helpBar->setHelpText("Interruptor del Oscilador 1: Enciende o apaga al instante la voz 1 en la mezcla.", "Osc 1 Switch");
             return;
         }
         if (c == &mix2Knob.slider || c == &mix2Knob.label)
         {
-            helpBar->setHelpText("Oscillator 2 volume entering mixer (push above 5.0 to overdrive ladder filter core).", "Osc 2 Volume");
+            helpBar->setHelpText("Volumen Osc 2: Ajusta cuánto cuerpo añade la segunda capa de sonido a la mezcla.", "Osc 2 Volume");
             return;
         }
         if (c == &mix2Btn)
         {
-            helpBar->setHelpText("Mute/unmute switch for Oscillator 2 in the audio mixer summing bus.", "Osc 2 Switch");
+            helpBar->setHelpText("Interruptor del Oscilador 2: Enciende o apaga la voz 2 en la mezcla.", "Osc 2 Switch");
             return;
         }
         if (c == &mix3Knob.slider || c == &mix3Knob.label)
         {
-            helpBar->setHelpText("Oscillator 3 volume entering mixer; disable if using Osc 3 purely as modulation source.", "Osc 3 Volume");
+            helpBar->setHelpText("Volumen Osc 3: Añade o quita la tercera voz. Apágalo si vas a usar el Osc 3 solo como modulador.", "Osc 3 Volume");
             return;
         }
         if (c == &mix3Btn)
         {
-            helpBar->setHelpText("Mute/unmute switch for Oscillator 3 in the audio mixer summing bus.", "Osc 3 Switch");
+            helpBar->setHelpText("Interruptor del Oscilador 3: Enciende o apaga la voz 3 en la mezcla.", "Osc 3 Switch");
             return;
         }
         if (c == &mixNoiseKnob.slider || c == &mixNoiseKnob.label)
         {
-            helpBar->setHelpText("Noise generator volume entering mixer for breath, percussion, wind effects, or noise modulation.", "Noise Volume");
+            helpBar->setHelpText("Volumen de Ruido: Añade textura soplada, aire, viento o un golpe tipo caja/percusión.", "Noise Volume");
             return;
         }
         if (c == &mixNoiseBtn)
         {
-            helpBar->setHelpText("Mute/unmute switch for noise generator in the audio mixer.", "Noise Switch");
+            helpBar->setHelpText("Interruptor de Ruido: Enciende o silencia el generador de ruido ambiental.", "Noise Switch");
             return;
         }
         if (c == &noiseColorBox)
         {
-            helpBar->setHelpText("Selects noise spectrum: White (flat frequency distribution) or Pink (-3 dB/oct, warm natural roar).", "Noise Spectrum");
+            helpBar->setHelpText("Color del ruido: 'White' es brillante y siseante como TV sin señal; 'Pink' es grave y cálido como cascada o lluvia.", "Noise Spectrum");
             return;
         }
         if (c == &mixExtKnob.slider || c == &mixExtKnob.label)
         {
-            helpBar->setHelpText("External audio input level or internal headphone feedback loop volume entering mixer.", "Ext / Feedback Level");
+            helpBar->setHelpText("Volumen de Feedback/Entrada: Realimenta la salida hacia la entrada para engordar los graves y rugir.", "Ext / Feedback Level");
             return;
         }
         if (c == &mixExtBtn)
         {
-            helpBar->setHelpText("Engages internal output-to-input feedback loop for aggressive thickening and rich bass distortion.", "Feedback Loop");
+            helpBar->setHelpText("Truco de Feedback: Emula conectar los audífonos a la entrada externa para un bajo superpesado y saturado.", "Feedback Loop");
             return;
         }
         if (c == &driveKnob.slider || c == &driveKnob.label)
         {
-            helpBar->setHelpText("Harmonic drive saturation; adds progressive asymmetric tube/transistor clipping to the mix.", "Mixer Drive");
+            helpBar->setHelpText("Saturación analógica (Drive): Pasa de un sonido limpio a una distorsión cálida, compacta y agresiva.", "Mixer Drive");
             return;
         }
 
         // Modifiers (Filter & Envelopes)
         if (c == &cutoffKnob.slider || c == &cutoffKnob.label)
         {
-            helpBar->setHelpText("24 dB/oct 4-pole ladder low-pass filter corner frequency; attenuates harmonics above cutoff point.", "Cutoff Frequency");
+            helpBar->setHelpText("Brillo (Cutoff): Cerrado suena oscuro y apagado (bajo puro); abierto suena brillante, afilado y claro.", "Cutoff Frequency");
             return;
         }
         if (c == &emphasisKnob.slider || c == &emphasisKnob.label)
         {
-            helpBar->setHelpText("Filter resonance emphasis; creates resonant feedback ringing up into clean self-oscillation sine wave.", "Emphasis Resonance");
+            helpBar->setHelpText("Resonancia (Emphasis): Resalta el borde del brillo con un silbido metálico o efecto 'láser'. Al máximo silba solo.", "Emphasis Resonance");
             return;
         }
         if (c == &contourKnob.slider || c == &contourKnob.label)
         {
-            helpBar->setHelpText("Filter envelope modulation depth; controls how much the filter contour opens the cutoff upon key press.", "Contour Amount");
+            helpBar->setHelpText("Intensidad del envolvente: Determina qué tanto 'se abre de golpe' el brillo al presionar cada tecla (el 'plop' o 'pluck').", "Contour Amount");
             return;
         }
         if (c == &bassCompKnob.slider || c == &bassCompKnob.label)
         {
-            helpBar->setHelpText("Bass resonance compensation; counteracts the classic analog low-end drop when resonance is raised.", "Bass Compensation");
+            helpBar->setHelpText("Compensador de bajos: Evita que el sonido pierda fuerza y peso en los subgraves cuando subes la resonancia.", "Bass Compensation");
             return;
         }
         if (c == &spatialKnob.slider || c == &spatialKnob.label)
         {
-            helpBar->setHelpText("Spatial ambient diffusion filter; widens the acoustic stereo image with analog micro phase-delays.", "Spatial Filter");
+            helpBar->setHelpText("Efecto Espacial: Abre el sonido en estéreo hacia los lados, creando una sensación de amplitud y sala 3D.", "Spatial Filter");
             return;
         }
         if (c == &kbd1Btn)
         {
-            helpBar->setHelpText("Engages 1/3 keyboard tracking for filter cutoff (filter opens moderately on higher notes).", "Keyboard Track 1");
+            helpBar->setHelpText("Seguimiento 1/3: Hace que las notas agudas suenen un poco más brillantes de forma automática.", "Keyboard Track 1");
             return;
         }
         if (c == &kbd2Btn)
         {
-            helpBar->setHelpText("Engages 2/3 keyboard tracking for filter cutoff (together with Track 1 provides exact 1:1 pitch tracking).", "Keyboard Track 2");
+            helpBar->setHelpText("Seguimiento 2/3: Abre el brillo con más fuerza en notas altas (con 1 y 2 activados sigue el tono exacto).", "Keyboard Track 2");
+            return;
+        }
+        if (c == &filterModelBox)
+        {
+            helpBar->setHelpText("Tipo de filtro: Cambia el carácter analógico entre Model D original, respuesta limpia o la saturación agresiva Model 72.", "Filter Model");
             return;
         }
         if (c == &fAttackKnob.slider || c == &fAttackKnob.label)
         {
-            helpBar->setHelpText("Filter envelope attack time (1 ms to 10 s); time taken for filter to open to peak cutoff.", "Filter Attack");
+            helpBar->setHelpText("Ataque del filtro: Rapidez con la que se abre el brillo (en 0 da un golpe seco instantáneo; alto abre como un suspiro lento).", "Filter Attack");
             return;
         }
         if (c == &fDecayKnob.slider || c == &fDecayKnob.label)
         {
-            helpBar->setHelpText("Filter envelope decay time; time taken for cutoff to drop from peak to sustain level.", "Filter Decay");
+            helpBar->setHelpText("Decaimiento del filtro: Tiempo que tarda el brillo en apagarse después del golpe inicial mientras sigues pulsando la tecla.", "Filter Decay");
             return;
         }
         if (c == &fSustainKnob.slider || c == &fSustainKnob.label)
         {
-            helpBar->setHelpText("Filter envelope sustain level (0% to 100%); held cutoff position while note is sustained.", "Filter Sustain");
+            helpBar->setHelpText("Brillo sostenido: Qué tan brillante permanece el sonido mientras mantienes la tecla oprimida.", "Filter Sustain");
             return;
         }
         if (c == &aAttackKnob.slider || c == &aAttackKnob.label)
         {
-            helpBar->setHelpText("Loudness envelope attack time (1 ms to 10 s); controls initial fade-in ramp of voice volume.", "Amplifier Attack");
+            helpBar->setHelpText("Ataque de volumen: En 0 suena inmediato como un piano o bajo percusivo; alto entra suavemente como cuerdas o colchón.", "Amplifier Attack");
             return;
         }
         if (c == &aDecayKnob.slider || c == &aDecayKnob.label)
         {
-            helpBar->setHelpText("Loudness envelope decay time; duration to fall from full peak volume to the sustain level.", "Amplifier Decay");
+            helpBar->setHelpText("Caída de volumen: Qué tan rápido baja del volumen máximo inicial al nivel de volumen sostenido.", "Amplifier Decay");
             return;
         }
         if (c == &aSustainKnob.slider || c == &aSustainKnob.label)
         {
-            helpBar->setHelpText("Loudness envelope sustain volume (0% to 100%); held sound level while key is pressed down.", "Amplifier Sustain");
+            helpBar->setHelpText("Volumen sostenido: En 100% no baja de volumen al mantener la tecla; en 0% se apaga como una campana o guitarra.", "Amplifier Sustain");
             return;
         }
         if (c == &decaySwitchBtn)
         {
-            helpBar->setHelpText("Toggles release phase on note-off: when enabled, decay time also governs release fade-out upon note release.", "Decay / Release Mode");
+            helpBar->setHelpText("Cola al soltar (Release): Si está activo, el sonido se apaga desvaneciéndose lentamente al soltar la tecla.", "Decay / Release Mode");
             return;
         }
 
         // Output Controls
         if (c == &masterVolKnob.slider || c == &masterVolKnob.label)
         {
-            helpBar->setHelpText("Master output volume attenuation before final stereo plugin bus output.", "Master Volume");
+            helpBar->setHelpText("Volumen general: Controla el volumen final de salida sin distorsionar digitalmente los altavoces.", "Master Volume");
             return;
         }
         if (c == &voicesBox)
         {
-            helpBar->setHelpText("Polyphony voice allocation: Mono (pure classic), Legato retrigger, or 2 to 8 Polyphonic voices.", "Polyphony Voices");
+            helpBar->setHelpText("Número de voces: 'Mono' para tocar solos y bajos clásicos de una nota; '4' u '8' para tocar acordes con ambas manos.", "Polyphony Voices");
             return;
         }
         if (c == &bypassBtn)
         {
-            helpBar->setHelpText("Master DSP bypass switch; smoothly mutes analog engine processing without pops or clicks.", "Master Bypass");
+            helpBar->setHelpText("Apagado maestro (Bypass): Silencia instantáneamente el sintetizador sin clicks ni ruidos molestos.", "Master Bypass");
             return;
         }
 
         // Arpeggiator
         if (c == &arpOnBtn)
         {
-            helpBar->setHelpText("Enables internal arpeggiator to sequence held chords into rhythmic tempo-synced patterns.", "Arp On/Off");
+            helpBar->setHelpText("Arpegiador: Convierte los acordes que toques en secuencias de notas rítmicas automáticas.", "Arp On/Off");
             return;
         }
         if (c == &arpLatchBtn)
         {
-            helpBar->setHelpText("Arpeggiator latch hold; keeps playing the arpeggiated sequence after releasing your hands from keys.", "Arp Latch");
+            helpBar->setHelpText("Bloqueo de notas (Latch): Deja sonando el ritmo automáticamente aunque quites las manos del teclado.", "Arp Latch");
             return;
         }
         if (c == &arpModeBox)
         {
-            helpBar->setHelpText("Arpeggio direction: Up, Down, Up/Down, Down/Up, Converge, Diverge, Random, or Played Order.", "Arp Direction");
+            helpBar->setHelpText("Orden de notas: Toca las notas hacia arriba, hacia abajo, rebotando o en orden aleatorio.", "Arp Direction");
             return;
         }
         if (c == &arpOctaveBox)
         {
-            helpBar->setHelpText("Octave span range: repeats arpeggio sequence across 1, 2, 3, or 4 consecutive octaves.", "Arp Octave Range");
+            helpBar->setHelpText("Rango de octavas: Hace que el ritmo suba y baje por 1, 2, 3 o 4 octavas como una cascada.", "Arp Octave Range");
             return;
         }
         if (c == &arpOctModeBox)
         {
-            helpBar->setHelpText("Direction of octave shifts: Ascending, Descending, Alternate, or Cyclic.", "Arp Octave Movement");
+            helpBar->setHelpText("Movimiento de octavas: Si sube, baja o alterna en zigzag al recorrer las notas.", "Arp Octave Movement");
             return;
         }
         if (c == &arpRateBox)
         {
-            helpBar->setHelpText("Tempo division rate: 1/1 whole notes down to 1/32 triplet subdivisions synced to host tempo.", "Arp Clock Rate");
+            helpBar->setHelpText("Velocidad del ritmo: Sincronizado a tu pista (1/4 lento, 1/8 estándar, 1/16 rápido o tresillos).", "Arp Clock Rate");
             return;
         }
         if (c == &arpPatternBox)
         {
-            helpBar->setHelpText("Rhythmic gate pattern mask: Straight 16ths, Dotted syncopation, Euclidean groove, Swing accents.", "Arp Rhythm Pattern");
+            helpBar->setHelpText("Patrón rítmico: Notas rectas o patrones sincopados y grooves con swing para música bailable.", "Arp Rhythm Pattern");
             return;
         }
         if (c == &arpGateKnob.slider || c == &arpGateKnob.label)
         {
-            helpBar->setHelpText("Note gate duration (1% to 100% / Tie); controls how short or legato each arpeggiated note plays.", "Arp Gate Length");
+            helpBar->setHelpText("Duración de cada nota: Notas muy cortas y picadas (staccato) o largas y conectadas (legato).", "Arp Gate Length");
             return;
         }
         if (c == &arpSwingKnob.slider || c == &arpSwingKnob.label)
         {
-            helpBar->setHelpText("Groove swing shuffle percentage (50% straight to 75% heavy swing) delaying even 16th notes.", "Arp Swing Groove");
+            helpBar->setHelpText("Swing (Groove): Retrasa ligeramente una de cada dos notas para darle sabor bailable funk o jazz.", "Arp Swing Groove");
             return;
         }
         if (c == &arpMutateKnob.slider || c == &arpMutateKnob.label)
         {
-            helpBar->setHelpText("Pattern mutation probability; introduces generative semi-random pitch and rhythm evolutions over time.", "Arp Mutate / Chaos");
+            helpBar->setHelpText("Mutación/Caos: Introduce variaciones inesperadas en las notas para que la melodía nunca sea aburrida.", "Arp Mutate / Chaos");
             return;
         }
 
@@ -1717,6 +1723,7 @@ void LadderMonoAudioProcessorEditor::resized()
 
     kbd1Btn.setBounds(Srect(632, 146, 56, 28));
     kbd2Btn.setBounds(Srect(690, 146, 56, 28));
+    filterModelBox.setBounds(Srect(632, 180, 114, 24));
 
     bassCompKnob.slider.setBounds(Srect(750, 138, 46, 46));
     bassCompKnob.label.setBounds(Srect(746, 186, 54, 12));

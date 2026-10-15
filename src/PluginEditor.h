@@ -56,7 +56,7 @@ private:
 
     // Preset & Header Controls
     juce::Label titleLabel;
-    juce::TextButton versionBtn{"v1.0"};
+    juce::TextButton versionBtn{"v1.1"};
     juce::TextButton presetButton;
     juce::TextButton prevPresetBtn{"<"};
     juce::TextButton nextPresetBtn{">"};

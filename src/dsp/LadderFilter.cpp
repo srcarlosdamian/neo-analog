@@ -46,6 +46,30 @@ namespace LadderMono
             }
             u_out = u;
         }
+        else if (model == FilterModel::Model72Drive)
+        {
+            // Model 72 vintage high-gain discrete transistor saturation
+            // Boosted input drive + warm asymmetric stage compression
+            float S = G * (G * (G * s[0] + s[1]) + s[2]) + s[3];
+            float G4 = G * G * G * G;
+
+            float feedbackEst = fastTanh(s[3] * 1.15f);
+            float driven = drivenInput * 1.35f;
+            float u0 = fastTanh(driven - k * feedbackEst);
+
+            float y4_est = (G4 * u0 + S) / (1.0f + k * G4);
+            u0 = fastTanh(driven - k * fastTanh(y4_est));
+
+            float u = u0;
+            for (int i = 0; i < 4; ++i)
+            {
+                float v = G * (u - s[i]);
+                float y = v + s[i];
+                s[i] = y + v;
+                u = fastTanh(y * 1.10f);
+            }
+            u_out = u;
+        }
         else // SaturatedZDF (default) & Huovilainen
         {
             // Nonlinear TPT / ZDF with tanh saturation across all 4 transistor stages

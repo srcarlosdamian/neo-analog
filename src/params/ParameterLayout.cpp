@@ -133,7 +133,7 @@ namespace LadderMono
 
         params.push_back(std::make_unique<juce::AudioParameterChoice>(
             juce::ParameterID{ParamIDs::filterModel, 1}, "Filter Model",
-            juce::StringArray{"Saturated ZDF", "Clean ZDF", "Huovilainen"}, 0));
+            juce::StringArray{"Saturated ZDF", "Clean ZDF", "Huovilainen", "Model 72 Drive"}, 0));
 
         params.push_back(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{ParamIDs::bassComp, 1}, "Bass Compensation", 0.0f, 1.0f, 0.25f));

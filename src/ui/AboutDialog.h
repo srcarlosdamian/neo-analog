@@ -139,7 +139,7 @@ namespace LadderMono
             g.setColour(juce::Colour(0xff48c764));
             g.drawRoundedRectangle(vPill, 12.0f, 1.0f);
             g.setFont(juce::FontOptions(11.0f, juce::Font::bold));
-            g.drawText("v1.0 (PROD)", vPill.toNearestInt(), juce::Justification::centred);
+            g.drawText("v1.1 (PROD)", vPill.toNearestInt(), juce::Justification::centred);
 
             // Company: Neo
             juce::Rectangle<float> compPill(vPill.getRight() + 8.0f, card.getY() + 18.0f, 68.0f, 24.0f);
@@ -193,19 +193,19 @@ namespace LadderMono
             float contentY = bioY + 94.0f;
             if (!showV11)
             {
-                // Current Release: v1.0 specifications
+                // Current Release: v1.1 specifications
                 g.setFont(juce::FontOptions(12.0f, juce::Font::bold));
                 g.setColour(juce::Colour(0xffe8eaee));
-                g.drawText(juce::CharPointer_UTF8("Neo Analog v1.0 \xe2\x80\xa2 Current Production Release"),
+                g.drawText(juce::CharPointer_UTF8("Neo Analog v1.1 \xe2\x80\xa2 Current Production Release"),
                            juce::Rectangle<float>(card.getX() + 26.0f, contentY, 380.0f, 18.0f).toNearestInt(),
                            juce::Justification::centredLeft);
 
                 static const char* v1Features[] = {
-                    "\xe2\x9c\x93  202 factory presets in 13 curated sound collections (Basics, Hip-Hop, Pop/Funk, Cinema)",
-                    "\xe2\x9c\x93  Discrete 4-pole 24 dB/oct Ladder filter with saturation, resonance, and self-oscillation",
-                    "\xe2\x9c\x93  3 vintage multi-wave oscillators with fine detune, noise generator, and overdrive feedback",
-                    "\xe2\x9c\x93  Monophonic, 4-voice, and 8-voice polyphony modes with vintage analog voice drift",
-                    "\xe2\x9c\x93  Integrated multi-mode arpeggiator with host tempo sync and latch"
+                    "\xe2\x9c\x93  4-stage ZDF Ladder Filter with Model D AC-coupled sub-bass punch and 4 topologies",
+                    "\xe2\x9c\x93  Multi-stage analog saturation: Overload mixer, 4-stage filter tanh, CA3080 OTA VCA drive",
+                    "\xe2\x9c\x93  Passive resistor summing mixer with mutual node loading sag & inter-oscillator cross-coupling",
+                    "\xe2\x9c\x93  Free-running vintage VCOs with per-oscillator thermal drift, phase de-correlation & 24 kHz cutoff",
+                    "\xe2\x9c\x93  Snappy 1.5ms analog RC envelopes, default 'Default Init' patch, and 209 factory presets"
                 };
 
                 g.setFont(juce::FontOptions(11.0f));

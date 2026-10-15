@@ -8,7 +8,8 @@ namespace LadderMono
     {
         SaturatedZDF = 0, // Default authentic DAFx-26 / Huovilainen nonlinear ladder
         CleanZDF,         // Linear zero-delay feedback ladder
-        Huovilainen       // DAFx-04 style
+        Huovilainen,      // DAFx-04 style
+        Model72Drive      // Model 72 vintage high-gain discrete transistor saturation
     };
 
     class LadderFilter
